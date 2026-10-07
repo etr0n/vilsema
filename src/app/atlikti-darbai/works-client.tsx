@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { FilterTabs } from "@/components/site/filter-tabs";
 import { ProjectLightbox } from "@/components/site/project-lightbox";
 import { projectCategories, projectImage, projects } from "@/lib/site-data";
 import { asset } from "@/lib/utils";
@@ -33,23 +34,15 @@ export function Works({ kategorija }: { kategorija: string | undefined }) {
 
   return (
     <>
-      <div className="mb-14 flex flex-wrap gap-2.5" role="tablist" aria-label="Darbų kategorijos">
-        {projectCategories.map((c) => (
-          <button
-            key={c}
-            role="tab"
-            aria-selected={tab === c}
-            onClick={() => selectTab(c)}
-            className={`rounded-full bg-pill px-6 py-3 text-[11px] uppercase tracking-[0.16em] transition-colors hover:bg-pill-hover ${
-              tab === c
-                ? "text-foreground ring-1 ring-foreground/25"
-                : "text-foreground/55 hover:text-foreground/75"
-            }`}
-          >
-            {c}
-          </button>
-        ))}
-      </div>
+      <FilterTabs
+        label="Darbų kategorijos"
+        tabs={projectCategories.map((c) => ({
+          key: c,
+          label: c,
+          active: tab === c,
+          onSelect: () => selectTab(c),
+        }))}
+      />
 
       {items.length > 0 ? (
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -72,7 +65,7 @@ export function Works({ kategorija }: { kategorija: string | undefined }) {
           ))}
         </div>
       ) : (
-        <p className="max-w-md text-sm font-light leading-6 text-foreground/50">
+        <p data-empty className="max-w-md text-sm font-light leading-6 text-foreground/50">
           Šios kategorijos darbų nuotraukos dar ruošiamos.
         </p>
       )}

@@ -1,6 +1,3 @@
-// Vienas šaltinis katalogų turiniui: pavadinimai, aprašymai, PDF ir viršeliai.
-// Kai katalogas bus paruoštas, įrašykite PDF failo kelią į pdfUrl,
-// pvz. "/katalogai/lauko-durys.pdf", o viršelio nuotrauką — į cover.
 
 import { asset } from "@/lib/utils";
 

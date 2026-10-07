@@ -40,10 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# atliktų darbų originalios nuotraukos (svetainei naudojamos paruoštos public/images/projektai/)
+# Original full-size project photos (the site uses the processed copies in public/images/projektai/)
 /photo-originals/
 
-# AI / asmeniniai užrašai — tik kompiuteryje
+# AI agent and personal notes, kept local only
 AGENTS.md
 CLAUDE.md
 TODO.md

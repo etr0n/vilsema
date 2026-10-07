@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { PageHeader, Section } from "@/components/site/layout";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { faq } from "@/lib/faq";
 import {
   Accordion,
   AccordionContent,
@@ -17,31 +18,28 @@ export const metadata: Metadata = {
   },
 };
 
-const faq = [
-  ["Kaip su jumis susisiekti?", "Galite paskambinti, užpildyti užklausos formą arba apsilankyti parduotuvėje."],
-  ["Ar padedate išsirinkti duris?", "Taip. Aptariame jūsų erdvę ir poreikius bei padedame pasirinkti tinkamas duris."],
-  ["Ar durys gaminamos pagal individualius matmenis?", "Vidaus durys gali būti gaminamos pagal individualius matmenis."],
-  ["Kokios spalvos ir apdailos galimos?", "Galimos RAL paletės spalvos bei atrinktos medžio tekstūros ir spalvos."],
-  ["Ar atvykstate išmatuoti?", "Taip, atvykstame išmatuoti Kaune."],
-  ["Ar montuojate duris?", "Taip, duris montuojame Kaune."],
-  ["Kur rasti kainas?", "Kainą pateikiame gavę jūsų užklausą."],
-  ["Kur rasti katalogus?", "Vidaus ir lauko durų katalogai bus pateikti Katalogų puslapyje."],
-] as const;
-
 export default function Faq() {
   return (
-    <>
-      <PageHeader title="Dažnai užduodami klausimai" />
-      <Section>
-        <Accordion type="single" collapsible className="max-w-3xl">
-          {faq.map(([q, a], i) => (
-            <AccordionItem key={i} value={`q${i}`} className="border-0">
-              <AccordionTrigger className="py-7 text-left text-base font-light hover:no-underline">{q}</AccordionTrigger>
-              <AccordionContent className="pb-7 text-sm font-light leading-6 text-foreground/50">{a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </Section>
-    </>
+    <section className="bg-sage">
+      <div className="page-container pb-28 pt-36 sm:pb-40 sm:pt-48">
+        <ScrollReveal className="lg:grid lg:grid-cols-12 lg:gap-x-6">
+          <h1 className="mb-12 text-2xl font-light uppercase tracking-tight sm:text-3xl lg:col-span-4 lg:mb-0 lg:mt-5.5">
+            Dažnai užduodami klausimai
+          </h1>
+          <Accordion type="single" collapsible className="lg:col-span-7 lg:col-start-6">
+            {faq.map(([q, a], i) => (
+              <AccordionItem key={i} value={`q${i}`} className="border-foreground/20">
+                <AccordionTrigger className="py-7 text-left text-base font-light hover:no-underline">
+                  {q}
+                </AccordionTrigger>
+                <AccordionContent className="pb-7 text-sm font-light leading-6 text-foreground/70">
+                  {a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </ScrollReveal>
+      </div>
+    </section>
   );
 }

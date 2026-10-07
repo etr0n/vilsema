@@ -18,7 +18,7 @@ export default function WorksPage() {
     <>
       <PageHeader
         title="Atlikti darbai"
-        intro="Projektai, kuriuos pagaminome ir sumontavome Kaune. Kiekvienas jų prasidėjo nuo matavimo vietoje ir pokalbio, kokios durys tinka būtent jums."
+        intro="Kiekvienas projektas prasideda nuo tikslių matavimų ir individualių poreikių aptarimo. Parenkame tinkamą durų dizainą, spalvą, apdailą bei techninius sprendimus, kad rezultatas harmoningai derėtų prie jūsų erdvės. Čia pristatome dalį Kaune įgyvendintų vidaus ir lauko durų projektų, kuriuose svarbiausia – kokybiškos medžiagos, preciziška apdaila ir profesionalus montavimas."
       />
       <Section>
         <Suspense fallback={<Works kategorija={undefined} />}>

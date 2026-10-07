@@ -1,0 +1,284 @@
+[
+  {
+    "id": "classic-01",
+    "style": "classic",
+    "number": 1,
+    "veneer": false
+  },
+  {
+    "id": "classic-02",
+    "style": "classic",
+    "number": 2,
+    "veneer": false
+  },
+  {
+    "id": "classic-03",
+    "style": "classic",
+    "number": 3,
+    "veneer": false
+  },
+  {
+    "id": "classic-04",
+    "style": "classic",
+    "number": 4,
+    "veneer": false
+  },
+  {
+    "id": "classic-05",
+    "style": "classic",
+    "number": 5,
+    "veneer": false
+  },
+  {
+    "id": "classic-06",
+    "style": "classic",
+    "number": 6,
+    "veneer": false
+  },
+  {
+    "id": "classic-07",
+    "style": "classic",
+    "number": 7,
+    "veneer": false
+  },
+  {
+    "id": "classic-08",
+    "style": "classic",
+    "number": 8,
+    "veneer": false
+  },
+  {
+    "id": "classic-09",
+    "style": "classic",
+    "number": 9,
+    "veneer": false
+  },
+  {
+    "id": "classic-10",
+    "style": "classic",
+    "number": 10,
+    "veneer": false
+  },
+  {
+    "id": "modern-01",
+    "style": "modern",
+    "number": 1,
+    "veneer": true
+  },
+  {
+    "id": "modern-02",
+    "style": "modern",
+    "number": 2,
+    "veneer": true
+  },
+  {
+    "id": "modern-03",
+    "style": "modern",
+    "number": 3,
+    "veneer": true
+  },
+  {
+    "id": "modern-04",
+    "style": "modern",
+    "number": 4,
+    "veneer": true
+  },
+  {
+    "id": "modern-05",
+    "style": "modern",
+    "number": 5,
+    "veneer": true
+  },
+  {
+    "id": "modern-06",
+    "style": "modern",
+    "number": 6,
+    "veneer": true
+  },
+  {
+    "id": "modern-07",
+    "style": "modern",
+    "number": 7,
+    "veneer": true
+  },
+  {
+    "id": "modern-08",
+    "style": "modern",
+    "number": 8,
+    "veneer": true
+  },
+  {
+    "id": "modern-09",
+    "style": "modern",
+    "number": 9,
+    "veneer": true
+  },
+  {
+    "id": "modern-10",
+    "style": "modern",
+    "number": 10,
+    "veneer": false
+  },
+  {
+    "id": "modern-11",
+    "style": "modern",
+    "number": 11,
+    "veneer": false
+  },
+  {
+    "id": "modern-12",
+    "style": "modern",
+    "number": 12,
+    "veneer": false
+  },
+  {
+    "id": "modern-13",
+    "style": "modern",
+    "number": 13,
+    "veneer": false
+  },
+  {
+    "id": "modern-14",
+    "style": "modern",
+    "number": 14,
+    "veneer": true
+  },
+  {
+    "id": "modern-15",
+    "style": "modern",
+    "number": 15,
+    "veneer": true
+  },
+  {
+    "id": "modern-16",
+    "style": "modern",
+    "number": 16,
+    "veneer": true
+  },
+  {
+    "id": "modern-17",
+    "style": "modern",
+    "number": 17,
+    "veneer": true
+  },
+  {
+    "id": "modern-18",
+    "style": "modern",
+    "number": 18,
+    "veneer": false
+  },
+  {
+    "id": "modern-19",
+    "style": "modern",
+    "number": 19,
+    "veneer": false
+  },
+  {
+    "id": "modern-20",
+    "style": "modern",
+    "number": 20,
+    "veneer": false
+  },
+  {
+    "id": "modern-21",
+    "style": "modern",
+    "number": 21,
+    "veneer": false
+  },
+  {
+    "id": "modern-22",
+    "style": "modern",
+    "number": 22,
+    "veneer": true
+  },
+  {
+    "id": "modern-23",
+    "style": "modern",
+    "number": 23,
+    "veneer": true
+  },
+  {
+    "id": "modern-24",
+    "style": "modern",
+    "number": 24,
+    "veneer": true
+  },
+  {
+    "id": "modern-25",
+    "style": "modern",
+    "number": 25,
+    "veneer": true
+  },
+  {
+    "id": "modern-26",
+    "style": "modern",
+    "number": 26,
+    "veneer": true
+  },
+  {
+    "id": "modern-27",
+    "style": "modern",
+    "number": 27,
+    "veneer": true
+  },
+  {
+    "id": "modern-28",
+    "style": "modern",
+    "number": 28,
+    "veneer": true
+  },
+  {
+    "id": "modern-29",
+    "style": "modern",
+    "number": 29,
+    "veneer": false
+  },
+  {
+    "id": "elegance-01",
+    "style": "elegance",
+    "number": 1,
+    "veneer": false
+  },
+  {
+    "id": "elegance-02",
+    "style": "elegance",
+    "number": 2,
+    "veneer": false
+  },
+  {
+    "id": "elegance-03",
+    "style": "elegance",
+    "number": 3,
+    "veneer": false
+  },
+  {
+    "id": "elegance-04",
+    "style": "elegance",
+    "number": 4,
+    "veneer": false
+  },
+  {
+    "id": "elegance-05",
+    "style": "elegance",
+    "number": 5,
+    "veneer": false
+  },
+  {
+    "id": "elegance-06",
+    "style": "elegance",
+    "number": 6,
+    "veneer": false
+  },
+  {
+    "id": "elegance-07",
+    "style": "elegance",
+    "number": 7,
+    "veneer": false
+  },
+  {
+    "id": "elegance-08",
+    "style": "elegance",
+    "number": 8,
+    "veneer": false
+  }
+]

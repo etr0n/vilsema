@@ -32,18 +32,18 @@ export default function About() {
       <Section>
         <div className="grid gap-16">
           {people.map((p) => (
-            <div key={p.name}>
-              {p.photo ? (
-                <img
-                  src={asset(p.photo)}
-                  alt={p.name}
-                  className="aspect-[4/5] w-full max-w-md object-cover"
-                  loading="lazy"
-                />
-              ) : null}
-              <p className="mt-6 text-[10px] uppercase tracking-[0.2em] text-foreground/40">{p.role}</p>
-              <h2 className="mt-3 text-lg font-light">{p.name}</h2>
-              <p className="mt-3 max-w-md text-sm font-light leading-6 text-foreground/50">{p.text}</p>
+            <div key={p.name} className="grid items-start gap-y-10 md:grid-cols-12 md:gap-x-6">
+              <img
+                src={asset(p.photo ?? photos.interior)}
+                alt={p.photo ? p.name : ""}
+                className="aspect-[4/5] w-full bg-muted object-cover md:col-span-5"
+                loading="lazy"
+              />
+              <div className="md:col-span-5 md:col-start-7">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-foreground/65">{p.role}</p>
+                <h2 className="mt-3 text-lg font-light">{p.name}</h2>
+                <p className="mt-3 max-w-md text-sm leading-6 text-foreground/75">{p.text}</p>
+              </div>
             </div>
           ))}
         </div>

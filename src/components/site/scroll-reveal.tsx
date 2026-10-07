@@ -22,7 +22,7 @@ export function ScrollReveal({ children, className = "" }: { children: ReactNode
         setVisible(true);
         observer.unobserve(element);
       },
-      { rootMargin: "0px 0px -8%", threshold: 0.08 },
+      { rootMargin: "0px 0px -8%", threshold: 0 },
     );
 
     observer.observe(element);

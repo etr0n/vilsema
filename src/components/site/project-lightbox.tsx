@@ -9,8 +9,6 @@ import { asset } from "@/lib/utils";
 const roundButton =
   "flex size-12 items-center justify-center rounded-full bg-hero text-hero-foreground transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hero";
 
-// Padidintas atlikto darbo vaizdas: baltas skydelis, nuotrauka centre, tekstas po ja,
-// apvalūs mygtukai ankstesniam / kitam darbui (rodyklės, klaviatūra ←/→, braukimas telefone).
 export function ProjectLightbox({
   projects,
   index,

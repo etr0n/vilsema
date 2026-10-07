@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { interiorCategories, interiorDoors } from "@/lib/site-data";
+import { FilterTabs } from "@/components/site/filter-tabs";
 import { asset } from "@/lib/utils";
 
 const isCategory = (v: unknown): v is (typeof interiorCategories)[number] =>
@@ -25,30 +26,17 @@ export function Doors({ kategorija }: { kategorija: string | undefined }) {
 
   const items = interiorDoors.filter((d) => (kategorija ? d.category === kategorija : true));
 
-  const pill = (active: boolean) =>
-    `rounded-full bg-pill px-6 py-3 text-[11px] uppercase tracking-[0.16em] transition-colors ${
-      active
-        ? "text-foreground ring-1 ring-foreground/25"
-        : "text-foreground/55 hover:text-foreground/75"
-    }`;
-
   return (
     <>
-      <div className="mb-14 flex flex-wrap items-center gap-3">
-        {["Visos", ...interiorCategories].map((c) => {
-          const active = c === "Visos" ? !kategorija : kategorija === c;
-          return (
-            <button
-              key={c}
-              aria-pressed={active}
-              onClick={() => setCategory(c === "Visos" ? undefined : c)}
-              className={pill(active)}
-            >
-              {c}
-            </button>
-          );
-        })}
-      </div>
+      <FilterTabs
+        label="Durų stiliai"
+        tabs={["Visos", ...interiorCategories].map((c) => ({
+          key: c,
+          label: c,
+          active: c === "Visos" ? !kategorija : kategorija === c,
+          onSelect: () => setCategory(c === "Visos" ? undefined : c),
+        }))}
+      />
 
       {items.length > 0 ? (
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -59,11 +47,12 @@ export function Doors({ kategorija }: { kategorija: string | undefined }) {
               aria-label={`Vidaus durys — ${door.name}`}
               className="group block"
             >
-              <div className="aspect-[3/4] overflow-hidden bg-muted">
+              <div className="aspect-[3/4] overflow-hidden bg-white">
                 {door.image && (
                   <img
                     src={asset(door.image)}
                     alt={door.alt}
+                    loading="lazy"
                     className="h-full w-full object-contain p-6 transition-transform duration-700 group-hover:scale-[1.02] sm:p-8"
                   />
                 )}
@@ -75,7 +64,7 @@ export function Doors({ kategorija }: { kategorija: string | undefined }) {
           ))}
         </div>
       ) : (
-        <p className="max-w-md text-sm font-light leading-6 text-foreground/50">
+        <p data-empty className="max-w-md text-sm font-light leading-6 text-foreground/50">
           Šios kategorijos nuotraukos dar ruošiamos. Parašykite užklausą — pasiūlysime tinkamų
           variantų.
         </p>

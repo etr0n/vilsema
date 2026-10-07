@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DoorFinishViewer } from "@/components/site/door-finish-viewer";
 import { EnquireButton } from "@/components/site/layout";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { interiorDoors } from "@/lib/site-data";
-import { asset } from "@/lib/utils";
 
 // One static page per door model is generated at build time.
 export function generateStaticParams() {
@@ -30,40 +36,59 @@ export default async function DoorDetail(props: PageProps<"/vidaus-durys/[slug]"
 
   return (
     <article className="page-container pb-28 pt-32 sm:pb-40 sm:pt-40">
-      <Link href="/vidaus-durys" className="text-[11px] uppercase tracking-[0.18em] text-foreground/40 transition-colors hover:text-foreground/70">
+      <Link href="/vidaus-durys" className="text-[11px] uppercase tracking-[0.18em] text-foreground/65 transition-colors hover:text-foreground">
         ← Vidaus durys
       </Link>
-      <div className="mt-10 grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-        <div className="aspect-[3/4] overflow-hidden bg-muted">
-          {door.image && <img src={asset(door.image)} alt={door.alt} className="h-full w-full object-contain p-6 sm:p-10" />}
-        </div>
-        <div className="lg:pt-6">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-foreground/40">{door.category}</p>
+      <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-x-6">
+        <div className="lg:col-span-5 lg:pt-6">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-foreground/65">{door.category}</p>
           <h1 className="mt-4 text-3xl font-light sm:text-4xl">{door.name}</h1>
-          <p className="mt-6 max-w-md text-base font-light leading-7 text-foreground/50">{door.description}</p>
 
-          <dl className="mt-12 grid gap-8 text-sm leading-6">
-            <div className="grid gap-2">
-              <dt className="text-[10px] uppercase tracking-[0.2em] text-foreground/40">Matmenys</dt>
-              <dd className="font-light">Gaminama pagal individualius matmenis.</dd>
-            </div>
-            <div className="grid gap-2">
-              <dt className="text-[10px] uppercase tracking-[0.2em] text-foreground/40">Spalvos</dt>
-              <dd className="font-light">Galimos RAL paletės spalvos.</dd>
-            </div>
-            <div className="grid gap-2">
-              <dt className="text-[10px] uppercase tracking-[0.2em] text-foreground/40">Apdaila</dt>
-              <dd className="font-light">Atrinktos medžio tekstūros ir spalvos.</dd>
-            </div>
-            <div className="grid gap-2">
-              <dt className="text-[10px] uppercase tracking-[0.2em] text-foreground/40">Kaina</dt>
-              <dd className="font-light">Kainą pateikiame susisiekus.</dd>
-            </div>
-          </dl>
-
-          <EnquireButton model={door.name} className="mt-12">
+          <EnquireButton model={door.name} className="mt-10 w-full">
             Gauti pasiūlymą
           </EnquireButton>
+
+          <Accordion type="multiple" className="mt-12 border-t border-foreground/20">
+            {[
+              ["Apie produktą", <p key="a">{door.description}</p>],
+              [
+                "Tech. specifikacijos",
+                <div key="t" className="grid gap-3">
+                  <p>
+                    <span className="text-foreground">Spalvos.</span> Galima rinktis iš RAL paletės spalvų ir lengvai
+                    priderinti duris prie interjero.
+                  </p>
+                  <p>
+                    <span className="text-foreground">Apdaila.</span> Atrinktos medžio tekstūros ir spalvos leidžia
+                    sukurti natūralų, išbaigtą durų charakterį.
+                  </p>
+                </div>,
+              ],
+              ["Matmenys", <p key="m">Gaminama pagal individualius matmenis, kad durys tiksliai atitiktų jūsų erdvę.</p>],
+              [
+                "Kaina",
+                <p key="k">
+                  Kaina priklauso nuo matmenų, apdailos ir komplektacijos. Gavę jūsų užklausą, parengsime individualų
+                  pasiūlymą.
+                </p>,
+              ],
+            ].map(([title, body], i) => (
+              <AccordionItem key={i} value={`s${i}`} className="border-foreground/20">
+                <AccordionTrigger className="py-5 text-left text-[15px] hover:no-underline">{title}</AccordionTrigger>
+                <AccordionContent className="pb-5 text-sm leading-6 text-foreground/75">{body}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+
+        <div className="order-first lg:order-none lg:col-span-6 lg:col-start-7">
+          <DoorFinishViewer
+            alt={door.alt}
+            finishes={[
+              { label: "Dažyta", src: door.imageLarge ?? door.image ?? "" },
+              ...(door.veneerImage ? [{ label: "Faneruota", src: door.veneerImage }] : []),
+            ]}
+          />
         </div>
       </div>
     </article>

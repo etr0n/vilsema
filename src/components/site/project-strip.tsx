@@ -48,7 +48,6 @@ export function ProjectStrip({
     const max = el.scrollWidth - el.clientWidth;
     const scrollable = max > 4;
 
-    // Slankiklio ilgis = matoma dalis iš visų nuotraukų.
     const width = el.scrollWidth > 0 ? Math.min(100, (el.clientWidth / el.scrollWidth) * 100) : 100;
     const progress = max > 0 ? Math.min(Math.max(el.scrollLeft / max, 0), 1) : 0;
 
@@ -153,7 +152,7 @@ export function ProjectStrip({
                 type="button"
                 onClick={() => setActive(i)}
                 aria-label={`Peržiūrėti: ${p.caption}`}
-                className="group block aspect-[3/4] w-full overflow-hidden bg-muted"
+                className="group block aspect-[3/4] w-full cursor-pointer overflow-hidden bg-muted"
               >
                 <img
                   src={asset(projectImage(p, "sm"))}

@@ -5,53 +5,13 @@ import { asset } from "@/lib/utils";
 import { EnquiryForm } from "@/components/site/enquiry";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { ProjectStrip } from "@/components/site/project-strip";
+import { faq } from "@/lib/faq";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-// Nuorodos DUK atsakymuose: ryškesnės už pilką atsakymo tekstą.
-const faqLink = "text-foreground underline underline-offset-2 transition-opacity hover:opacity-60";
-
-const faq: [string, React.ReactNode][] = [
-  [
-    "Kaip su jumis susisiekti?",
-    <>
-      Galite paskambinti, užpildyti{" "}
-      <a href="#susisiekite" className={faqLink}>
-        užklausos formą
-      </a>{" "}
-      arba apsilankyti parduotuvėje.
-    </>,
-  ],
-  [
-    "Ar padedate išsirinkti duris?",
-    "Taip. Aptariame jūsų erdvę ir poreikius bei padedame pasirinkti tinkamas duris.",
-  ],
-  [
-    "Ar durys gaminamos pagal individualius matmenis?",
-    "Vidaus durys gali būti gaminamos pagal individualius matmenis.",
-  ],
-  [
-    "Kokios spalvos ir apdailos galimos?",
-    "Galimos RAL paletės spalvos bei atrinktos medžio tekstūros ir spalvos.",
-  ],
-  ["Ar atvykstate išmatuoti?", "Taip, atvykstame išmatuoti Kaune."],
-  ["Ar montuojate duris?", "Taip, duris montuojame Kaune."],
-  ["Kur rasti kainas?", "Kainą pateikiame gavę jūsų užklausą."],
-  [
-    "Kur rasti katalogus?",
-    <>
-      Vidaus ir lauko durų{" "}
-      <Link href="/katalogai" className={faqLink}>
-        katalogai
-      </Link>{" "}
-      bus pateikti Katalogų puslapyje.
-    </>,
-  ],
-];
 
 export const metadata: Metadata = {
   title: { absolute: "Vilsema — vidaus ir lauko durys Kaune" },
@@ -73,7 +33,7 @@ export default function Index() {
           fetchPriority="high"
           className="hero-zoom absolute inset-0 h-full w-full object-cover object-[53%_center] sm:object-center"
         />
-        <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
+        <div className="absolute inset-0 bg-black/25" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-hero/60 to-transparent" />
         <div className="page-container relative flex min-h-[92svh] items-center justify-center py-28">
           <div className="hero-text max-w-3xl text-center text-hero-foreground">
@@ -97,46 +57,33 @@ export default function Index() {
             className="group relative block aspect-[4/5] overflow-hidden bg-hero sm:aspect-[4/3]"
           >
             <img
-              src={asset(photos.interior)}
+              src={asset("/images/projektai/vidaus-durys-01-lg.webp")}
               alt="Vidaus durys"
               className="h-full w-full object-cover object-[40%_center] transition-transform duration-700 group-hover:scale-[1.02]"
             />
             <div className="absolute inset-0 bg-hero/15" />
             <div className="absolute inset-x-0 bottom-0 p-6 text-hero-foreground sm:p-8">
-              <h2 className="text-xl font-light uppercase tracking-tight sm:text-2xl">
+              <h2 className="text-xl font-normal uppercase tracking-tight sm:text-2xl">
                 Vidaus durys
               </h2>
             </div>
           </Link>
           <Link
             href="/lauko-durys"
-            className="group relative block aspect-[4/5] overflow-hidden bg-hero sm:aspect-[4/3]"
+            className="group relative block aspect-[4/5] overflow-hidden bg-[#7A6A48] sm:aspect-[4/3]"
           >
-            <img
-              src={asset(photos.interior)}
-              alt="Lauko durys"
-              className="h-full w-full object-cover object-[60%_center] transition-transform duration-700 group-hover:scale-[1.02]"
-            />
-            <div className="absolute inset-0 bg-hero/15" />
             <div className="absolute inset-x-0 bottom-0 p-6 text-hero-foreground sm:p-8">
-              <h2 className="text-xl font-light uppercase tracking-tight sm:text-2xl">
+              <h2 className="text-xl font-normal uppercase tracking-tight sm:text-2xl">
                 Lauko durys
               </h2>
             </div>
           </Link>
-          {/* Per visą 12 stulpelių tinklelį. */}
           <Link
             href="/katalogai"
-            className="group relative block aspect-[4/5] overflow-hidden bg-hero sm:aspect-[4/3] md:col-span-2 md:aspect-[3/1]"
+            className="group relative block aspect-[4/5] overflow-hidden bg-sage sm:aspect-[4/3] md:col-span-2 md:aspect-[3/1]"
           >
-            <img
-              src={asset(photos.interior)}
-              alt="Katalogai"
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-            />
-            <div className="absolute inset-0 bg-hero/15" />
-            <div className="absolute inset-x-0 bottom-0 p-6 text-hero-foreground sm:p-8">
-              <h2 className="text-xl font-light uppercase tracking-tight sm:text-2xl">Katalogai</h2>
+            <div className="absolute inset-x-0 bottom-0 p-6 text-foreground sm:p-8">
+              <h2 className="text-xl font-normal uppercase tracking-tight sm:text-2xl">Katalogai</h2>
             </div>
           </Link>
         </ScrollReveal>
@@ -186,7 +133,6 @@ export default function Index() {
       <section id="susisiekite" className="scroll-mt-20">
         <div className="page-container pb-20 pt-28 sm:pb-28 sm:pt-40">
           <ScrollReveal>
-            {/* Antraštė kairėje, forma dešinėje (kaip DUK). */}
             <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
               <h2 className="mb-12 text-2xl font-light uppercase tracking-tight sm:text-3xl lg:col-span-4 lg:mb-0">
                 Susisiekite
@@ -197,11 +143,10 @@ export default function Index() {
             </div>
           </ScrollReveal>
         </div>
-        {/* Kontaktai vienoje eilutėje pastelinėje juostoje. */}
-        <div className="bg-cream">
+        <div className="bg-sage">
           <div className="page-container py-16 sm:py-20">
-            <dl className="grid gap-10 text-base font-light sm:grid-cols-2 lg:grid-cols-12 lg:gap-x-6">
-              <div className="grid content-start gap-2 lg:col-span-3">
+            <dl className="grid gap-10 text-base font-light sm:grid-cols-2 lg:flex lg:justify-between">
+              <div className="grid content-start gap-2">
                 <dt className="text-xs uppercase tracking-[0.2em] text-foreground/65">Adresas</dt>
                 <dd>
                   <a
@@ -210,11 +155,16 @@ export default function Index() {
                     rel="noopener noreferrer"
                     className="transition-opacity hover:opacity-60"
                   >
-                    {contact.address}
+                    {contact.address.split(/,\s(?=\d{5})/).map((line, i, lines) => (
+                      <span key={line} className="block">
+                        {line}
+                        {i < lines.length - 1 && ","}
+                      </span>
+                    ))}
                   </a>
                 </dd>
               </div>
-              <div className="grid content-start gap-2 lg:col-span-3">
+              <div className="grid content-start gap-2">
                 <dt className="text-xs uppercase tracking-[0.2em] text-foreground/65">Telefonas</dt>
                 <dd>
                   <a href={contactHref.phone} className="transition-opacity hover:opacity-60">
@@ -222,7 +172,7 @@ export default function Index() {
                   </a>
                 </dd>
               </div>
-              <div className="grid content-start gap-2 lg:col-span-3">
+              <div className="grid content-start gap-2">
                 <dt className="text-xs uppercase tracking-[0.2em] text-foreground/65">
                   El. paštas
                 </dt>
@@ -232,7 +182,7 @@ export default function Index() {
                   </a>
                 </dd>
               </div>
-              <div className="grid content-start gap-2 lg:col-span-3">
+              <div className="grid content-start gap-2">
                 <dt className="text-xs uppercase tracking-[0.2em] text-foreground/65">
                   Darbo laikas
                 </dt>

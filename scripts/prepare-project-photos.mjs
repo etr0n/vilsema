@@ -1,8 +1,3 @@
-// Paruošia atliktų darbų nuotraukas svetainei.
-// 1. Įdėkite originalias nuotraukas į photo-originals/projektai/ (failo pavadinimas = projekto photo, pvz. kaunas-vila.jpg).
-// 2. Paleiskite: npm run photos
-// 3. Gausite public/images/projektai/<pavadinimas>-sm.webp (karuselei, tinkleliui)
-//    ir <pavadinimas>-lg.webp (padidintam vaizdui). Originalai į git nepatenka.
 import { mkdir, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
@@ -41,7 +36,7 @@ for (const file of files) {
     if ((await mtime(output)) >= srcTime) continue;
 
     const info = await sharp(input)
-      .rotate() // pagal EXIF (telefono nuotraukos)
+      .rotate()
       .resize({ width, withoutEnlargement: true })
       .webp({ quality })
       .toFile(output);
