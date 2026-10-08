@@ -20,7 +20,7 @@ import { asset } from "@/lib/utils";
 const doorsCategoryHref = (c: string) => `/vidaus-durys?kategorija=${encodeURIComponent(c)}`;
 const worksCategoryHref = (c: string) => `/atlikti-darbai?kategorija=${encodeURIComponent(c)}`;
 
-const bandPages = ["/vidaus-durys", "/lauko-durys", "/katalogai", "/atlikti-darbai", "/apie-mus", "/kontaktai"];
+const bandPages = ["/vidaus-durys", "/lauko-durys", "/katalogai", "/atlikti-darbai", "/apie-mus", "/kontaktai", "/duk"];
 
 type Panel = "products" | "catalogues" | "works" | "contact";
 
@@ -536,7 +536,7 @@ export function Footer() {
     <footer className="bg-[#565656] py-20 text-hero-foreground">
       <div className="page-container grid gap-y-16 md:grid-cols-12 md:gap-x-6">
         <div className="md:col-span-5">
-          <Wordmark light logoClassName="h-30" />
+          <Wordmark light logoClassName="h-20" />
           <p className="mt-8 max-w-xs text-sm font-light leading-6 text-hero-foreground/80">
             Vidaus ir lauko durys. Konsultacija, matavimas ir montavimas Kaune.
           </p>
@@ -645,6 +645,36 @@ export function PageHeader({ title, intro }: { title: string; intro?: string }) 
           )}
         </ScrollReveal>
       </header>
+    </div>
+  );
+}
+
+export function PanelPage({
+  title,
+  intro,
+  children,
+}: {
+  title: string;
+  intro?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-band pt-32 sm:pt-40">
+      <div className="relative">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-background lg:left-[max(0px,calc((100%-1440px)/2-6.5rem))]"
+        />
+        <div className="page-container relative pb-28 pt-16 sm:pb-40 sm:pt-24">
+          <ScrollReveal>
+            <h1 className="max-w-3xl text-3xl font-light uppercase leading-tight tracking-tight sm:text-5xl">
+              {title}
+            </h1>
+            {intro && <p className="mt-8 max-w-xl text-base leading-7 text-foreground/75">{intro}</p>}
+          </ScrollReveal>
+          <div className="mt-16 sm:mt-24">{children}</div>
+        </div>
+      </div>
     </div>
   );
 }

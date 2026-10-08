@@ -18,8 +18,8 @@
  */
 
 @theme inline {
-  --font-sans: "Satoshi", sans-serif;
-  --font-display: "Satoshi", sans-serif;
+  --font-sans: var(--font-manrope), sans-serif;
+  --font-display: var(--font-manrope), sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

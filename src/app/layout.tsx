@@ -1,7 +1,14 @@
 import type { Metadata, Viewport } from "next";
+import { Manrope } from "next/font/google";
 import { EnquiryProvider } from "@/components/site/enquiry";
 import { Footer, Header } from "@/components/site/layout";
 import "./globals.css";
+
+const manrope = Manrope({
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+  variable: "--font-manrope",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -25,15 +32,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="lt" data-scroll-behavior="smooth">
-      <head>
-        <link rel="preconnect" href="https://api.fontshare.com" />
-        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap"
-        />
-      </head>
+    <html lang="lt" data-scroll-behavior="smooth" className={manrope.variable}>
       <body>
         <EnquiryProvider>
           <div className="flex min-h-screen flex-col bg-background text-foreground">
