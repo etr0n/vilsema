@@ -13,7 +13,7 @@ export function DoorFinishViewer({ finishes, alt }: { finishes: Finish[]; alt: s
   return (
     <div>
       <div className="aspect-[3/4] overflow-hidden bg-white">
-        <img src={asset(current.src)} alt={alt} className="h-full w-full object-contain p-6 sm:p-10" />
+        <img src={asset(current.src)} alt={alt} className="h-full w-full object-cover" />
       </div>
       {finishes.length > 1 && (
         <div className="mt-3 flex gap-3" role="group" aria-label="Apdaila">
@@ -27,7 +27,7 @@ export function DoorFinishViewer({ finishes, alt }: { finishes: Finish[]; alt: s
                 i === active ? "border-foreground" : "border-transparent hover:border-foreground/30"
               }`}
             >
-              <img src={asset(f.src)} alt="" className="aspect-[3/4] w-full object-contain" />
+              <img src={asset(f.src)} alt="" className="aspect-[3/4] w-full object-cover" />
               <span className="mt-1 block text-center text-xs text-foreground/75">{f.label}</span>
             </button>
           ))}

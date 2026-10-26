@@ -12,36 +12,53 @@ const SIZES = [
 const NAME = /^(classic|elegance|modern)-(\d+)(-fanier)?\.(jpe?g|png|webp|tiff?)$/i;
 const STYLE_ORDER = ["classic", "modern", "elegance"];
 
-// The renders have a soft floor shadow, so a plain white trim stops too early.
-// Instead find the box around pixels darker than the shadow (the door's outline and handle).
-async function doorBox(input) {
-  const probeWidth = 960;
-  const { width } = await sharp(input).rotate().metadata();
+const FORCE = process.argv.includes("--force");
+
+// 3:4 frame centred on the door, sized from the door alone so every door comes out the same size.
+// The width fits the widest shadow in the set; missing height is padded with white.
+async function doorFrame(input) {
+  const { width, height } = await sharp(input).rotate().metadata();
   const { data, info } = await sharp(input)
     .rotate()
-    .resize({ width: probeWidth })
+    .resize({ width: 960 })
     .greyscale()
     .raw()
     .toBuffer({ resolveWithObject: true });
-  let x0 = info.width, y0 = info.height, x1 = -1, y1 = -1;
-  for (let y = 0; y < info.height; y++) {
-    for (let x = 0; x < info.width; x++) {
-      if (data[y * info.width + x] < 225) {
-        if (x < x0) x0 = x;
-        if (x > x1) x1 = x;
-        if (y < y0) y0 = y;
-        if (y > y1) y1 = y;
+  const box = (threshold) => {
+    let x0 = info.width, y0 = info.height, x1 = -1, y1 = -1;
+    for (let y = 0; y < info.height; y++) {
+      for (let x = 0; x < info.width; x++) {
+        if (data[y * info.width + x] < threshold) {
+          if (x < x0) x0 = x;
+          if (x > x1) x1 = x;
+          if (y < y0) y0 = y;
+          if (y > y1) y1 = y;
+        }
       }
     }
-  }
-  if (x1 < 0) return null;
-  const scale = width / info.width;
-  return {
-    left: Math.floor(x0 * scale),
-    top: Math.floor(y0 * scale),
-    width: Math.ceil((x1 - x0 + 1) * scale),
-    height: Math.ceil((y1 - y0 + 1) * scale),
+    return x1 < 0 ? null : { x0, y0, x1, y1 };
   };
+  const door = box(225);
+  if (!door) return null;
+
+  const scale = width / info.width;
+  const center = ((door.x0 + door.x1 + 1) / 2) * scale;
+  const half = Math.min((door.y1 - door.y0 + 1) * scale * 0.65, center, width - center);
+  const left = Math.round(center - half);
+  const cropWidth = Math.round(half * 2);
+  const extra = Math.max(0, Math.round((cropWidth * 4) / 3) - height);
+  // Split the added height so the door sits in the vertical middle.
+  const above = door.y0 * scale;
+  const below = height - (door.y1 + 1) * scale;
+  const padTop = Math.min(extra, Math.max(0, Math.round((extra + below - above) / 2)));
+  return { extract: { left, top: 0, width: cropWidth, height }, padTop, padBottom: extra - padTop };
+}
+
+// Fades the bottom strip of the render into white so padding below it shows no edge.
+function bottomFade(width, height) {
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0.94" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#b)"/></svg>`,
+  );
 }
 
 const mtime = async (file) => {
@@ -74,15 +91,22 @@ for (const file of files) {
 
   for (const { suffix, width, quality } of SIZES) {
     const output = path.join(OUT, `${name}-${suffix}.webp`);
-    if ((await mtime(output)) >= srcTime) continue;
+    if (!FORCE && (await mtime(output)) >= srcTime) continue;
 
-    const box = await doorBox(input);
-    const cropped = sharp(input).rotate();
-    if (box) cropped.extract(box);
-    const trimmed = await cropped.toBuffer({ resolveWithObject: true });
-    const pad = Math.round(trimmed.info.height * 0.04);
-    const info = await sharp(trimmed.data)
-      .extend({ top: pad, bottom: pad, left: pad, right: pad, background: "#ffffff" })
+    const frame = await doorFrame(input);
+    const image = sharp(input).rotate();
+    if (frame) image.extract(frame.extract);
+    let cropped = await image.toBuffer();
+    if (frame?.padBottom) {
+      cropped = await sharp(cropped)
+        .composite([{ input: bottomFade(frame.extract.width, frame.extract.height) }])
+        .toBuffer();
+    }
+    // sharp resizes before extending within one pipeline, so pad in a separate pass.
+    const padded = await sharp(cropped)
+      .extend({ top: frame?.padTop ?? 0, bottom: frame?.padBottom ?? 0, background: "#ffffff" })
+      .toBuffer();
+    const info = await sharp(padded)
       .resize({ width, withoutEnlargement: true })
       .webp({ quality })
       .toFile(output);

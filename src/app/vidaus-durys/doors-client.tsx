@@ -53,7 +53,7 @@ export function Doors({ kategorija }: { kategorija: string | undefined }) {
                     src={asset(door.image)}
                     alt={door.alt}
                     loading="lazy"
-                    className="h-full w-full object-contain p-6 transition-transform duration-700 group-hover:scale-[1.02] sm:p-8"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                 )}
               </div>
