@@ -22,9 +22,9 @@ const placeholderDoorDescription =
   "Išraiškingai paprastas dizainas, kuris lengvai įsilieja į šiuolaikinį interjerą. Lakoniškos linijos ir subtili apdaila kuria tvarkingą, vientisą ir ilgaamžį estetinį vaizdą.";
 
 const doorStyles = {
-  classic: { category: "Klasikinės", label: "Classic" },
-  modern: { category: "Modernios", label: "Modern" },
-  elegance: { category: "Elegantiškos", label: "Elegance" },
+  classic: { category: "Klasikinės" },
+  modern: { category: "Modernios" },
+  elegance: { category: "Elegantiškos" },
 } as const;
 
 type DoorStyle = keyof typeof doorStyles;
@@ -33,8 +33,8 @@ type DoorStyle = keyof typeof doorStyles;
 export const interiorDoors: InteriorDoor[] = (
   doorModels as { id: string; style: DoorStyle; number: number; veneer: boolean }[]
 ).map((m) => {
-  const { category, label } = doorStyles[m.style];
-  const name = `${label} ${m.number}`;
+  const { category } = doorStyles[m.style];
+  const name = `${category} ${m.number}`;
   return {
     slug: m.id,
     name,
@@ -42,7 +42,7 @@ export const interiorDoors: InteriorDoor[] = (
     image: `/images/durys/${m.id}-sm.webp`,
     imageLarge: `/images/durys/${m.id}-lg.webp`,
     ...(m.veneer ? { veneerImage: `/images/durys/${m.id}-fanier-lg.webp` } : {}),
-    alt: `${category} vidaus durys ${name}`,
+    alt: `Vidaus durys ${name}`,
     description: placeholderDoorDescription,
   };
 });

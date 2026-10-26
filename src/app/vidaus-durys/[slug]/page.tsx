@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { DoorFinishViewer } from "@/components/site/door-finish-viewer";
 import { EnquireButton } from "@/components/site/layout";
 import {
@@ -36,13 +37,14 @@ export default async function DoorDetail(props: PageProps<"/vidaus-durys/[slug]"
 
   return (
     <article className="page-container pb-28 pt-32 sm:pb-40 sm:pt-40">
-      <Link href="/vidaus-durys" className="text-[11px] uppercase tracking-[0.18em] text-foreground/65 transition-colors hover:text-foreground">
-        ← Vidaus durys
+      <Link href="/vidaus-durys" className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.14em] text-foreground/75 transition-colors hover:text-foreground">
+        <ArrowLeft className="size-4" aria-hidden />
+        Vidaus durys
       </Link>
       <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-x-6">
-        <div className="lg:col-span-5 lg:pt-6">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-foreground/65">{door.category}</p>
-          <h1 className="mt-4 text-3xl font-light sm:text-4xl">{door.name}</h1>
+        <div className="lg:col-span-5 lg:col-start-8 lg:pt-6">
+          <p className="text-sm uppercase tracking-[0.14em] text-foreground/75">{door.category}</p>
+          <h1 className="mt-4 text-2xl font-normal uppercase tracking-tight sm:text-3xl">{door.name}</h1>
 
           <EnquireButton model={door.name} className="mt-10 w-full">
             Gauti pasiūlymą
@@ -74,14 +76,14 @@ export default async function DoorDetail(props: PageProps<"/vidaus-durys/[slug]"
               ],
             ].map(([title, body], i) => (
               <AccordionItem key={i} value={`s${i}`} className="border-foreground/20">
-                <AccordionTrigger className="py-5 text-left text-[15px] hover:no-underline">{title}</AccordionTrigger>
-                <AccordionContent className="pb-5 text-sm leading-6 text-foreground/75">{body}</AccordionContent>
+                <AccordionTrigger className="gap-6 py-7 text-left text-2xl font-normal hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground [&>svg]:size-5 [&>svg]:text-foreground">{title}</AccordionTrigger>
+                <AccordionContent className="pb-7 text-2xl font-normal leading-snug text-foreground">{body}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
 
-        <div className="order-first lg:order-none lg:col-span-6 lg:col-start-7">
+        <div className="order-first lg:col-span-6">
           <DoorFinishViewer
             alt={door.alt}
             finishes={[
