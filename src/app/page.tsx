@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { projects, contact, contactHref } from "@/lib/site-data";
-import { asset } from "@/lib/utils";
+import { projects } from "@/lib/site-data";
 import { EnquiryForm } from "@/components/site/enquiry";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { ProjectStrip } from "@/components/site/project-strip";
@@ -23,6 +22,16 @@ export const metadata: Metadata = {
   },
 };
 
+const productCategories = [
+  { title: "Vidaus durys", href: "/vidaus-durys", text: "Durys gaminamos pagal individualius matmenis." },
+  {
+    title: "Lauko durys",
+    href: "/lauko-durys",
+    text: "Padedame išsirinkti lauko duris, atvykstame išmatuoti ir sumontuojame Kaune.",
+  },
+  { title: "Katalogai", href: "/katalogai", text: "Atsisiųskite vidaus ir lauko durų katalogus PDF formatu." },
+];
+
 export default function Index() {
   return (
     <>
@@ -37,7 +46,7 @@ export default function Index() {
             </p>
             <a
               href="#produktai"
-              className="mt-12 inline-flex items-center gap-2 bg-hero-foreground px-6 py-3 text-[11px] uppercase tracking-[0.18em] text-hero transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hero-foreground"
+              className="mt-12 inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-hero-foreground text-hero focus-visible:outline-hero-foreground"
             >
               Peržiūrėti produktus
             </a>
@@ -46,43 +55,25 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="produktai" className="page-container scroll-mt-20 py-28 sm:py-40">
-        <ScrollReveal className="grid gap-6 md:grid-cols-2">
-          <Link
-            href="/vidaus-durys"
-            className="group relative block aspect-[4/5] overflow-hidden bg-hero sm:aspect-[4/3]"
-          >
-            <img
-              src={asset("/images/projektai/vidaus-durys-01-lg.webp")}
-              alt="Vidaus durys"
-              className="h-full w-full object-cover object-[40%_center] transition-transform duration-700 group-hover:scale-[1.02]"
-            />
-            <div className="absolute inset-0 bg-hero/15" />
-            <div className="absolute inset-x-0 bottom-0 p-6 text-hero-foreground sm:p-8">
-              <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">
-                Vidaus durys
-              </h2>
-            </div>
-          </Link>
-          <Link
-            href="/lauko-durys"
-            className="group relative block aspect-[4/5] overflow-hidden bg-[#7A6A48] sm:aspect-[4/3]"
-          >
-            <div className="absolute inset-x-0 bottom-0 p-6 text-hero-foreground sm:p-8">
-              <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">
-                Lauko durys
-              </h2>
-            </div>
-          </Link>
-          <Link
-            href="/katalogai"
-            className="group relative block aspect-[4/5] overflow-hidden bg-sage sm:aspect-[4/3] md:col-span-2 md:aspect-[3/1]"
-          >
-            <div className="absolute inset-x-0 bottom-0 p-6 text-foreground sm:p-8">
-              <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">Katalogai</h2>
-            </div>
-          </Link>
-        </ScrollReveal>
+      <section id="produktai" className="scroll-mt-20 bg-menu text-hero-foreground">
+        <div className="page-container pb-28 pt-16 sm:pb-40 sm:pt-20">
+          <div aria-hidden className="h-px bg-hero-foreground" />
+          <ScrollReveal className="mt-16 grid gap-12 sm:mt-20 md:flex md:justify-between md:gap-x-12">
+            {productCategories.map((c) => (
+              <div key={c.href} className="md:max-w-sm">
+                <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">{c.title}</h2>
+                <p className="mt-6 text-2xl font-normal leading-snug">{c.text}</p>
+                <Link
+                  href={c.href}
+                  aria-label={`Peržiūrėti: ${c.title}`}
+                  className="mt-6 inline-block text-sm font-medium uppercase tracking-[0.14em] underline decoration-1 underline-offset-[6px] transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hero-foreground"
+                >
+                  Peržiūrėti
+                </Link>
+              </div>
+            ))}
+          </ScrollReveal>
+        </div>
       </section>
 
       <section>
@@ -94,7 +85,7 @@ export default function Index() {
               cta={
                 <Link
                   href="/atlikti-darbai"
-                  className="inline-flex items-center justify-center bg-foreground px-6 py-4 text-[11px] uppercase tracking-[0.18em] text-background transition-opacity hover:opacity-80 sm:px-8"
+                  className="inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-menu text-hero-foreground focus-visible:outline-foreground"
                 >
                   Visi darbai
                 </Link>
@@ -104,77 +95,7 @@ export default function Index() {
         </div>
       </section>
 
-      <section className="bg-menu text-hero-foreground">
-        <div className="page-container py-28 sm:py-40">
-          <ScrollReveal className="lg:grid lg:grid-cols-12 lg:gap-x-6">
-            <h2 className="mb-12 text-2xl font-normal uppercase tracking-tight sm:text-3xl lg:col-span-4 lg:mb-0 lg:mt-6.5">
-              Dažnai užduodami klausimai
-            </h2>
-            <Accordion type="single" collapsible className="lg:col-span-7 lg:col-start-6">
-              {faq.map(([q, a], i) => (
-                <AccordionItem key={i} value={`q${i}`} className="border-hero-foreground/30">
-                  <AccordionTrigger className="gap-6 py-7 text-left text-2xl font-normal hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hero-foreground [&>svg]:size-5 [&>svg]:text-hero-foreground">
-                    {q}
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-7 text-2xl font-normal leading-snug text-hero-foreground [&_a]:text-hero-foreground">
-                    {a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </ScrollReveal>
-        </div>
-      </section>
-
       <section id="susisiekite" className="scroll-mt-20">
-        <div>
-          <div className="page-container py-16 sm:py-20">
-            <dl className="grid gap-10 text-2xl font-normal leading-snug sm:grid-cols-2 lg:flex lg:justify-between">
-              <div className="grid content-start gap-2">
-                <dt className="text-xs uppercase tracking-[0.2em] text-foreground/65">Adresas</dt>
-                <dd>
-                  <a
-                    href={contactHref.address}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="transition-opacity hover:opacity-60"
-                  >
-                    {contact.address.split(/,\s(?=\d{5})/).map((line, i, lines) => (
-                      <span key={line} className="block">
-                        {line}
-                        {i < lines.length - 1 && ","}
-                      </span>
-                    ))}
-                  </a>
-                </dd>
-              </div>
-              <div className="grid content-start gap-2">
-                <dt className="text-xs uppercase tracking-[0.2em] text-foreground/65">Telefonas</dt>
-                <dd>
-                  <a href={contactHref.phone} className="transition-opacity hover:opacity-60">
-                    {contact.phone}
-                  </a>
-                </dd>
-              </div>
-              <div className="grid content-start gap-2">
-                <dt className="text-xs uppercase tracking-[0.2em] text-foreground/65">
-                  El. paštas
-                </dt>
-                <dd>
-                  <a href={contactHref.email} className="transition-opacity hover:opacity-60">
-                    {contact.email}
-                  </a>
-                </dd>
-              </div>
-              <div className="grid content-start gap-2">
-                <dt className="text-xs uppercase tracking-[0.2em] text-foreground/65">
-                  Darbo laikas
-                </dt>
-                <dd>{contact.hours}</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
         <div className="page-container pb-20 pt-28 sm:pb-28 sm:pt-40">
           <ScrollReveal>
             <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
@@ -185,6 +106,28 @@ export default function Index() {
                 <EnquiryForm />
               </div>
             </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="bg-sand text-foreground">
+        <div className="page-container py-28 sm:py-40">
+          <ScrollReveal className="lg:grid lg:grid-cols-12 lg:gap-x-6">
+            <h2 className="mb-12 text-2xl font-normal uppercase tracking-tight sm:text-3xl lg:col-span-4 lg:mb-0 lg:mt-6.5">
+              Dažnai užduodami klausimai
+            </h2>
+            <Accordion type="single" collapsible className="lg:col-span-7 lg:col-start-6">
+              {faq.map(([q, a], i) => (
+                <AccordionItem key={i} value={`q${i}`} className="border-foreground/20">
+                  <AccordionTrigger className="gap-6 py-7 text-left text-2xl font-normal hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground [&>svg]:size-5 [&>svg]:text-foreground">
+                    {q}
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-7 text-2xl font-normal leading-snug text-foreground [&_a]:text-foreground">
+                    {a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </ScrollReveal>
         </div>
       </section>

@@ -22,7 +22,7 @@ export default function Contact() {
       <div className="grid gap-16 lg:grid-cols-[5fr_7fr] lg:gap-24">
         <dl className="grid content-start gap-10 text-base font-light">
           <div className="grid">
-            <dt className="mb-3 text-xs uppercase tracking-[0.2em] text-foreground/65">
+            <dt className="mb-3 text-sm uppercase tracking-[0.14em] text-foreground/75">
               Adresas
             </dt>
             <dd className="py-3">
@@ -37,7 +37,7 @@ export default function Contact() {
             </dd>
           </div>
           <div className="grid">
-            <dt className="mb-3 text-xs uppercase tracking-[0.2em] text-foreground/65">
+            <dt className="mb-3 text-sm uppercase tracking-[0.14em] text-foreground/75">
               Telefonas
             </dt>
             <dd className="py-3">
@@ -47,7 +47,7 @@ export default function Contact() {
             </dd>
           </div>
           <div className="grid">
-            <dt className="mb-3 text-xs uppercase tracking-[0.2em] text-foreground/65">
+            <dt className="mb-3 text-sm uppercase tracking-[0.14em] text-foreground/75">
               El. paštas
             </dt>
             <dd className="py-3">
@@ -57,7 +57,7 @@ export default function Contact() {
             </dd>
           </div>
           <div className="grid">
-            <dt className="mb-3 text-xs uppercase tracking-[0.2em] text-foreground/65">
+            <dt className="mb-3 text-sm uppercase tracking-[0.14em] text-foreground/75">
               Darbo laikas
             </dt>
             <dd className="py-3">{contact.hours}</dd>

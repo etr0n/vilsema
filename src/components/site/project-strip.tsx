@@ -95,7 +95,7 @@ export function ProjectStrip({
   };
 
   const arrow =
-    "absolute z-10 flex size-11 items-center justify-center bg-foreground text-background transition-colors hover:bg-foreground/85";
+    "absolute z-10 flex size-11 items-center justify-center bg-menu text-hero-foreground transition-opacity hover:opacity-85";
 
   return (
     <div>
@@ -162,7 +162,7 @@ export function ProjectStrip({
                 />
               </button>
               <figcaption className="mt-4">
-                <span className="block text-xs uppercase tracking-[0.16em] text-foreground/70">
+                <span className="block text-lg font-normal leading-7 text-foreground">
                   {p.caption}
                 </span>
               </figcaption>
@@ -174,7 +174,7 @@ export function ProjectStrip({
       {status.scrollable && (
         <div aria-hidden className="relative mt-10 h-[2px] overflow-hidden bg-foreground/10">
           <span
-            className="absolute inset-y-0 bg-foreground"
+            className="absolute inset-y-0 bg-menu"
             style={{ left: `${status.left}%`, width: `${status.width}%` }}
           />
         </div>

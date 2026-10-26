@@ -38,7 +38,7 @@ const fieldBad = "border-destructive/70 focus:border-destructive";
 const labelBase = "block uppercase mb-3";
 
 const buttonBase =
-  "inline-flex min-h-[52px] items-center justify-center gap-3 bg-primary px-9 uppercase text-primary-foreground transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
+  "inline-flex min-h-[52px] items-center justify-center gap-3 bg-menu px-8 font-medium uppercase text-hero-foreground transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
 
 type Errors = {
   name?: string | undefined;
@@ -113,7 +113,7 @@ export function EnquiryForm({
       <label className="grid sm:col-span-2">
         <span className={label}>
           Vardas{" "}
-          <span aria-hidden className="text-destructive">
+          <span aria-hidden className="text-menu">
             *
           </span>
         </span>
@@ -138,7 +138,7 @@ export function EnquiryForm({
       <label className="grid">
         <span className={label}>
           El. paštas{" "}
-          <span aria-hidden className="text-destructive">
+          <span aria-hidden className="text-menu">
             *
           </span>
         </span>
@@ -165,7 +165,7 @@ export function EnquiryForm({
       <label className="grid">
         <span className={label}>
           Telefonas{" "}
-          <span aria-hidden className="text-destructive">
+          <span aria-hidden className="text-menu">
             *
           </span>
         </span>
@@ -192,7 +192,7 @@ export function EnquiryForm({
       <label className="grid sm:col-span-2">
         <span className={label}>
           Žinutė{" "}
-          <span aria-hidden className="text-destructive">
+          <span aria-hidden className="text-menu">
             *
           </span>
         </span>
