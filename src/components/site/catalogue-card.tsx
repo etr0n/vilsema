@@ -29,7 +29,7 @@ export const catalogues: Catalogue[] = [interiorCatalogue, exteriorCatalogue];
 
 export function CatalogueCard({ catalogue: c }: { catalogue: Catalogue }) {
   const body = (
-    <div className="grid min-h-[300px] bg-hero text-hero-foreground md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <div className="grid min-h-[300px] bg-[#565656] text-hero-foreground md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
       <div className="flex flex-col justify-center px-6 py-14 sm:px-12 sm:py-20 lg:px-16">
         <h2 className="text-xl font-medium uppercase tracking-[0.06em] sm:text-2xl">{c.title}</h2>
         <p className="mt-6 max-w-md text-sm font-light leading-6 text-hero-foreground/60">
@@ -43,9 +43,7 @@ export function CatalogueCard({ catalogue: c }: { catalogue: Catalogue }) {
           className="h-full w-full object-cover"
         />
       ) : (
-        <div className="grid min-h-[180px] place-items-center bg-hero-foreground/5 px-6 text-center text-[11px] uppercase tracking-[0.16em] text-hero-foreground/30">
-          Viršelis bus pridėtas
-        </div>
+        <div aria-hidden="true" className="min-h-[180px] bg-white" />
       )}
     </div>
   );

@@ -100,7 +100,7 @@ export function ProjectStrip({
   return (
     <div>
       <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-        <h2 className="text-2xl font-light uppercase tracking-tight sm:text-3xl">{title}</h2>
+        <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">{title}</h2>
         {cta}
       </div>
 

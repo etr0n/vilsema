@@ -31,14 +31,14 @@ const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const phoneRe = /^\+?[0-9\s()\-]{6,20}$/;
 
 const fieldBase =
-  "w-full bg-transparent border-b py-3 text-base font-light text-foreground placeholder:text-foreground/55 focus:outline-none transition-colors";
+  "w-full bg-transparent border-b py-3 text-foreground placeholder:text-foreground/55 focus:outline-none transition-colors";
 const fieldIdle = "border-foreground/50 focus:border-foreground";
 const fieldBad = "border-destructive/70 focus:border-destructive";
 
-const labelBase = "block text-xs uppercase tracking-[0.2em] text-foreground/65 mb-3";
+const labelBase = "block uppercase mb-3";
 
 const buttonBase =
-  "inline-flex min-h-[52px] items-center justify-center gap-3 bg-primary px-9 text-[11px] uppercase tracking-[0.18em] text-primary-foreground transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
+  "inline-flex min-h-[52px] items-center justify-center gap-3 bg-primary px-9 uppercase text-primary-foreground transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
 
 type Errors = {
   name?: string | undefined;
@@ -60,6 +60,10 @@ export function EnquiryForm({
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  const field = `${fieldBase} ${compact ? "text-base font-light" : "text-2xl font-normal"}`;
+  const label = `${labelBase} ${compact ? "text-xs tracking-[0.2em] text-foreground/65" : "text-sm tracking-[0.14em] text-foreground/75"}`;
+  const errorText = `mt-2 text-destructive ${compact ? "text-[13px]" : "text-base"}`;
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -107,7 +111,7 @@ export function EnquiryForm({
       className={`grid sm:grid-cols-2 sm:gap-x-6 ${compact ? "gap-4 sm:gap-5" : "gap-10"}`}
     >
       <label className="grid sm:col-span-2">
-        <span className={labelBase}>
+        <span className={label}>
           Vardas{" "}
           <span aria-hidden className="text-destructive">
             *
@@ -122,17 +126,17 @@ export function EnquiryForm({
           aria-invalid={errors.name ? true : undefined}
           aria-describedby={errors.name ? "enquiry-name-error" : undefined}
           onInput={() => setErrors((e) => (e.name ? { ...e, name: undefined } : e))}
-          className={`${fieldBase} ${errors.name ? fieldBad : fieldIdle}`}
+          className={`${field} ${errors.name ? fieldBad : fieldIdle}`}
         />
         {errors.name && (
-          <span id="enquiry-name-error" role="alert" className="mt-2 text-[13px] text-destructive">
+          <span id="enquiry-name-error" role="alert" className={errorText}>
             {errors.name}
           </span>
         )}
       </label>
 
       <label className="grid">
-        <span className={labelBase}>
+        <span className={label}>
           El. paštas{" "}
           <span aria-hidden className="text-destructive">
             *
@@ -149,17 +153,17 @@ export function EnquiryForm({
           aria-invalid={errors.email ? true : undefined}
           aria-describedby={errors.email ? "enquiry-email-error" : undefined}
           onInput={() => setErrors((e) => (e.email ? { ...e, email: undefined } : e))}
-          className={`${fieldBase} ${errors.email ? fieldBad : fieldIdle}`}
+          className={`${field} ${errors.email ? fieldBad : fieldIdle}`}
         />
         {errors.email && (
-          <span id="enquiry-email-error" role="alert" className="mt-2 text-[13px] text-destructive">
+          <span id="enquiry-email-error" role="alert" className={errorText}>
             {errors.email}
           </span>
         )}
       </label>
 
       <label className="grid">
-        <span className={labelBase}>
+        <span className={label}>
           Telefonas{" "}
           <span aria-hidden className="text-destructive">
             *
@@ -176,17 +180,17 @@ export function EnquiryForm({
           aria-invalid={errors.phone ? true : undefined}
           aria-describedby={errors.phone ? "enquiry-phone-error" : undefined}
           onInput={() => setErrors((e) => (e.phone ? { ...e, phone: undefined } : e))}
-          className={`${fieldBase} ${errors.phone ? fieldBad : fieldIdle}`}
+          className={`${field} ${errors.phone ? fieldBad : fieldIdle}`}
         />
         {errors.phone && (
-          <span id="enquiry-phone-error" role="alert" className="mt-2 text-[13px] text-destructive">
+          <span id="enquiry-phone-error" role="alert" className={errorText}>
             {errors.phone}
           </span>
         )}
       </label>
 
       <label className="grid sm:col-span-2">
-        <span className={labelBase}>
+        <span className={label}>
           Žinutė{" "}
           <span aria-hidden className="text-destructive">
             *
@@ -202,13 +206,13 @@ export function EnquiryForm({
           aria-describedby={errors.message ? "enquiry-message-error" : undefined}
           onInput={() => setErrors((e) => (e.message ? { ...e, message: undefined } : e))}
           defaultValue={model ? `Domina modelis „${model}“.` : ""}
-          className={`${fieldBase} resize-none ${errors.message ? fieldBad : fieldIdle}`}
+          className={`${field} resize-none ${errors.message ? fieldBad : fieldIdle}`}
         />
         {errors.message && (
           <span
             id="enquiry-message-error"
             role="alert"
-            className="mt-2 text-[13px] text-destructive"
+            className={errorText}
           >
             {errors.message}
           </span>
@@ -218,7 +222,7 @@ export function EnquiryForm({
       {notice && (
         <div
           role="status"
-          className="bg-muted px-6 py-5 text-sm font-light leading-6 text-foreground/70 sm:col-span-2"
+          className={`bg-muted px-6 py-5 text-foreground/70 sm:col-span-2 ${compact ? "text-sm font-light leading-6" : "text-lg leading-7"}`}
         >
           Šiuo metu forma žinutės dar nepasiunčia. Kol kas skambinkite{" "}
           <a href={contactHref.phone} className="underline underline-offset-2">
@@ -233,7 +237,7 @@ export function EnquiryForm({
       )}
 
       <div className="flex pt-2 sm:col-span-2 sm:justify-end">
-        <button type="submit" className={`${buttonBase} ${compact ? "w-full" : ""}`}>
+        <button type="submit" className={`${buttonBase} ${compact ? "w-full text-[11px] tracking-[0.18em]" : "text-sm tracking-[0.14em]"}`}>
           Siųsti užklausą
         </button>
       </div>

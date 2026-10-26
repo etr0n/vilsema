@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useEnquiry } from "@/components/site/enquiry";
-import { Logo, LogoMark } from "@/components/site/logo";
+import { Logo } from "@/components/site/logo";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import {
   company,
@@ -20,9 +20,8 @@ import { asset } from "@/lib/utils";
 const doorsCategoryHref = (c: string) => `/vidaus-durys?kategorija=${encodeURIComponent(c)}`;
 const worksCategoryHref = (c: string) => `/atlikti-darbai?kategorija=${encodeURIComponent(c)}`;
 
-const bandPages = ["/vidaus-durys", "/lauko-durys", "/katalogai", "/atlikti-darbai", "/apie-mus", "/kontaktai", "/duk"];
 
-type Panel = "products" | "catalogues" | "works" | "contact";
+type Panel = "products" | "works";
 
 const otherLinks = [
   { label: "Atlikti darbai", to: "/atlikti-darbai" },
@@ -38,10 +37,10 @@ const menuProductLinks = [{ label: "Visos durys", to: "/vidaus-durys" }, ...prod
 
 const katalogaiLink = { label: "Katalogai", to: "/katalogai" } as const;
 
-const catalogueLinks = [
-  { label: "Vidaus durys", to: "/katalogai#vidaus-durys" },
-  { label: "Lauko durys", to: "/katalogai#lauko-durys" },
-] as const;
+const menuCategoryPhotos: Partial<Record<string, string>> = {
+  Klasikinės: "/images/projektai/vidaus-durys-01-lg.webp",
+  Modernios: "/images/projektai/vidaus-durys-pasleptos-01-lg.webp",
+};
 
 const contactLinks = [
   { label: "Kontaktai", to: "/kontaktai" },
@@ -64,10 +63,7 @@ function Wordmark({
       className={light ? "text-hero-foreground" : "text-foreground"}
     >
       {compact ? (
-        <>
-          <LogoMark className="sm:hidden" />
-          <Logo className="hidden sm:block" />
-        </>
+        <Logo className="h-5.5 md:h-8.25" />
       ) : (
         <Logo className={logoClassName} />
       )}
@@ -75,15 +71,11 @@ function Wordmark({
   );
 }
 
-function PanelHeading({ children }: { children: React.ReactNode }) {
-  return <p className="text-[15px] font-medium uppercase text-[#121212]">{children}</p>;
-}
-
 function PanelLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}
-      className="w-fit text-[15px] leading-6 text-[#121212] transition-colors duration-300 hover:text-[#121212]/50 focus-visible:text-[#121212]/50"
+      className="w-fit text-2xl font-normal leading-snug text-hero-foreground transition-opacity duration-300 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hero-foreground"
     >
       {children}
     </Link>
@@ -118,7 +110,7 @@ function MenuPictureCard({
       />
       <span className="absolute inset-0 bg-hero/15" />
       <span className="absolute inset-x-0 bottom-0 p-5 text-hero-foreground">
-        <span className="text-lg font-light uppercase tracking-tight">{label}</span>
+        <span className="text-2xl font-normal leading-snug">{label}</span>
       </span>
     </Link>
   );
@@ -138,7 +130,7 @@ function MegaPanel({
   return (
     <div
       aria-hidden={!open}
-      className={`absolute inset-x-0 top-full z-40 hidden bg-background transition-[opacity,visibility] duration-300 ease-in-out lg:block ${open ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+      className={`absolute inset-x-0 top-full z-40 hidden bg-menu text-hero-foreground transition-[opacity,visibility] duration-300 ease-in-out lg:block ${open ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
         }`}
     >
       <div
@@ -154,24 +146,14 @@ function MegaPanel({
 }
 
 export function Header() {
-  const { open: openEnquiry } = useEnquiry();
   // trailingSlash: true makes paths look like "/katalogai/" — normalize to "/katalogai".
   const pathname = usePathname().replace(/\/$/, "") || "/";
-  const isHome = pathname === "/";
-  const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const [panel, setPanel] = useState<Panel | null>(null);
   const [mobileGroup, setMobileGroup] = useState<Panel | null>(null);
   const [marker, setMarker] = useState<{ left: number; width: number } | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const itemRefs = useRef(new Map<string, HTMLAnchorElement>());
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [pathname]);
 
   useEffect(() => {
     setMenu(false);
@@ -199,9 +181,6 @@ export function Header() {
     return () => window.removeEventListener("pointerdown", onPointerDown);
   }, []);
 
-  const light = isHome && !scrolled && !menu && !panel;
-  const onBand = bandPages.includes(pathname) && !scrolled && !menu && !panel;
-
   const activePageKey =
     pathname.startsWith("/vidaus-durys") || pathname.startsWith("/lauko-durys")
       ? "products"
@@ -211,9 +190,11 @@ export function Header() {
           ? "works"
           : pathname.startsWith("/apie-mus")
             ? "about"
-            : pathname.startsWith("/kontaktai")
-              ? "contact"
-              : null;
+            : pathname.startsWith("/duk")
+              ? "duk"
+              : pathname.startsWith("/kontaktai")
+                ? "contact"
+                : null;
 
   const activeKey = panel ?? activePageKey;
 
@@ -231,7 +212,7 @@ export function Header() {
 
   useLayoutEffect(() => {
     measure();
-  }, [measure, light]);
+  }, [measure]);
 
   useEffect(() => {
     let alive = true;
@@ -264,7 +245,7 @@ export function Header() {
         e.preventDefault();
         setPanel((p) => (p === which ? null : which));
       }}
-      className="inline-flex items-center py-7 text-[0.75rem] uppercase tracking-[0.14em]"
+      className="inline-flex items-center py-7 text-sm font-medium uppercase tracking-[0.14em]"
     >
       {label}
     </Link>
@@ -275,11 +256,11 @@ export function Header() {
       type="button"
       aria-expanded={mobileGroup === which}
       onClick={() => setMobileGroup((v) => (v === which ? null : which))}
-      className="flex items-center justify-between py-3 text-left text-sm uppercase tracking-[0.14em]"
+      className="flex items-center justify-between py-3 text-left text-2xl font-normal"
     >
       {label}
       <ChevronDown
-        className={`size-3 transition-transform duration-200 ${mobileGroup === which ? "rotate-180" : ""}`}
+        className={`size-5 transition-transform duration-200 ${mobileGroup === which ? "rotate-180" : ""}`}
       />
     </button>
   );
@@ -287,35 +268,30 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${light ? "bg-transparent" : onBand ? "bg-band" : "bg-background"
-        }`}
+      className="fixed inset-x-0 top-0 z-40 bg-menu"
     >
-      <div className="page-container grid h-20 grid-cols-[1fr_auto_1fr] items-center gap-8">
-        <div className="shrink-0 justify-self-start">
-          <Wordmark light={light} compact />
+      <div className="page-container flex h-20 items-center justify-between gap-8">
+        <div className="shrink-0">
+          <Wordmark light compact />
         </div>
         <nav
-          className={`hidden items-center gap-7 text-[0.75rem] uppercase tracking-[0.14em] lg:flex ${light ? "text-hero-foreground" : "text-foreground"}`}
+          className="hidden items-center gap-7 text-sm font-medium uppercase tracking-[0.14em] text-hero-foreground lg:flex"
           aria-label="Pagrindinė navigacija"
         >
           {navItem("products", "Produktai", "/vidaus-durys", "products")}
-          {navItem("catalogues", "Katalogai", "/katalogai", "catalogues")}
           {navItem("works", "Atlikti darbai", "/atlikti-darbai", "works")}
+          {navItem("catalogues", "Katalogai", "/katalogai")}
           {navItem("about", "Apie mus", "/apie-mus")}
-          {navItem("contact", "Kontaktai", "/kontaktai", "contact")}
+          {navItem("duk", "DUK", "/duk")}
+          {navItem("contact", "Kontaktai", "/kontaktai")}
         </nav>
-        <div className="col-start-3 flex items-center justify-self-end">
-          <Cta onClick={() => openEnquiry()} inverted={light} className="hidden min-h-[46px]! lg:inline-flex">
-            Gauti pasiūlymą
-          </Cta>
-          <button
-            aria-label={menu ? "Uždaryti meniu" : "Atidaryti meniu"}
-            className={`lg:hidden p-2 transition-opacity hover:opacity-60 ${light ? "text-hero-foreground" : "text-foreground"}`}
-            onClick={() => setMenu((v) => !v)}
-          >
-            {menu ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
-        </div>
+        <button
+          aria-label={menu ? "Uždaryti meniu" : "Atidaryti meniu"}
+          className="lg:hidden p-2 text-hero-foreground transition-opacity hover:opacity-60"
+          onClick={() => setMenu((v) => !v)}
+        >
+          {menu ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
       </div>
 
       <div
@@ -325,16 +301,14 @@ export function Header() {
           }`}
       />
 
-      {!light && (
-        <div aria-hidden className={`pointer-events-none absolute inset-x-0 bottom-0 h-px ${panel || menu ? "bg-border" : ""}`}>
-          {marker && (
-            <span
-              className="absolute top-0 h-px bg-foreground transition-[left,width] duration-200 ease-out"
-              style={{ left: `${marker.left}px`, width: `${marker.width}px` }}
-            />
-          )}
-        </div>
-      )}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-px">
+        {marker && (
+          <span
+            className="absolute top-0 h-px bg-hero-foreground transition-[left,width] duration-200 ease-out"
+            style={{ left: `${marker.left}px`, width: `${marker.width}px` }}
+          />
+        )}
+      </div>
 
       <MegaPanel
         open={panel === "products"}
@@ -343,8 +317,7 @@ export function Header() {
       >
         <div className="col-span-5 flex gap-16">
           <div>
-            <PanelHeading>Produktai</PanelHeading>
-            <div className="mt-2 flex flex-col">
+            <div className="flex flex-col gap-3">
               {menuProductLinks.map((l) => (
                 <PanelLink key={l.label} href={l.to}>
                   {l.label}
@@ -353,8 +326,7 @@ export function Header() {
             </div>
           </div>
           <div>
-            <PanelHeading>Stiliai</PanelHeading>
-            <div className="mt-2 flex flex-col">
+            <div className="flex flex-col gap-3">
               {interiorCategories.map((c) => (
                 <PanelLink key={c} href={doorsCategoryHref(c)}>
                   {c}
@@ -370,24 +342,12 @@ export function Header() {
               href={doorsCategoryHref(c)}
               label={c}
               ariaLabel={`Vidaus durys — ${c}`}
+              src={menuCategoryPhotos[c] ?? photos.interior}
             />
           ))}
         </div>
       </MegaPanel>
 
-      <MegaPanel
-        open={panel === "catalogues"}
-        onLinkClick={() => setPanel(null)}
-        className="page-container pb-14 pt-12"
-      >
-        <div className="flex flex-col gap-2 uppercase">
-          {catalogueLinks.map((l) => (
-            <PanelLink key={l.to} href={l.to}>
-              {l.label}
-            </PanelLink>
-          ))}
-        </div>
-      </MegaPanel>
 
       <MegaPanel
         open={panel === "works"}
@@ -395,7 +355,7 @@ export function Header() {
         className="page-container grid grid-cols-12 gap-x-6 pb-14 pt-12"
       >
         <div className="col-span-5">
-          <div className="flex flex-col gap-2 uppercase">
+          <div className="flex flex-col gap-3">
             <PanelLink href="/atlikti-darbai">Visi darbai</PanelLink>
             {projectCategories.map((c) => (
               <PanelLink key={c} href={worksCategoryHref(c)}>
@@ -416,24 +376,8 @@ export function Header() {
         </div>
       </MegaPanel>
 
-      <MegaPanel
-        open={panel === "contact"}
-        onLinkClick={() => setPanel(null)}
-        className="page-container pb-14 pt-12"
-      >
-        <div>
-          <div className="flex flex-col gap-2 uppercase">
-            {contactLinks.map((l) => (
-              <PanelLink key={l.to} href={l.to}>
-                {l.label}
-              </PanelLink>
-            ))}
-          </div>
-        </div>
-      </MegaPanel>
-
       {menu && (
-        <div className="relative z-40 h-[calc(100svh-5rem)] overflow-y-auto bg-background px-5 pb-8 pt-2 lg:hidden">
+        <div className="relative z-40 h-[calc(100svh-5rem)] overflow-y-auto bg-menu px-5 pb-8 pt-2 text-hero-foreground lg:hidden">
           <nav
             className="flex flex-col"
             aria-label="Mobilioji navigacija"
@@ -448,35 +392,21 @@ export function Header() {
                   <Link
                     key={l.label}
                     href={l.to}
-                    className="py-3 text-sm uppercase text-foreground/80"
+                    className="py-2 text-2xl font-normal"
                   >
                     {l.label}
                   </Link>
                 ))}
-                <p className="pt-3 pb-1 text-xs uppercase tracking-[0.14em] text-foreground/65">
+                <p className="pb-1 pt-4 text-sm font-medium uppercase tracking-[0.14em]">
                   Stiliai
                 </p>
                 {interiorCategories.map((c) => (
                   <Link
                     key={c}
                     href={doorsCategoryHref(c)}
-                    className="py-3 text-sm uppercase text-foreground/80"
+                    className="py-2 text-2xl font-normal"
                   >
                     {c}
-                  </Link>
-                ))}
-              </div>
-            )}
-            {mobileGroupToggle("catalogues", "Katalogai")}
-            {mobileGroup === "catalogues" && (
-              <div className="mega-in flex flex-col pb-2 pl-4">
-                {catalogueLinks.map((l) => (
-                  <Link
-                    key={l.to}
-                    href={l.to}
-                    className="py-3 text-sm uppercase text-foreground/80"
-                  >
-                    {l.label}
                   </Link>
                 ))}
               </div>
@@ -484,46 +414,32 @@ export function Header() {
             {mobileGroupToggle("works", "Atlikti darbai")}
             {mobileGroup === "works" && (
               <div className="mega-in flex flex-col pb-2 pl-4">
-                <Link href="/atlikti-darbai" className="py-3 text-sm uppercase text-foreground/80">
+                <Link href="/atlikti-darbai" className="py-2 text-2xl font-normal">
                   Visi darbai
                 </Link>
                 {projectCategories.map((c) => (
                   <Link
                     key={c}
                     href={worksCategoryHref(c)}
-                    className="py-3 text-sm uppercase text-foreground/80"
+                    className="py-2 text-2xl font-normal"
                   >
                     {c}
                   </Link>
                 ))}
               </div>
             )}
-            <Link href="/apie-mus" className="py-3 text-sm uppercase tracking-[0.14em]">
+            <Link href="/katalogai" className="py-3 text-2xl font-normal">
+              Katalogai
+            </Link>
+            <Link href="/apie-mus" className="py-3 text-2xl font-normal">
               Apie mus
             </Link>
-            {mobileGroupToggle("contact", "Kontaktai")}
-            {mobileGroup === "contact" && (
-              <div className="mega-in flex flex-col pb-2 pl-4">
-                {contactLinks.map((l) => (
-                  <Link
-                    key={l.to}
-                    href={l.to}
-                    className="py-3 text-sm uppercase text-foreground/80"
-                  >
-                    {l.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-            <Cta
-              onClick={() => {
-                setMenu(false);
-                openEnquiry();
-              }}
-              className="mt-8 w-full"
-            >
-              Gauti pasiūlymą
-            </Cta>
+            <Link href="/duk" className="py-3 text-2xl font-normal">
+              DUK
+            </Link>
+            <Link href="/kontaktai" className="py-3 text-2xl font-normal">
+              Kontaktai
+            </Link>
           </nav>
         </div>
       )}
@@ -533,56 +449,56 @@ export function Header() {
 
 export function Footer() {
   return (
-    <footer className="bg-[#565656] py-20 text-hero-foreground">
+    <footer className="bg-background py-20 text-foreground">
       <div className="page-container grid gap-y-16 md:grid-cols-12 md:gap-x-6">
         <div className="md:col-span-5">
-          <Wordmark light logoClassName="h-20" />
-          <p className="mt-8 max-w-xs text-sm font-light leading-6 text-hero-foreground/80">
+          <Wordmark light={false} logoClassName="h-8.25" />
+          <p className="mt-8 max-w-md text-2xl font-normal leading-snug text-foreground/80">
             Vidaus ir lauko durys. Konsultacija, matavimas ir montavimas Kaune.
           </p>
-          <div className="mt-6 text-xs leading-5 text-hero-foreground/80">
+          <div className="mt-6 text-base leading-7 text-foreground/80">
             <p>{company.legalName}</p>
             <p>Įmonės kodas: {company.code}</p>
           </div>
         </div>
-        <div className="grid content-start gap-4 text-sm font-light md:col-span-4 md:col-start-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-hero-foreground/70">Navigacija</p>
+        <div className="grid content-start gap-3 text-2xl font-normal leading-snug md:col-span-4 md:col-start-6">
+          <p className="mb-1 text-sm uppercase tracking-[0.14em] text-foreground/75">Navigacija</p>
           {[...productLinks, katalogaiLink, ...otherLinks, ...contactLinks].map((l) => (
             <Link
               key={l.to}
               href={l.to}
-              className="text-hero-foreground/80 transition-opacity hover:opacity-60"
+              className="text-foreground/80 transition-opacity hover:opacity-60"
             >
               {l.label}
             </Link>
           ))}
         </div>
-        <div className="grid content-start gap-4 md:col-span-3 md:col-start-10">
-          <p className="text-xs uppercase tracking-[0.2em] text-hero-foreground/70">Kontaktai</p>
+        <div className="grid content-start gap-3 text-2xl font-normal leading-snug md:col-span-3 md:col-start-10">
+          <p className="mb-1 text-sm uppercase tracking-[0.14em] text-foreground/75">Kontaktai</p>
           <a
             href={contactHref.address}
             target="_blank"
             rel="noopener noreferrer"
-            className="block text-sm font-light text-hero-foreground/80 transition-opacity hover:opacity-60"
+            className="block text-foreground/80 transition-opacity hover:opacity-60"
           >
             {contact.address}
           </a>
           <a
             href={contactHref.phone}
-            className="block text-sm font-light text-hero-foreground/80 transition-opacity hover:opacity-60"
+            className="block text-foreground/80 transition-opacity hover:opacity-60"
           >
             {contact.phone}
           </a>
           <a
             href={contactHref.email}
-            className="block text-sm font-light text-hero-foreground/80 transition-opacity hover:opacity-60"
+            className="block text-foreground/80 transition-opacity hover:opacity-60"
           >
             {contact.email}
           </a>
-          <p className="text-sm font-light text-hero-foreground/80">{contact.hours}</p>
+          <p className="text-foreground/80">{contact.hours}</p>
         </div>
       </div>
-      <div className="page-container mt-16 pt-6 text-xs uppercase tracking-[0.2em] text-hero-foreground/70">
+      <div className="page-container mt-16 pt-6 text-sm uppercase tracking-[0.14em] text-foreground/75">
         © {new Date().getFullYear()} Vilsema
       </div>
     </footer>
@@ -604,9 +520,9 @@ export function Cta({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex min-h-[52px] items-center justify-center gap-2 px-9 text-[11px] uppercase tracking-[0.18em] border border-[#7A6A48] transition-colors duration-300 hover:border-[#64563A] hover:bg-[#64563A] hover:text-white cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 ${inverted
-        ? "bg-[#7A6A48] text-white focus-visible:outline-hero-foreground"
-        : "bg-[#7A6A48] text-primary-foreground focus-visible:outline-foreground"
+      className={`inline-flex min-h-[52px] items-center justify-center gap-2 uppercase border transition-colors duration-300 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 ${inverted
+        ? "border-hero-foreground bg-transparent px-6 text-sm tracking-[0.14em] text-hero-foreground hover:bg-hero-foreground hover:text-menu focus-visible:outline-hero-foreground"
+        : "border-[#E35336] bg-[#E35336] px-9 text-[11px] tracking-[0.18em] text-primary-foreground hover:border-[#64563A] hover:bg-[#64563A] hover:text-white focus-visible:outline-foreground"
         } ${className}`}
     >
       {children}
@@ -634,14 +550,14 @@ export function EnquireButton({
 
 export function PageHeader({ title, intro }: { title: string; intro?: string }) {
   return (
-    <div className="bg-band pb-56 [&+*]:-mt-56 [&+*:has([data-empty])]:bg-band [&+*:has([data-empty])]:[box-shadow:0_0_0_100vmax_var(--band)] [&+*:has([data-empty])]:[clip-path:inset(0_-100vmax)]">
+    <div className="bg-menu pb-56 [&+*]:-mt-56 [&+*:has([data-empty])]:bg-menu [&+*:has([data-empty])]:[box-shadow:0_0_0_100vmax_var(--menu)] [&+*:has([data-empty])]:[clip-path:inset(0_-100vmax)]">
       <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
         <ScrollReveal>
-          <h1 className="max-w-3xl text-3xl font-light uppercase leading-tight tracking-tight sm:text-5xl">
+          <h1 className="max-w-3xl text-hero-foreground text-3xl font-light uppercase leading-tight tracking-tight sm:text-5xl">
             {title}
           </h1>
           {intro && (
-            <p className="mt-8 max-w-xl text-base leading-7 text-foreground/75">{intro}</p>
+            <p className="mt-8 max-w-xl text-lg leading-7 text-hero-foreground">{intro}</p>
           )}
         </ScrollReveal>
       </header>
@@ -659,21 +575,21 @@ export function PanelPage({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-band pt-32 sm:pt-40">
+    <div className="bg-menu">
+      <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
+        <ScrollReveal>
+          <h1 className="max-w-3xl text-3xl font-light uppercase leading-tight tracking-tight text-hero-foreground sm:text-5xl">
+            {title}
+          </h1>
+          {intro && <p className="mt-8 max-w-xl text-lg leading-7 text-hero-foreground">{intro}</p>}
+        </ScrollReveal>
+      </header>
       <div className="relative">
         <div
           aria-hidden
           className="absolute inset-0 bg-background lg:left-[max(0px,calc((100%-1440px)/2-6.5rem))]"
         />
-        <div className="page-container relative pb-28 pt-16 sm:pb-40 sm:pt-24">
-          <ScrollReveal>
-            <h1 className="max-w-3xl text-3xl font-light uppercase leading-tight tracking-tight sm:text-5xl">
-              {title}
-            </h1>
-            {intro && <p className="mt-8 max-w-xl text-base leading-7 text-foreground/75">{intro}</p>}
-          </ScrollReveal>
-          <div className="mt-16 sm:mt-24">{children}</div>
-        </div>
+        <div className="page-container relative pb-28 pt-16 sm:pb-40 sm:pt-24">{children}</div>
       </div>
     </div>
   );

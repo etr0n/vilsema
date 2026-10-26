@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { photos, projects, contact, contactHref } from "@/lib/site-data";
+import { projects, contact, contactHref } from "@/lib/site-data";
 import { asset } from "@/lib/utils";
 import { EnquiryForm } from "@/components/site/enquiry";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
@@ -26,27 +26,23 @@ export const metadata: Metadata = {
 export default function Index() {
   return (
     <>
-      <section className="relative min-h-[92svh] overflow-hidden bg-hero">
-        <img
-          src={asset(photos.hero)}
-          alt="Vidaus durys minimalistiniame interjere"
-          fetchPriority="high"
-          className="hero-zoom absolute inset-0 h-full w-full object-cover object-[53%_center] sm:object-center"
-        />
-        <div className="absolute inset-0 bg-black/25" aria-hidden="true" />
-        <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-hero/60 to-transparent" />
-        <div className="page-container relative flex min-h-[92svh] items-center justify-center py-28">
-          <div className="hero-text max-w-3xl text-center text-hero-foreground">
-            <h1 className="text-4xl font-extralight leading-[1.05] sm:text-6xl uppercase">
+      <section className="overflow-hidden bg-menu pt-20 text-hero-foreground">
+        <div className="page-container grid gap-10 pb-16 pt-4 md:min-h-[calc(100svh-5rem)] md:grid-cols-12 md:items-center md:gap-x-6 md:py-0">
+          <div className="hero-text md:col-span-7 md:py-24">
+            <h1 className="text-[clamp(2.441rem,2.441rem+2.1111vw,5.063rem)] font-medium leading-none text-balance">
               Vidaus ir lauko durys jūsų namams
             </h1>
+            <p className="mt-8 max-w-xl text-2xl font-normal leading-snug">
+              Padedame išsirinkti duris, atvykstame išmatuoti ir montuojame Kaune.
+            </p>
             <a
               href="#produktai"
-              className="mt-10 inline-flex items-center gap-2 bg-hero-foreground px-6 py-3 text-[11px] uppercase tracking-[0.18em] text-hero transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hero-foreground"
+              className="mt-12 inline-flex items-center gap-2 bg-hero-foreground px-6 py-3 text-[11px] uppercase tracking-[0.18em] text-hero transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hero-foreground"
             >
               Peržiūrėti produktus
             </a>
           </div>
+          <div aria-hidden="true" className="aspect-square bg-neutral-300 md:col-span-5 md:-mr-[calc(max(0px,(100vw-1440px)/2)+2rem)] md:aspect-auto md:self-stretch lg:-mr-[calc(max(0px,(100vw-1440px)/2)+3rem)]" />
         </div>
       </section>
 
@@ -63,7 +59,7 @@ export default function Index() {
             />
             <div className="absolute inset-0 bg-hero/15" />
             <div className="absolute inset-x-0 bottom-0 p-6 text-hero-foreground sm:p-8">
-              <h2 className="text-xl font-normal uppercase tracking-tight sm:text-2xl">
+              <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">
                 Vidaus durys
               </h2>
             </div>
@@ -73,7 +69,7 @@ export default function Index() {
             className="group relative block aspect-[4/5] overflow-hidden bg-[#7A6A48] sm:aspect-[4/3]"
           >
             <div className="absolute inset-x-0 bottom-0 p-6 text-hero-foreground sm:p-8">
-              <h2 className="text-xl font-normal uppercase tracking-tight sm:text-2xl">
+              <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">
                 Lauko durys
               </h2>
             </div>
@@ -83,7 +79,7 @@ export default function Index() {
             className="group relative block aspect-[4/5] overflow-hidden bg-sage sm:aspect-[4/3] md:col-span-2 md:aspect-[3/1]"
           >
             <div className="absolute inset-x-0 bottom-0 p-6 text-foreground sm:p-8">
-              <h2 className="text-xl font-normal uppercase tracking-tight sm:text-2xl">Katalogai</h2>
+              <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">Katalogai</h2>
             </div>
           </Link>
         </ScrollReveal>
@@ -108,19 +104,19 @@ export default function Index() {
         </div>
       </section>
 
-      <section className="bg-sage">
+      <section className="bg-menu text-hero-foreground">
         <div className="page-container py-28 sm:py-40">
           <ScrollReveal className="lg:grid lg:grid-cols-12 lg:gap-x-6">
-            <h2 className="mb-12 text-2xl font-light uppercase tracking-tight sm:text-3xl lg:col-span-4 lg:mb-0 lg:mt-5.5">
+            <h2 className="mb-12 text-2xl font-normal uppercase tracking-tight sm:text-3xl lg:col-span-4 lg:mb-0 lg:mt-6.5">
               Dažnai užduodami klausimai
             </h2>
             <Accordion type="single" collapsible className="lg:col-span-7 lg:col-start-6">
               {faq.map(([q, a], i) => (
-                <AccordionItem key={i} value={`q${i}`} className="border-foreground/20">
-                  <AccordionTrigger className="py-7 text-left text-base font-light hover:no-underline">
+                <AccordionItem key={i} value={`q${i}`} className="border-hero-foreground/30">
+                  <AccordionTrigger className="gap-6 py-7 text-left text-2xl font-normal hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hero-foreground [&>svg]:size-5 [&>svg]:text-hero-foreground">
                     {q}
                   </AccordionTrigger>
-                  <AccordionContent className="pb-7 text-sm font-light leading-6 text-foreground/70">
+                  <AccordionContent className="pb-7 text-2xl font-normal leading-snug text-hero-foreground [&_a]:text-hero-foreground">
                     {a}
                   </AccordionContent>
                 </AccordionItem>
@@ -131,21 +127,9 @@ export default function Index() {
       </section>
 
       <section id="susisiekite" className="scroll-mt-20">
-        <div className="page-container pb-20 pt-28 sm:pb-28 sm:pt-40">
-          <ScrollReveal>
-            <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
-              <h2 className="mb-12 text-2xl font-light uppercase tracking-tight sm:text-3xl lg:col-span-4 lg:mb-0">
-                Susisiekite
-              </h2>
-              <div className="lg:col-span-7 lg:col-start-6">
-                <EnquiryForm />
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-        <div className="bg-sage">
+        <div>
           <div className="page-container py-16 sm:py-20">
-            <dl className="grid gap-10 text-base font-light sm:grid-cols-2 lg:flex lg:justify-between">
+            <dl className="grid gap-10 text-2xl font-normal leading-snug sm:grid-cols-2 lg:flex lg:justify-between">
               <div className="grid content-start gap-2">
                 <dt className="text-xs uppercase tracking-[0.2em] text-foreground/65">Adresas</dt>
                 <dd>
@@ -190,6 +174,18 @@ export default function Index() {
               </div>
             </dl>
           </div>
+        </div>
+        <div className="page-container pb-20 pt-28 sm:pb-28 sm:pt-40">
+          <ScrollReveal>
+            <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
+              <h2 className="mb-12 text-2xl font-normal uppercase tracking-tight sm:text-3xl lg:col-span-4 lg:mb-0">
+                Susisiekite
+              </h2>
+              <div className="lg:col-span-7 lg:col-start-6">
+                <EnquiryForm />
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </>
