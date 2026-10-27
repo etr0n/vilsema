@@ -38,7 +38,7 @@ const fieldBad = "border-destructive/70 focus:border-destructive";
 const labelBase = "block uppercase mb-3";
 
 const buttonBase =
-  "inline-flex min-h-[52px] items-center justify-center gap-3 bg-menu px-8 font-medium uppercase text-hero-foreground transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
+  "inline-flex min-h-[52px] items-center justify-center gap-3 bg-button px-8 font-medium uppercase text-button-text transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
 
 type Errors = {
   name?: string | undefined;

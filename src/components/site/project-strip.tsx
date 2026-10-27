@@ -95,7 +95,7 @@ export function ProjectStrip({
   };
 
   const arrow =
-    "absolute z-10 flex size-11 items-center justify-center bg-menu text-hero-foreground transition-opacity hover:opacity-85";
+    "absolute z-10 flex size-11 items-center justify-center bg-strip-arrow text-strip-arrow-text transition-opacity hover:opacity-85";
 
   return (
     <div>
@@ -174,7 +174,7 @@ export function ProjectStrip({
       {status.scrollable && (
         <div aria-hidden className="relative mt-10 h-[2px] overflow-hidden bg-foreground/10">
           <span
-            className="absolute inset-y-0 bg-menu"
+            className="absolute inset-y-0 bg-strip-line"
             style={{ left: `${status.left}%`, width: `${status.width}%` }}
           />
         </div>

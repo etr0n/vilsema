@@ -60,7 +60,7 @@ function Wordmark({
     <Link
       href="/"
       aria-label="Vilsema — pradžia"
-      className={light ? "text-hero-foreground" : "text-foreground"}
+      className={light ? "text-header-text" : "text-foreground"}
     >
       {compact ? (
         <Logo className="h-5.5 md:h-8.25" />
@@ -75,7 +75,7 @@ function PanelLink({ href, children }: { href: string; children: React.ReactNode
   return (
     <Link
       href={href}
-      className="w-fit text-2xl font-normal leading-snug text-hero-foreground transition-opacity duration-300 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hero-foreground"
+      className="w-fit text-2xl font-normal leading-snug text-mega-menu-text transition-opacity duration-300 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mega-menu-text"
     >
       {children}
     </Link>
@@ -130,7 +130,7 @@ function MegaPanel({
   return (
     <div
       aria-hidden={!open}
-      className={`absolute inset-x-0 top-full z-40 hidden bg-menu text-hero-foreground transition-[opacity,visibility] duration-300 ease-in-out lg:block ${open ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+      className={`absolute inset-x-0 top-full z-40 hidden bg-mega-menu text-mega-menu-text transition-[opacity,visibility] duration-300 ease-in-out lg:block ${open ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
         }`}
     >
       <div
@@ -268,14 +268,14 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      className="fixed inset-x-0 top-0 z-40 bg-menu"
+      className="fixed inset-x-0 top-0 z-40 bg-header"
     >
       <div className="page-container flex h-20 items-center justify-between gap-8">
         <div className="shrink-0">
           <Wordmark light compact />
         </div>
         <nav
-          className="hidden items-center gap-7 text-sm font-medium uppercase tracking-[0.14em] text-hero-foreground lg:flex"
+          className="hidden items-center gap-7 text-sm font-medium uppercase tracking-[0.14em] text-header-text lg:flex"
           aria-label="Pagrindinė navigacija"
         >
           {navItem("products", "Produktai", "/vidaus-durys", "products")}
@@ -287,7 +287,7 @@ export function Header() {
         </nav>
         <button
           aria-label={menu ? "Uždaryti meniu" : "Atidaryti meniu"}
-          className="lg:hidden p-2 text-hero-foreground transition-opacity hover:opacity-60"
+          className="lg:hidden p-2 text-header-text transition-opacity hover:opacity-60"
           onClick={() => setMenu((v) => !v)}
         >
           {menu ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -304,7 +304,7 @@ export function Header() {
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-px">
         {marker && (
           <span
-            className="absolute top-0 h-px bg-hero-foreground transition-[left,width] duration-200 ease-out"
+            className="absolute top-0 h-px bg-header-text transition-[left,width] duration-200 ease-out"
             style={{ left: `${marker.left}px`, width: `${marker.width}px` }}
           />
         )}
@@ -377,7 +377,7 @@ export function Header() {
       </MegaPanel>
 
       {menu && (
-        <div className="relative z-40 h-[calc(100svh-5rem)] overflow-y-auto bg-menu px-5 pb-8 pt-2 text-hero-foreground lg:hidden">
+        <div className="relative z-40 h-[calc(100svh-5rem)] overflow-y-auto bg-mega-menu px-5 pb-8 pt-2 text-mega-menu-text lg:hidden">
           <nav
             className="flex flex-col"
             aria-label="Mobilioji navigacija"
@@ -550,14 +550,14 @@ export function EnquireButton({
 
 export function PageHeader({ title, intro }: { title: string; intro?: string }) {
   return (
-    <div className="bg-menu pb-56 [&+*]:-mt-56 [&+*:has([data-empty])]:bg-menu [&+*:has([data-empty])]:[box-shadow:0_0_0_100vmax_var(--menu)] [&+*:has([data-empty])]:[clip-path:inset(0_-100vmax)]">
+    <div className="bg-page-hero pb-56 [&+*]:-mt-56 [&+*:has([data-empty])]:bg-page-hero [&+*:has([data-empty])]:[box-shadow:0_0_0_100vmax_var(--page-hero-color)] [&+*:has([data-empty])]:[clip-path:inset(0_-100vmax)]">
       <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
         <ScrollReveal>
-          <h1 className="max-w-3xl text-hero-foreground text-3xl font-light uppercase leading-tight tracking-tight sm:text-5xl">
+          <h1 className="max-w-3xl text-page-hero-text text-3xl font-light uppercase leading-tight tracking-tight sm:text-5xl">
             {title}
           </h1>
           {intro && (
-            <p className="mt-8 max-w-xl text-lg leading-7 text-hero-foreground">{intro}</p>
+            <p className="mt-8 max-w-xl text-lg leading-7 text-page-hero-text">{intro}</p>
           )}
         </ScrollReveal>
       </header>
@@ -575,13 +575,13 @@ export function PanelPage({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-menu">
+    <div className="bg-page-hero">
       <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
         <ScrollReveal>
-          <h1 className="max-w-3xl text-3xl font-light uppercase leading-tight tracking-tight text-hero-foreground sm:text-5xl">
+          <h1 className="max-w-3xl text-3xl font-light uppercase leading-tight tracking-tight text-page-hero-text sm:text-5xl">
             {title}
           </h1>
-          {intro && <p className="mt-8 max-w-xl text-lg leading-7 text-hero-foreground">{intro}</p>}
+          {intro && <p className="mt-8 max-w-xl text-lg leading-7 text-page-hero-text">{intro}</p>}
         </ScrollReveal>
       </header>
       <div className="relative">

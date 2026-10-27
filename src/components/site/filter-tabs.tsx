@@ -8,7 +8,7 @@ export type FilterTab = {
 export function FilterTabs({ label, tabs }: { label: string; tabs: FilterTab[] }) {
   return (
     <div className="no-scrollbar mb-14 flex overflow-x-auto sm:justify-center">
-      <div role="tablist" aria-label={label} className="flex shrink-0 border-b border-hero-foreground/30">
+      <div role="tablist" aria-label={label} className="flex shrink-0 border-b border-page-hero-text/30">
         {tabs.map((t) => (
           <button
             key={t.key}
@@ -18,8 +18,8 @@ export function FilterTabs({ label, tabs }: { label: string; tabs: FilterTab[] }
             onClick={t.onSelect}
             className={`-mb-px w-44 shrink-0 border-b-2 py-5 text-center text-[13px] font-medium uppercase tracking-[0.14em] transition-colors ${
               t.active
-                ? "border-hero-foreground text-hero-foreground"
-                : "border-transparent text-hero-foreground/75 hover:text-hero-foreground"
+                ? "border-page-hero-text text-page-hero-text"
+                : "border-transparent text-page-hero-text/75 hover:text-page-hero-text"
             }`}
           >
             {t.label}

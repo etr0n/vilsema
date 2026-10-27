@@ -1,0 +1,193 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Colors: @theme maps each variable to Tailwind classes (--color-x -> bg-x, text-x); :root holds the values. */
+
+@theme inline {
+  --font-sans: var(--font-manrope), sans-serif;
+  --font-display: var(--font-manrope), sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-hero: var(--hero);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-menu: var(--menu);
+  --color-sand: var(--sand);
+  --color-header: var(--header-color);
+  --color-header-text: var(--header-text);
+  --color-mega-menu: var(--mega-menu-color);
+  --color-mega-menu-text: var(--mega-menu-text);
+  --color-home-hero: var(--home-hero-color);
+  --color-home-hero-text: var(--home-hero-text);
+  --color-page-hero: var(--page-hero-color);
+  --color-page-hero-text: var(--page-hero-text);
+  --color-button: var(--button-color);
+  --color-button-text: var(--button-text);
+  --color-strip-arrow: var(--strip-arrow-color);
+  --color-strip-arrow-text: var(--strip-arrow-text);
+  --color-strip-line: var(--strip-line-color);
+}
+
+:root {
+  --radius: 0.125rem;
+  --background: oklch(0.976 0.007 88.6);
+  --foreground: oklch(0.235 0.009 75);
+  --primary: oklch(0.235 0.009 75);
+  --primary-foreground: oklch(0.992 0.004 85);
+  --muted: oklch(0.957 0.007 82);
+  --muted-foreground: oklch(0.51 0.012 70);
+  --accent: oklch(0.925 0.018 82);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.885 0.012 80);
+  --input: oklch(0.82 0.012 80);
+  --ring: oklch(0.45 0.02 70);
+  --hero: oklch(0.18 0.01 70);
+  --hero-foreground: oklch(0.985 0.005 80);
+  --menu: #e35336;
+  --sand: #efeae2;
+
+  /* Per-area colors: top menu bar, dropdown menu, landing page hero + product band, other pages' top section */
+  --header-color: #e35336;
+  --header-text: oklch(0.985 0.005 80);
+  --mega-menu-color: #e35336;
+  --mega-menu-text: oklch(0.985 0.005 80);
+  --home-hero-color: #e35336;
+  --home-hero-text: oklch(0.985 0.005 80);
+  --page-hero-color: #e35336;
+  --page-hero-text: oklch(0.985 0.005 80);
+
+  /* Orange buttons, Atlikti darbai strip arrows and progress line */
+  --button-color: #e35336;
+  --button-text: oklch(0.985 0.005 80);
+  --strip-arrow-color: #e35336;
+  --strip-arrow-text: oklch(0.985 0.005 80);
+  --strip-line-color: #e35336;
+
+}
+
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: 0; }
+
+  ::selection { background: var(--color-foreground); color: var(--color-background); }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 420ms ease-out,
+    transform 420ms ease-out;
+  will-change: opacity, transform;
+}
+
+.scroll-reveal[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@utility page-container {
+  @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12;
+}
+
+@keyframes mega-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mega-in {
+  animation: mega-in 130ms ease-out both;
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-text {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-zoom {
+  animation: hero-zoom 3s ease both;
+}
+
+.hero-text {
+  animation: hero-text 3s ease 1s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mega-in {
+    animation: none;
+  }
+  .hero-zoom,
+  .hero-text {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+  .scroll-reveal { opacity: 1; transform: none; }
+}
