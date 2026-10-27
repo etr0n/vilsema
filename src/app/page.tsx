@@ -13,10 +13,10 @@ import {
 } from "@/components/ui/accordion";
 
 export const metadata: Metadata = {
-  title: { absolute: "Vilsema — vidaus ir lauko durys Kaune" },
+  title: { absolute: "Vilsema | vidaus ir lauko durys Kaune" },
   description: "Padedame išsirinkti duris, atvykstame išmatuoti ir montuojame Kaune.",
   openGraph: {
-    title: "Vilsema — durys jūsų namams",
+    title: "Vilsema | durys jūsų namams",
     description: "Vidaus ir lauko durys, matavimas ir montavimas Kaune.",
     type: "website",
   },

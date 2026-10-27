@@ -12,13 +12,13 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    default: "Vilsema — vidaus ir lauko durys Kaune",
-    template: "%s — Vilsema",
+    default: "Vilsema | vidaus ir lauko durys Kaune",
+    template: "%s | Vilsema",
   },
   description: "Vidaus ir lauko durys, konsultacija, matavimas ir montavimas Kaune.",
   authors: [{ name: "Vilsema" }],
   openGraph: {
-    title: "Vilsema — durys jūsų namams",
+    title: "Vilsema | durys jūsų namams",
     description: "Durų pasirinkimas, matavimas ir montavimas Kaune.",
     type: "website",
   },
