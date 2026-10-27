@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { projects } from "@/lib/site-data";
+import { photos, projects } from "@/lib/site-data";
+import { asset } from "@/lib/utils";
 import { EnquiryForm } from "@/components/site/enquiry";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { ProjectStrip } from "@/components/site/project-strip";
@@ -36,12 +37,12 @@ export default function Index() {
   return (
     <>
       <section className="overflow-hidden bg-menu pt-20 text-hero-foreground">
-        <div className="page-container grid gap-10 pb-16 pt-4 md:min-h-[calc(100svh-5rem)] md:grid-cols-12 md:items-center md:gap-x-6 md:py-0">
-          <div className="hero-text md:col-span-7 md:py-24">
-            <h1 className="text-[clamp(2.441rem,2.441rem+2.1111vw,5.063rem)] font-medium leading-none text-balance">
+        <div className="page-container grid gap-10 pb-16 pt-4 md:grid-cols-12 md:items-center md:gap-x-6">
+          <div className="hero-text md:col-span-6">
+            <h1 className="text-[clamp(2.441rem,2.441rem+2.1111vw,5.063rem)] font-normal leading-none text-balance">
               Vidaus ir lauko durys jūsų namams
             </h1>
-            <p className="mt-8 max-w-xl text-2xl font-normal leading-snug">
+            <p className="mt-8 max-w-xl text-xl leading-7.5">
               Padedame išsirinkti duris, atvykstame išmatuoti ir montuojame Kaune.
             </p>
             <a
@@ -51,7 +52,14 @@ export default function Index() {
               Peržiūrėti produktus
             </a>
           </div>
-          <div aria-hidden="true" className="aspect-square bg-neutral-300 md:col-span-5 md:-mr-[calc(max(0px,(100vw-1440px)/2)+2rem)] md:aspect-auto md:self-stretch lg:-mr-[calc(max(0px,(100vw-1440px)/2)+3rem)]" />
+          <img
+            src={asset(photos.hero)}
+            alt=""
+            width={1600}
+            height={1600}
+            fetchPriority="high"
+            className="aspect-square w-full object-cover md:col-span-6"
+          />
         </div>
       </section>
 
