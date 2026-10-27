@@ -587,7 +587,7 @@ export function PanelPage({
       <div className="relative">
         <div
           aria-hidden
-          className="absolute inset-0 bg-background lg:left-[max(0px,calc((100%-1440px)/2-6.5rem))]"
+          className="absolute inset-0 bg-background lg:left-[max(0px,calc((100%-var(--container-page))/2-6.5rem))]"
         />
         <div className="page-container relative pb-28 pt-16 sm:pb-40 sm:pt-24">{children}</div>
       </div>
