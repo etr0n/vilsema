@@ -38,9 +38,9 @@ export default function About() {
                 className="aspect-[4/5] w-full bg-muted object-cover md:col-span-5"
                 loading="lazy"
               />
-              <div className="md:col-span-5 md:col-start-7 md:text-hero-foreground">
+              <div className="md:col-span-5 md:col-start-7 md:text-page-hero-text">
                 <h2 className="text-3xl font-light">{p.name}</h2>
-                <p className="mt-4 max-w-xl text-lg leading-7 text-foreground/75 md:text-hero-foreground">{p.text}</p>
+                <p className="mt-4 max-w-xl text-lg leading-7 text-foreground/75 md:text-page-hero-text">{p.text}</p>
               </div>
             </div>
           ))}

@@ -36,10 +36,11 @@ const productCategories = [
 export default function Index() {
   return (
     <>
-      <section className="overflow-hidden bg-menu pt-20 text-hero-foreground">
+      <section className="overflow-hidden bg-home-hero pt-20 text-home-hero-text">
         <div className="page-container grid gap-10 pb-16 pt-4 md:grid-cols-12 md:items-center md:gap-x-6">
           <div className="hero-text md:col-span-6">
             <h1 className="text-[clamp(2.441rem,2.441rem+2.1111vw,5.063rem)] font-normal leading-none text-balance">
+
               Vidaus ir lauko durys jūsų namams
             </h1>
             <p className="mt-8 max-w-xl text-xl leading-7.5">
@@ -47,7 +48,7 @@ export default function Index() {
             </p>
             <a
               href="#produktai"
-              className="mt-12 inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-hero-foreground text-hero focus-visible:outline-hero-foreground"
+              className="mt-12 inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-hero-cta text-hero-cta-text focus-visible:outline-hero-cta"
             >
               Peržiūrėti produktus
             </a>
@@ -63,9 +64,9 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="produktai" className="scroll-mt-20 bg-menu text-hero-foreground">
+      <section id="produktai" className="scroll-mt-20 bg-home-hero text-home-hero-text">
         <div className="page-container pb-28 pt-16 sm:pb-40 sm:pt-20">
-          <div aria-hidden className="h-px bg-hero-foreground" />
+          <div aria-hidden className="h-px bg-home-hero-text" />
           <ScrollReveal className="mt-16 grid gap-12 sm:mt-20 md:flex md:justify-between md:gap-x-12">
             {productCategories.map((c) => (
               <div key={c.href} className="md:max-w-sm">
@@ -74,7 +75,7 @@ export default function Index() {
                 <Link
                   href={c.href}
                   aria-label={`Peržiūrėti: ${c.title}`}
-                  className="mt-6 inline-block text-sm font-medium uppercase tracking-[0.14em] underline decoration-1 underline-offset-[6px] transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hero-foreground"
+                  className="mt-6 inline-block text-sm font-medium uppercase tracking-[0.14em] underline decoration-1 underline-offset-[6px] transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-home-hero-text"
                 >
                   Peržiūrėti
                 </Link>
@@ -93,7 +94,7 @@ export default function Index() {
               cta={
                 <Link
                   href="/atlikti-darbai"
-                  className="inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-menu text-hero-foreground focus-visible:outline-foreground"
+                  className="inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-button text-button-text focus-visible:outline-foreground"
                 >
                   Visi darbai
                 </Link>
