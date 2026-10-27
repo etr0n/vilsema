@@ -60,7 +60,7 @@ function Wordmark({
     <Link
       href="/"
       aria-label="Vilsema — pradžia"
-      className={light ? "text-header-text" : "text-foreground"}
+      className={light ? "text-header-logo lg:transition-colors lg:duration-300 lg:ease-in-out lg:[transition-delay:var(--menu-close-delay,0ms)]" : "text-foreground"}
     >
       {compact ? (
         <Logo className="h-5.5 md:h-8.25" />
@@ -130,7 +130,7 @@ function MegaPanel({
   return (
     <div
       aria-hidden={!open}
-      className={`absolute inset-x-0 top-full z-40 hidden bg-mega-menu text-mega-menu-text transition-[opacity,visibility] duration-300 ease-in-out lg:block ${open ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+      className={`absolute inset-x-0 top-full z-40 hidden bg-mega-menu text-mega-menu-text transition-[opacity,visibility] duration-300 ease-in-out lg:block ${open ? "visible opacity-100" : "invisible pointer-events-none opacity-0 [transition-delay:var(--panel-close-delay,0ms)]"
         }`}
     >
       <div
@@ -150,6 +150,13 @@ export function Header() {
   const pathname = usePathname().replace(/\/$/, "") || "/";
   const [menu, setMenu] = useState(false);
   const [panel, setPanel] = useState<Panel | null>(null);
+  // Following a link closes the menu without fading, so it doesn't linger over the next page.
+  const [closeInstantly, setCloseInstantly] = useState(false);
+  const closeForNavigation = () => {
+    setCloseInstantly(true);
+    setPanel(null);
+    setMenu(false);
+  };
   const [mobileGroup, setMobileGroup] = useState<Panel | null>(null);
   const [marker, setMarker] = useState<{ left: number; width: number } | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
@@ -159,6 +166,7 @@ export function Header() {
     setMenu(false);
     setPanel(null);
     setMobileGroup(null);
+    setCloseInstantly(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -239,10 +247,11 @@ export function Header() {
       aria-expanded={which ? panel === which : undefined}
       onClick={(e) => {
         if (!which) {
-          setPanel(null);
+          closeForNavigation();
           return;
         }
         e.preventDefault();
+        setCloseInstantly(false);
         setPanel((p) => (p === which ? null : which));
       }}
       className="inline-flex items-center py-7 text-sm font-medium uppercase tracking-[0.14em]"
@@ -265,17 +274,26 @@ export function Header() {
     </button>
   );
 
+  const open = panel !== null || menu;
+
   return (
     <header
       ref={headerRef}
-      className="fixed inset-x-0 top-0 z-40 bg-header"
+      // The overlay fades in only after the panel is opaque and fades out before it, so it never
+      // darkens behind a half-transparent panel (which shows as an edge under the bar).
+      className={`fixed inset-x-0 top-0 z-40 bg-header [--panel-close-delay:200ms] ${open ? "[--header-text:var(--mega-menu-text)] [--header-logo:var(--mega-menu-logo)]" : "[--menu-close-delay:200ms]"} ${closeInstantly && !open ? "[&_*]:transition-none!" : ""}`}
     >
-      <div className="page-container flex h-20 items-center justify-between gap-8">
+      {/* Fades in with the same opacity transition as the mega menu, so bar and panel read as one surface */}
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-x-0 top-0 h-20 bg-mega-menu lg:transition-opacity lg:duration-300 lg:ease-in-out lg:[transition-delay:var(--menu-close-delay,0ms)] ${open ? "opacity-100" : "opacity-0"}`}
+      />
+      <div className="page-container relative flex h-20 items-center justify-between gap-8">
         <div className="shrink-0">
           <Wordmark light compact />
         </div>
         <nav
-          className="hidden items-center gap-7 text-sm font-medium uppercase tracking-[0.14em] text-header-text lg:flex"
+          className="hidden items-center gap-7 text-sm font-medium uppercase tracking-[0.14em] text-header-text lg:flex lg:transition-colors lg:duration-300 lg:ease-in-out lg:[transition-delay:var(--menu-close-delay,0ms)]"
           aria-label="Pagrindinė navigacija"
         >
           {navItem("products", "Produktai", "/vidaus-durys", "products")}
@@ -288,7 +306,10 @@ export function Header() {
         <button
           aria-label={menu ? "Uždaryti meniu" : "Atidaryti meniu"}
           className="lg:hidden p-2 text-header-text transition-opacity hover:opacity-60"
-          onClick={() => setMenu((v) => !v)}
+          onClick={() => {
+            setCloseInstantly(false);
+            setMenu((v) => !v);
+          }}
         >
           {menu ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
@@ -297,14 +318,14 @@ export function Header() {
       <div
         aria-hidden
         data-header-overlay
-        className={`fixed inset-x-0 bottom-0 top-20 z-30 bg-foreground/30 transition-opacity duration-300 ease-in-out ${panel || menu ? "opacity-100" : "pointer-events-none opacity-0"
+        className={`fixed inset-x-0 bottom-0 top-20 z-30 bg-foreground/30 transition-opacity ease-in-out ${open ? "delay-300 duration-300 opacity-100" : "pointer-events-none opacity-0 duration-200"
           }`}
       />
 
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-px">
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-3 h-px">
         {marker && (
           <span
-            className="absolute top-0 h-px bg-header-text transition-[left,width] duration-200 ease-out"
+            className="absolute top-0 h-px bg-header-text [transition:left_200ms_ease-out,width_200ms_ease-out,background-color_300ms_ease-in-out]"
             style={{ left: `${marker.left}px`, width: `${marker.width}px` }}
           />
         )}
@@ -312,7 +333,7 @@ export function Header() {
 
       <MegaPanel
         open={panel === "products"}
-        onLinkClick={() => setPanel(null)}
+        onLinkClick={closeForNavigation}
         className="page-container grid grid-cols-12 gap-x-6 pb-14 pt-12"
       >
         <div className="col-span-5 flex gap-16">
@@ -351,7 +372,7 @@ export function Header() {
 
       <MegaPanel
         open={panel === "works"}
-        onLinkClick={() => setPanel(null)}
+        onLinkClick={closeForNavigation}
         className="page-container grid grid-cols-12 gap-x-6 pb-14 pt-12"
       >
         <div className="col-span-5">
@@ -382,7 +403,7 @@ export function Header() {
             className="flex flex-col"
             aria-label="Mobilioji navigacija"
             onClick={(e) => {
-              if ((e.target as HTMLElement).closest("a")) setMenu(false);
+              if ((e.target as HTMLElement).closest("a")) closeForNavigation();
             }}
           >
             {mobileGroupToggle("products", "Produktai")}

@@ -32,12 +32,15 @@
   --color-sand: var(--sand);
   --color-header: var(--header-color);
   --color-header-text: var(--header-text);
+  --color-header-logo: var(--header-logo);
   --color-mega-menu: var(--mega-menu-color);
   --color-mega-menu-text: var(--mega-menu-text);
   --color-home-hero: var(--home-hero-color);
   --color-home-hero-text: var(--home-hero-text);
   --color-page-hero: var(--page-hero-color);
   --color-page-hero-text: var(--page-hero-text);
+  --color-hero-cta: var(--hero-cta-color);
+  --color-hero-cta-text: var(--hero-cta-text);
   --color-button: var(--button-color);
   --color-button-text: var(--button-text);
   --color-strip-arrow: var(--strip-arrow-color);
@@ -49,7 +52,7 @@
   --radius: 0.125rem;
   --background: oklch(0.976 0.007 88.6);
   --foreground: oklch(0.235 0.009 75);
-  --primary: oklch(0.235 0.009 75);
+  --primary: oklch(98.233% 0.00275 84.299);
   --primary-foreground: oklch(0.992 0.004 85);
   --muted: oklch(0.957 0.007 82);
   --muted-foreground: oklch(0.51 0.012 70);
@@ -66,12 +69,23 @@
   /* Per-area colors: top menu bar, dropdown menu, landing page hero + product band, other pages' top section */
   --header-color: #e35336;
   --header-text: oklch(0.985 0.005 80);
-  --mega-menu-color: #e35336;
-  --mega-menu-text: oklch(0.985 0.005 80);
+  --header-logo: oklch(0.985 0.005 80);
+
+  /* Open menu: the bar takes the mega menu colors while a dropdown or the mobile menu is open */
+  --mega-menu-color: #ffffff;
+  --mega-menu-text: #3d3d3d;
+  --mega-menu-logo: #e35336;
+
   --home-hero-color: #e35336;
   --home-hero-text: oklch(0.985 0.005 80);
-  --page-hero-color: #e35336;
-  --page-hero-text: oklch(0.985 0.005 80);
+  --page-hero-color: #e8e7e2;
+  --page-hero-text: oklch(28.196% 0.00611 78.168);
+
+  /* Landing page hero button ("Peržiūrėti produktus") */
+  --hero-cta-color: oklch(0.985 0.005 80);
+  --hero-cta-text: #e35336;
+
+  /*#e8e7e2*/
 
   /* Orange buttons, Atlikti darbai strip arrows and progress line */
   --button-color: #e35336;
@@ -93,16 +107,26 @@
     letter-spacing: 0;
   }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
 
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
 
-  h1, h2, h3 { font-family: var(--font-display); letter-spacing: 0; }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: 0;
+  }
 
-  ::selection { background: var(--color-foreground); color: var(--color-background); }
+  ::selection {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
 }
 
 .scroll-reveal {
@@ -189,7 +213,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
-  .scroll-reveal { opacity: 1; transform: none; }
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

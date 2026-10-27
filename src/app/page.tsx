@@ -48,7 +48,7 @@ export default function Index() {
             </p>
             <a
               href="#produktai"
-              className="mt-12 inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-home-hero-text text-hero focus-visible:outline-home-hero-text"
+              className="mt-12 inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-hero-cta text-hero-cta-text focus-visible:outline-hero-cta"
             >
               Peržiūrėti produktus
             </a>
