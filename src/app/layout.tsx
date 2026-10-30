@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import { EnquiryProvider } from "@/components/site/enquiry";
 import { Footer, Header } from "@/components/site/layout";
 import "./globals.css";
 
-const manrope = Manrope({
+const dmSans = DM_Sans({
   subsets: ["latin", "latin-ext"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-dm-sans",
 });
 
 export const metadata: Metadata = {
@@ -32,7 +32,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="lt" data-scroll-behavior="smooth" className={manrope.variable}>
+    <html lang="lt" data-scroll-behavior="smooth" className={dmSans.variable}>
       <body>
         <EnquiryProvider>
           <div className="flex min-h-screen flex-col bg-background text-foreground">

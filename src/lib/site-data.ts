@@ -130,6 +130,12 @@ export const contact = {
   hours: "I–V 9:00–18:00",
 };
 
+// Placeholder URLs until the real Vilsema profiles are provided.
+export const social = {
+  facebook: "https://www.facebook.com/",
+  instagram: "https://www.instagram.com/",
+};
+
 export const company = {
   legalName: "MB „Vilsema“",
   code: "000000000",

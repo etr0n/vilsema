@@ -6,8 +6,8 @@
 /* Colors: @theme maps each variable to Tailwind classes (--color-x -> bg-x, text-x); :root holds the values. */
 
 @theme inline {
-  --font-sans: var(--font-manrope), sans-serif;
-  --font-display: var(--font-manrope), sans-serif;
+  --font-sans: var(--font-dm-sans), sans-serif;
+  --font-display: var(--font-dm-sans), sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -64,7 +64,7 @@
   --hero: oklch(0.18 0.01 70);
   --hero-foreground: oklch(0.985 0.005 80);
   --menu: #e35336;
-  --sand: #efeae2;
+  --sand: #e8e7e2;
 
   /* Per-area colors: top menu bar, dropdown menu, landing page hero + product band, other pages' top section */
   --header-color: #e35336;
@@ -73,13 +73,13 @@
 
   /* Open menu: the bar takes the mega menu colors while a dropdown or the mobile menu is open */
   --mega-menu-color: #ffffff;
-  --mega-menu-text: #3d3d3d;
+  --mega-menu-text: var(--foreground);
   --mega-menu-logo: #e35336;
 
   --home-hero-color: #e35336;
   --home-hero-text: oklch(0.985 0.005 80);
   --page-hero-color: #e8e7e2;
-  --page-hero-text: oklch(28.196% 0.00611 78.168);
+  --page-hero-text: var(--foreground);
 
   /* Landing page hero button ("Peržiūrėti produktus") */
   --hero-cta-color: oklch(0.985 0.005 80);
@@ -87,11 +87,11 @@
 
   /*#e8e7e2*/
 
-  /* Orange buttons, Atlikti darbai strip arrows and progress line */
+  /* Orange buttons; Atlikti darbai strip arrows (white, minimal) and progress line */
   --button-color: #e35336;
   --button-text: oklch(0.985 0.005 80);
-  --strip-arrow-color: #e35336;
-  --strip-arrow-text: oklch(0.985 0.005 80);
+  --strip-arrow-color: #ffffff;
+  --strip-arrow-text: var(--foreground);
   --strip-line-color: #e35336;
 }
 

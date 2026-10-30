@@ -99,8 +99,8 @@ export function ProjectStrip({
 
   return (
     <div>
-      <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-        <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">{title}</h2>
+      <div className="mb-12 flex flex-wrap items-baseline justify-between gap-6">
+        <h2 className="text-3xl font-light tracking-tight sm:text-4xl">{title}</h2>
         {cta}
       </div>
 
@@ -162,7 +162,7 @@ export function ProjectStrip({
                 />
               </button>
               <figcaption className="mt-4">
-                <span className="block text-lg font-normal leading-7 text-foreground">
+                <span className="block text-xl font-normal leading-relaxed text-foreground">
                   {p.caption}
                 </span>
               </figcaption>
