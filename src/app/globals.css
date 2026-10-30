@@ -176,6 +176,53 @@
   animation: mega-in 130ms ease-out both;
 }
 
+/* Solid reveal (no opacity fade) so the page overlay can fade in at the same time. */
+.mega-panel {
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  transition:
+    clip-path 200ms cubic-bezier(0.4, 0, 1, 1),
+    visibility 0ms 200ms;
+}
+
+.mega-panel[data-open] {
+  clip-path: inset(0);
+  visibility: visible;
+  transition:
+    clip-path 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0ms;
+}
+
+/* Switching between panels swaps the surface instantly; only the content fades. */
+.mega-panel[data-switching] {
+  transition: none;
+}
+
+.mega-panel > * > * {
+  opacity: 0;
+  translate: 0 8px;
+  transition:
+    opacity 150ms ease-in,
+    translate 150ms ease-in;
+}
+
+.mega-panel[data-open] > * > * {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity 300ms ease-out,
+    translate 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 100ms;
+}
+
+.mega-panel[data-open] > * > :nth-child(2) {
+  transition-delay: 140ms;
+}
+
+.mega-panel[data-open] > * > :nth-child(3) {
+  transition-delay: 180ms;
+}
+
 @keyframes hero-zoom {
   from {
     transform: scale(1.05);
@@ -205,6 +252,9 @@
 @media (prefers-reduced-motion: reduce) {
   .mega-in {
     animation: none;
+  }
+  .mega-panel > * > * {
+    translate: none !important;
   }
   .hero-zoom,
   .hero-text {
