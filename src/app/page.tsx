@@ -36,54 +36,57 @@ const productCategories = [
 export default function Index() {
   return (
     <>
-      <section className="overflow-hidden bg-home-hero pt-20 text-home-hero-text">
-        <div className="page-container grid gap-10 pb-16 pt-4 md:grid-cols-12 md:items-center md:gap-x-6">
-          <div className="hero-text md:col-span-6">
-            <h1 className="text-[clamp(2.441rem,2.441rem+2.1111vw,5.063rem)] font-normal leading-none text-balance">
-
-              Vidaus ir lauko durys jūsų namams
-            </h1>
-            <p className="mt-8 max-w-xl text-xl leading-7.5">
-              Padedame išsirinkti duris, atvykstame išmatuoti ir montuojame Kaune.
-            </p>
-            <a
-              href="#produktai"
-              className="mt-12 inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-hero-cta text-hero-cta-text focus-visible:outline-hero-cta"
-            >
-              Peržiūrėti produktus
-            </a>
+      {/* One background for both sections: two adjacent orange sections left a faint seam on phones */}
+      <div className="bg-home-hero text-home-hero-text">
+        <section className="overflow-hidden pt-20">
+          <div className="page-container grid gap-10 pb-16 pt-4 md:grid-cols-12 md:items-center md:gap-x-6">
+            <div className="hero-text md:col-span-6">
+              <h1 className="text-[clamp(2.441rem,2.441rem+2.1111vw,5.063rem)] font-normal leading-none text-balance">
+  
+                Vidaus ir lauko durys jūsų namams
+              </h1>
+              <p className="mt-8 max-w-xl text-xl leading-7.5">
+                Padedame išsirinkti duris, atvykstame išmatuoti ir montuojame Kaune.
+              </p>
+              <a
+                href="#produktai"
+                className="mt-12 inline-flex min-h-13 items-center justify-center px-8 text-sm font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 bg-hero-cta text-hero-cta-text focus-visible:outline-hero-cta"
+              >
+                Peržiūrėti produktus
+              </a>
+            </div>
+            <img
+              src={asset(photos.hero)}
+              alt=""
+              width={1600}
+              height={1600}
+              fetchPriority="high"
+              className="aspect-square w-full object-cover md:col-span-6"
+            />
           </div>
-          <img
-            src={asset(photos.hero)}
-            alt=""
-            width={1600}
-            height={1600}
-            fetchPriority="high"
-            className="aspect-square w-full object-cover md:col-span-6"
-          />
-        </div>
-      </section>
-
-      <section id="produktai" className="scroll-mt-20 bg-home-hero text-home-hero-text">
-        <div className="page-container pb-28 pt-16 sm:pb-40 sm:pt-20">
-          <div aria-hidden className="h-px bg-home-hero-text" />
-          <ScrollReveal className="mt-16 grid gap-12 sm:mt-20 md:flex md:justify-between md:gap-x-12">
-            {productCategories.map((c) => (
-              <div key={c.href} className="md:max-w-sm">
-                <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">{c.title}</h2>
-                <p className="mt-6 text-2xl font-normal leading-snug">{c.text}</p>
-                <Link
-                  href={c.href}
-                  aria-label={`Peržiūrėti: ${c.title}`}
-                  className="mt-6 inline-block text-sm font-medium uppercase tracking-[0.14em] underline decoration-1 underline-offset-[6px] transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-home-hero-text"
-                >
-                  Peržiūrėti
-                </Link>
-              </div>
-            ))}
-          </ScrollReveal>
-        </div>
-      </section>
+        </section>
+  
+        <section id="produktai" className="scroll-mt-20">
+          <div className="page-container pb-28 pt-16 sm:pb-40 sm:pt-20">
+            <div aria-hidden className="h-px bg-home-hero-text" />
+            <ScrollReveal className="mt-16 grid gap-12 sm:mt-20 md:flex md:justify-between md:gap-x-12">
+              {productCategories.map((c) => (
+                <div key={c.href} className="md:max-w-sm">
+                  <h2 className="text-2xl font-normal uppercase tracking-tight sm:text-3xl">{c.title}</h2>
+                  <p className="mt-6 text-2xl font-normal leading-snug">{c.text}</p>
+                  <Link
+                    href={c.href}
+                    aria-label={`Peržiūrėti: ${c.title}`}
+                    className="mt-6 inline-block text-sm font-medium uppercase tracking-[0.14em] underline decoration-1 underline-offset-[6px] transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-home-hero-text"
+                  >
+                    Peržiūrėti
+                  </Link>
+                </div>
+              ))}
+            </ScrollReveal>
+          </div>
+        </section>
+      </div>
 
       <section>
         <div className="page-container py-28 sm:py-40">
