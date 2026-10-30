@@ -52,7 +52,7 @@ export const interiorCategories = ["Klasikinės", "Modernios", "Elegantiškos"] 
 export type Project = {
   id: string;
   caption: string;
-  category: "Vidaus durys" | "Lauko durys" | "Kita";
+  category: "Vidaus durys" | "Lauko durys";
   description: string;
   photo?: string;
   alt: string;
@@ -121,7 +121,7 @@ export function projectImage(p: Project, size: "sm" | "lg"): string {
   return p.photo ? `/images/projektai/${p.photo}-${size}.webp` : photos.interior;
 }
 
-export const projectCategories = ["Vidaus durys", "Lauko durys", "Kita"] as const;
+export const projectCategories = ["Vidaus durys", "Lauko durys"] as const;
 
 export const contact = {
   address: "Savanorių pr. 104, Kaunas, 44147 Kauno m. sav.",

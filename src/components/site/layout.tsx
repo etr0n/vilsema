@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { catalogues } from "@/components/site/catalogue-card";
 import { useEnquiry } from "@/components/site/enquiry";
 import { Logo } from "@/components/site/logo";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
@@ -33,14 +34,13 @@ const productLinks = [
   { label: "Lauko durys", to: "/lauko-durys" },
 ] as const;
 
-const menuProductLinks = [{ label: "Visos durys", to: "/vidaus-durys" }, ...productLinks] as const;
-
 const katalogaiLink = { label: "Katalogai", to: "/katalogai" } as const;
 
-const menuCategoryPhotos: Partial<Record<string, string>> = {
-  Klasikinės: "/images/projektai/vidaus-durys-01-lg.webp",
-  Modernios: "/images/projektai/vidaus-durys-pasleptos-01-lg.webp",
-};
+// Catalogue ids match the product page slugs, so the short product label can be reused.
+const catalogueLinks = catalogues.map((c) => ({
+  label: productLinks.find((p) => p.to === `/${c.id}`)?.label ?? c.title,
+  to: `/katalogai#${c.id}`,
+}));
 
 const contactLinks = [
   { label: "Kontaktai", to: "/kontaktai" },
@@ -60,7 +60,7 @@ function Wordmark({
     <Link
       href="/"
       aria-label="Vilsema — pradžia"
-      className={light ? "text-header-logo lg:transition-colors lg:duration-300 lg:ease-in-out lg:[transition-delay:var(--menu-close-delay,0ms)]" : "text-foreground"}
+      className={light ? "text-header-logo lg:transition-colors lg:duration-300 lg:ease-in-out" : "text-foreground"}
     >
       {compact ? (
         <Logo className="h-5.5 md:h-8.25" />
@@ -79,6 +79,14 @@ function PanelLink({ href, children }: { href: string; children: React.ReactNode
     >
       {children}
     </Link>
+  );
+}
+
+function PanelHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-4 text-sm font-medium uppercase tracking-[0.14em] text-mega-menu-text/60">
+      {children}
+    </p>
   );
 }
 
@@ -118,11 +126,13 @@ function MenuPictureCard({
 
 function MegaPanel({
   open,
+  switching,
   onLinkClick,
   className,
   children,
 }: {
   open: boolean;
+  switching: boolean;
   onLinkClick: () => void;
   className: string;
   children: React.ReactNode;
@@ -130,8 +140,9 @@ function MegaPanel({
   return (
     <div
       aria-hidden={!open}
-      className={`absolute inset-x-0 top-full z-40 hidden bg-mega-menu text-mega-menu-text transition-[opacity,visibility] duration-300 ease-in-out lg:block ${open ? "visible opacity-100" : "invisible pointer-events-none opacity-0 [transition-delay:var(--panel-close-delay,0ms)]"
-        }`}
+      data-open={open || undefined}
+      data-switching={switching || undefined}
+      className={`mega-panel absolute inset-x-0 top-full z-40 hidden bg-mega-menu text-mega-menu-text lg:block ${open ? "" : "pointer-events-none"}`}
     >
       <div
         onClick={(e) => {
@@ -150,6 +161,7 @@ export function Header() {
   const pathname = usePathname().replace(/\/$/, "") || "/";
   const [menu, setMenu] = useState(false);
   const [panel, setPanel] = useState<Panel | null>(null);
+  const [switching, setSwitching] = useState(false);
   // Following a link closes the menu without fading, so it doesn't linger over the next page.
   const [closeInstantly, setCloseInstantly] = useState(false);
   const closeForNavigation = () => {
@@ -158,9 +170,7 @@ export function Header() {
     setMenu(false);
   };
   const [mobileGroup, setMobileGroup] = useState<Panel | null>(null);
-  const [marker, setMarker] = useState<{ left: number; width: number } | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
-  const itemRefs = useRef(new Map<string, HTMLAnchorElement>());
 
   useEffect(() => {
     setMenu(false);
@@ -172,6 +182,7 @@ export function Header() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
+      setSwitching(false);
       setPanel(null);
       setMenu(false);
     };
@@ -183,67 +194,16 @@ export function Header() {
     const onPointerDown = (e: PointerEvent) => {
       const t = e.target as HTMLElement;
       if (headerRef.current?.contains(t) && !t.closest("[data-header-overlay]")) return;
+      setSwitching(false);
       setPanel(null);
     };
     window.addEventListener("pointerdown", onPointerDown);
     return () => window.removeEventListener("pointerdown", onPointerDown);
   }, []);
 
-  const activePageKey =
-    pathname.startsWith("/vidaus-durys") || pathname.startsWith("/lauko-durys")
-      ? "products"
-      : pathname === "/katalogai"
-        ? "catalogues"
-        : pathname.startsWith("/atlikti-darbai")
-          ? "works"
-          : pathname.startsWith("/apie-mus")
-            ? "about"
-            : pathname.startsWith("/duk")
-              ? "duk"
-              : pathname.startsWith("/kontaktai")
-                ? "contact"
-                : null;
-
-  const activeKey = panel ?? activePageKey;
-
-  const measure = useCallback(() => {
-    const header = headerRef.current;
-    const el = activeKey ? itemRefs.current.get(activeKey) : undefined;
-    if (!header || !el) {
-      setMarker(null);
-      return;
-    }
-    const hr = header.getBoundingClientRect();
-    const r = el.getBoundingClientRect();
-    setMarker({ left: r.left - hr.left, width: r.width });
-  }, [activeKey]);
-
-  useLayoutEffect(() => {
-    measure();
-  }, [measure]);
-
-  useEffect(() => {
-    let alive = true;
-    const run = () => {
-      if (alive) measure();
-    };
-    window.addEventListener("resize", run);
-    window.addEventListener("load", run);
-    document.fonts.ready.then(run).catch(() => { });
-    return () => {
-      alive = false;
-      window.removeEventListener("resize", run);
-      window.removeEventListener("load", run);
-    };
-  }, [measure]);
-
-  const navItem = (key: string, label: string, to: string, which?: Panel) => (
+  const navItem = (label: string, to: string, which?: Panel) => (
     <Link
       href={to}
-      ref={(node) => {
-        if (node) itemRefs.current.set(key, node);
-        else itemRefs.current.delete(key);
-      }}
       aria-expanded={which ? panel === which : undefined}
       onClick={(e) => {
         if (!which) {
@@ -252,11 +212,18 @@ export function Header() {
         }
         e.preventDefault();
         setCloseInstantly(false);
+        setSwitching(panel !== null && panel !== which);
         setPanel((p) => (p === which ? null : which));
       }}
       className="inline-flex items-center py-7 text-sm font-medium uppercase tracking-[0.14em]"
     >
       {label}
+      {which && (
+        <ChevronDown
+          aria-hidden
+          className={`ml-1.5 size-3.5 transition-transform duration-300 ${panel === which ? "rotate-180" : ""}`}
+        />
+      )}
     </Link>
   );
 
@@ -269,9 +236,22 @@ export function Header() {
     >
       {label}
       <ChevronDown
-        className={`size-5 transition-transform duration-200 ${mobileGroup === which ? "rotate-180" : ""}`}
+        className={`-mr-0.75 size-4 transition-transform duration-200 ${mobileGroup === which ? "rotate-180" : ""}`}
       />
     </button>
+  );
+
+  const mobileSection = (heading: string, links: readonly { label: string; to: string }[]) => (
+    <div className="pt-5 first:pt-2">
+      <p className="mb-2 text-sm font-medium uppercase tracking-[0.14em] text-mega-menu-text/60">
+        {heading}
+      </p>
+      {links.map((l) => (
+        <Link key={l.to} href={l.to} className="block py-1.5 text-lg font-normal">
+          {l.label}
+        </Link>
+      ))}
+    </div>
   );
 
   const open = panel !== null || menu;
@@ -279,74 +259,79 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      // The overlay fades in only after the panel is opaque and fades out before it, so it never
-      // darkens behind a half-transparent panel (which shows as an edge under the bar).
-      className={`fixed inset-x-0 top-0 z-40 bg-header [--panel-close-delay:200ms] ${open ? "[--header-text:var(--mega-menu-text)] [--header-logo:var(--mega-menu-logo)]" : "[--menu-close-delay:200ms]"} ${closeInstantly && !open ? "[&_*]:transition-none!" : ""}`}
+      // The mobile menu paints the header itself white; layering a white bar over the orange
+      // background left a sub-pixel orange seam at the bar's bottom edge on phones.
+      className={`fixed inset-x-0 top-0 z-40 ${menu ? "bg-mega-menu" : "bg-header"} ${open ? "[--header-text:var(--mega-menu-text)] [--header-logo:var(--mega-menu-logo)]" : ""} ${closeInstantly && !open ? "[&_*]:transition-none!" : ""}`}
     >
-      {/* Fades in with the same opacity transition as the mega menu, so bar and panel read as one surface */}
+      {/* Fades in alongside the panel reveal, so bar and panel read as one surface */}
       <div
         aria-hidden
-        className={`pointer-events-none absolute inset-x-0 top-0 h-20 bg-mega-menu lg:transition-opacity lg:duration-300 lg:ease-in-out lg:[transition-delay:var(--menu-close-delay,0ms)] ${open ? "opacity-100" : "opacity-0"}`}
+        className={`pointer-events-none absolute inset-x-0 top-0 h-20 bg-mega-menu transition-opacity ease-in-out max-lg:hidden ${panel !== null ? "opacity-100 duration-300" : "opacity-0 duration-200"}`}
       />
       <div className="page-container relative flex h-20 items-center justify-between gap-8">
         <div className="shrink-0">
           <Wordmark light compact />
         </div>
         <nav
-          className="hidden items-center gap-7 text-sm font-medium uppercase tracking-[0.14em] text-header-text lg:flex lg:transition-colors lg:duration-300 lg:ease-in-out lg:[transition-delay:var(--menu-close-delay,0ms)]"
+          className="hidden items-center gap-7 text-sm font-medium uppercase tracking-[0.14em] text-header-text lg:flex lg:transition-colors lg:duration-300 lg:ease-in-out"
           aria-label="Pagrindinė navigacija"
         >
-          {navItem("products", "Produktai", "/vidaus-durys", "products")}
-          {navItem("works", "Atlikti darbai", "/atlikti-darbai", "works")}
-          {navItem("catalogues", "Katalogai", "/katalogai")}
-          {navItem("about", "Apie mus", "/apie-mus")}
-          {navItem("duk", "DUK", "/duk")}
-          {navItem("contact", "Kontaktai", "/kontaktai")}
+          {navItem("Produktai", "/vidaus-durys", "products")}
+          {navItem("Atlikti darbai", "/atlikti-darbai", "works")}
+          {navItem("Apie mus", "/apie-mus")}
+          {navItem("Kontaktai", "/kontaktai")}
         </nav>
         <button
           aria-label={menu ? "Uždaryti meniu" : "Atidaryti meniu"}
-          className="lg:hidden p-2 text-header-text transition-opacity hover:opacity-60"
+          className="-mr-2 p-2 text-header-text lg:hidden transition-opacity hover:opacity-60"
           onClick={() => {
             setCloseInstantly(false);
             setMenu((v) => !v);
           }}
         >
-          {menu ? <X className="size-5" /> : <Menu className="size-5" />}
+          {/* Visible glyph (not Lucide's padded box) is ~3/4 of the logo height; the X is a bit smaller to balance its diagonals */}
+          {menu ? (
+            <X
+              absoluteStrokeWidth
+              strokeWidth={1.5}
+              className="size-6.5 -mr-1.5 md:size-10 md:mr-[-9.5px]"
+            />
+          ) : (
+            <Menu
+              absoluteStrokeWidth
+              strokeWidth={1.5}
+              className="mr-[-3.4px] size-6.25 md:mr-[-5.75px] md:size-9.75"
+            />
+          )}
         </button>
       </div>
 
       <div
         aria-hidden
         data-header-overlay
-        className={`fixed inset-x-0 bottom-0 top-20 z-30 bg-foreground/30 transition-opacity ease-in-out ${open ? "delay-300 duration-300 opacity-100" : "pointer-events-none opacity-0 duration-200"
+        className={`fixed inset-x-0 bottom-0 top-20 z-30 bg-foreground/30 transition-opacity ease-in-out ${panel !== null ? "duration-300 opacity-100" : "pointer-events-none opacity-0 duration-200"
           }`}
       />
 
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-3 h-px">
-        {marker && (
-          <span
-            className="absolute top-0 h-px bg-header-text [transition:left_200ms_ease-out,width_200ms_ease-out,background-color_300ms_ease-in-out]"
-            style={{ left: `${marker.left}px`, width: `${marker.width}px` }}
-          />
-        )}
-      </div>
-
       <MegaPanel
         open={panel === "products"}
+        switching={switching}
         onLinkClick={closeForNavigation}
         className="page-container grid grid-cols-12 gap-x-6 pb-14 pt-12"
       >
-        <div className="col-span-5 flex gap-16">
-          <div>
+        <div className="col-span-9 col-start-1 row-start-1 grid grid-cols-9 gap-x-6 content-start">
+          <div className="col-span-3">
+            <PanelHeading>Durys</PanelHeading>
             <div className="flex flex-col gap-3">
-              {menuProductLinks.map((l) => (
+              {productLinks.map((l) => (
                 <PanelLink key={l.label} href={l.to}>
                   {l.label}
                 </PanelLink>
               ))}
             </div>
           </div>
-          <div>
+          <div className="col-span-3">
+            <PanelHeading>Vidaus durų stiliai</PanelHeading>
             <div className="flex flex-col gap-3">
               {interiorCategories.map((c) => (
                 <PanelLink key={c} href={doorsCategoryHref(c)}>
@@ -355,29 +340,39 @@ export function Header() {
               ))}
             </div>
           </div>
+          <div className="col-span-3">
+            <PanelHeading>Katalogai</PanelHeading>
+            <div className="flex flex-col gap-3">
+              {catalogueLinks.map((l) => (
+                <PanelLink key={l.to} href={l.to}>
+                  {l.label}
+                </PanelLink>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="col-span-7 col-start-6 grid grid-cols-2 gap-3">
-          {interiorCategories.slice(0, 2).map((c) => (
-            <MenuPictureCard
-              key={c}
-              href={doorsCategoryHref(c)}
-              label={c}
-              ariaLabel={`Vidaus durys — ${c}`}
-              src={menuCategoryPhotos[c] ?? photos.interior}
-            />
-          ))}
+        {/* Same 2-up grid as the Atlikti darbai panel, so the single card matches its size and position */}
+        <div className="pointer-events-none col-span-7 col-start-6 row-start-1 grid grid-cols-2 gap-3">
+          <MenuPictureCard
+            href="/vidaus-durys"
+            label="Vidaus durys"
+            ariaLabel="Vidaus durys"
+            src="/images/projektai/vidaus-durys-01-lg.webp"
+            className="pointer-events-auto col-start-2"
+          />
         </div>
       </MegaPanel>
 
 
       <MegaPanel
         open={panel === "works"}
+        switching={switching}
         onLinkClick={closeForNavigation}
         className="page-container grid grid-cols-12 gap-x-6 pb-14 pt-12"
       >
         <div className="col-span-5">
+          <PanelHeading>Darbų kategorijos</PanelHeading>
           <div className="flex flex-col gap-3">
-            <PanelLink href="/atlikti-darbai">Visi darbai</PanelLink>
             {projectCategories.map((c) => (
               <PanelLink key={c} href={worksCategoryHref(c)}>
                 {c}
@@ -391,14 +386,17 @@ export function Header() {
             label="Vidaus durys"
             ariaLabel="Atlikti darbai — Vidaus durys"
             src="/images/projektai/vidaus-durys-pasleptos-01-lg.webp"
-            imgClassName="aspect-[774/381]"
-            className="col-span-2"
+          />
+          <MenuPictureCard
+            href={worksCategoryHref("Lauko durys")}
+            label="Lauko durys"
+            ariaLabel="Atlikti darbai — Lauko durys"
           />
         </div>
       </MegaPanel>
 
       {menu && (
-        <div className="relative z-40 h-[calc(100svh-5rem)] overflow-y-auto bg-mega-menu px-5 pb-8 pt-2 text-mega-menu-text lg:hidden">
+        <div className="page-container relative z-40 h-[calc(100svh-5rem)] overflow-y-auto bg-mega-menu pb-8 pt-2 text-mega-menu-text lg:hidden">
           <nav
             className="flex flex-col"
             aria-label="Mobilioji navigacija"
@@ -408,55 +406,26 @@ export function Header() {
           >
             {mobileGroupToggle("products", "Produktai")}
             {mobileGroup === "products" && (
-              <div className="mega-in flex flex-col pb-2 pl-4">
-                {menuProductLinks.map((l) => (
-                  <Link
-                    key={l.label}
-                    href={l.to}
-                    className="py-2 text-2xl font-normal"
-                  >
-                    {l.label}
-                  </Link>
-                ))}
-                <p className="pb-1 pt-4 text-sm font-medium uppercase tracking-[0.14em]">
-                  Stiliai
-                </p>
-                {interiorCategories.map((c) => (
-                  <Link
-                    key={c}
-                    href={doorsCategoryHref(c)}
-                    className="py-2 text-2xl font-normal"
-                  >
-                    {c}
-                  </Link>
-                ))}
+              <div className="mega-in pb-4">
+                {mobileSection("Durys", productLinks)}
+                {mobileSection(
+                  "Vidaus durų stiliai",
+                  interiorCategories.map((c) => ({ label: c, to: doorsCategoryHref(c) })),
+                )}
+                {mobileSection("Katalogai", catalogueLinks)}
               </div>
             )}
             {mobileGroupToggle("works", "Atlikti darbai")}
             {mobileGroup === "works" && (
-              <div className="mega-in flex flex-col pb-2 pl-4">
-                <Link href="/atlikti-darbai" className="py-2 text-2xl font-normal">
-                  Visi darbai
-                </Link>
-                {projectCategories.map((c) => (
-                  <Link
-                    key={c}
-                    href={worksCategoryHref(c)}
-                    className="py-2 text-2xl font-normal"
-                  >
-                    {c}
-                  </Link>
-                ))}
+              <div className="mega-in pb-4">
+                {mobileSection(
+                  "Darbų kategorijos",
+                  projectCategories.map((c) => ({ label: c, to: worksCategoryHref(c) })),
+                )}
               </div>
             )}
-            <Link href="/katalogai" className="py-3 text-2xl font-normal">
-              Katalogai
-            </Link>
             <Link href="/apie-mus" className="py-3 text-2xl font-normal">
               Apie mus
-            </Link>
-            <Link href="/duk" className="py-3 text-2xl font-normal">
-              DUK
             </Link>
             <Link href="/kontaktai" className="py-3 text-2xl font-normal">
               Kontaktai
