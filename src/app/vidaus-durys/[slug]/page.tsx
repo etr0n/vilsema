@@ -43,8 +43,8 @@ export default async function DoorDetail(props: PageProps<"/vidaus-durys/[slug]"
       </Link>
       <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-x-6">
         <div className="lg:col-span-5 lg:col-start-8 lg:pt-6">
-          <p className="text-sm uppercase tracking-[0.14em] text-foreground/75">{door.category}</p>
-          <h1 className="mt-4 text-2xl font-normal uppercase tracking-tight sm:text-3xl">{door.name}</h1>
+          <p className="text-base font-medium text-foreground/75">{door.category}</p>
+          <h1 className="mt-4 text-3xl font-light tracking-tight sm:text-4xl">{door.name}</h1>
 
           <EnquireButton model={door.name} className="mt-10 w-full">
             Gauti pasiūlymą

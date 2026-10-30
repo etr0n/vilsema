@@ -15,6 +15,7 @@ import {
   interiorCategories,
   photos,
   projectCategories,
+  social,
 } from "@/lib/site-data";
 import { asset } from "@/lib/utils";
 
@@ -44,7 +45,7 @@ const catalogueLinks = catalogues.map((c) => ({
 
 const contactLinks = [
   { label: "Kontaktai", to: "/kontaktai" },
-  { label: "DUK", to: "/duk" },
+  { label: "DUK", to: "/#duk" },
 ] as const;
 
 function Wordmark({
@@ -82,9 +83,16 @@ function PanelLink({ href, children }: { href: string; children: React.ReactNode
   );
 }
 
-function PanelHeading({ children }: { children: React.ReactNode }) {
+// Same size as the links below it; the muted colour marks it as the group title.
+function PanelHeading({
+  children,
+  size = "text-2xl",
+}: {
+  children: React.ReactNode;
+  size?: string;
+}) {
   return (
-    <p className="mb-4 text-sm font-medium uppercase tracking-[0.14em] text-mega-menu-text/60">
+    <p className={`mb-3 ${size} font-normal leading-snug text-mega-menu-text/60`}>
       {children}
     </p>
   );
@@ -243,7 +251,7 @@ export function Header() {
 
   const mobileSection = (heading: string, links: readonly { label: string; to: string }[]) => (
     <div className="pt-5 first:pt-2">
-      <p className="mb-2 text-sm font-medium uppercase tracking-[0.14em] text-mega-menu-text/60">
+      <p className="py-1.5 text-lg font-normal text-mega-menu-text/60">
         {heading}
       </p>
       {links.map((l) => (
@@ -437,59 +445,147 @@ export function Header() {
   );
 }
 
+const footerLinkClass = "w-fit transition-opacity hover:opacity-60";
+
+// Kastrup-style: a black title a step larger than the 20px links, with airy 30px lines.
+function FooterGroup({
+  title,
+  className,
+  gap = "gap-2",
+  children,
+}: {
+  title: string;
+  className: string;
+  gap?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className={className}>
+      <p className="mb-5 text-2xl font-normal leading-snug">{title}</p>
+      <div className={`flex flex-col ${gap} text-xl font-normal leading-normal`}>{children}</div>
+    </div>
+  );
+}
+
+function FooterContactBlock({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col">
+      <p className="font-semibold">{label}</p>
+      {children}
+    </div>
+  );
+}
+
+const [addressStreet, ...addressRest] = contact.address.split(", ");
+
+// Drawn inline: Lucide's brand icons are deprecated and due to be removed.
+const socialIconProps = {
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.5,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  "aria-hidden": true,
+  className: "size-6",
+} as const;
+
+function FacebookIcon() {
+  return (
+    <svg {...socialIconProps}>
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg {...socialIconProps}>
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="M17.5 6.5h.01" />
+    </svg>
+  );
+}
+
 export function Footer() {
   return (
     <footer className="bg-background py-20 text-foreground">
-      <div className="page-container grid gap-y-16 md:grid-cols-12 md:gap-x-6">
-        <div className="md:col-span-5">
-          <Wordmark light={false} logoClassName="h-8.25" />
-          <p className="mt-8 max-w-md text-2xl font-normal leading-snug text-foreground/80">
+      {/* Groups start on the same grid columns as the mega menu (1 / 4 / 7 / 10) */}
+      <div className="page-container grid grid-cols-2 gap-x-6 gap-y-14 lg:grid-cols-12">
+        <div className="col-span-2 lg:col-span-3">
+          <Link href="/" aria-label="Vilsema — pradžia" className="inline-block">
+            <Logo className="h-8.25" markClassName="fill-menu" />
+          </Link>
+          <p className="mt-6 max-w-xs text-lg leading-snug">
             Vidaus ir lauko durys. Konsultacija, matavimas ir montavimas Kaune.
           </p>
-          <div className="mt-6 text-base leading-7 text-foreground/80">
-            <p>{company.legalName}</p>
-            <p>Įmonės kodas: {company.code}</p>
+          <div className="mt-8 flex gap-5">
+            <a
+              href={social.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Vilsema Facebook"
+              // The "f" sits ~6px inside its 24px box; pull it onto the logo's left edge.
+              className="-ml-1.5 transition-opacity hover:opacity-60"
+            >
+              <FacebookIcon />
+            </a>
+            <a
+              href={social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Vilsema Instagram"
+              className="transition-opacity hover:opacity-60"
+            >
+              <InstagramIcon />
+            </a>
           </div>
         </div>
-        <div className="grid content-start gap-3 text-2xl font-normal leading-snug md:col-span-4 md:col-start-6">
-          <p className="mb-1 text-sm uppercase tracking-[0.14em] text-foreground/75">Navigacija</p>
-          {[...productLinks, katalogaiLink, ...otherLinks, ...contactLinks].map((l) => (
-            <Link
-              key={l.to}
-              href={l.to}
-              className="text-foreground/80 transition-opacity hover:opacity-60"
+        <FooterGroup title="Kontaktai" className="col-span-2 lg:col-span-3 lg:col-start-4" gap="gap-5">
+          <FooterContactBlock label="Adresas">
+            <a
+              href={contactHref.address}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={footerLinkClass}
             >
+              {addressStreet},
+              <br />
+              {addressRest.join(", ")}
+            </a>
+          </FooterContactBlock>
+          <FooterContactBlock label="Susisiekite">
+            <a href={contactHref.phone} className={footerLinkClass}>
+              {contact.phone}
+            </a>
+            <a href={contactHref.email} className={footerLinkClass}>
+              {contact.email}
+            </a>
+          </FooterContactBlock>
+          <FooterContactBlock label="Darbo laikas">
+            <p>{contact.hours}</p>
+          </FooterContactBlock>
+        </FooterGroup>
+        <FooterGroup title="Produktai" className="lg:col-span-3 lg:col-start-7">
+          {[...productLinks, katalogaiLink].map((l) => (
+            <Link key={l.to} href={l.to} className={footerLinkClass}>
               {l.label}
             </Link>
           ))}
-        </div>
-        <div className="grid content-start gap-3 text-2xl font-normal leading-snug md:col-span-3 md:col-start-10">
-          <p className="mb-1 text-sm uppercase tracking-[0.14em] text-foreground/75">Kontaktai</p>
-          <a
-            href={contactHref.address}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block text-foreground/80 transition-opacity hover:opacity-60"
-          >
-            {contact.address}
-          </a>
-          <a
-            href={contactHref.phone}
-            className="block text-foreground/80 transition-opacity hover:opacity-60"
-          >
-            {contact.phone}
-          </a>
-          <a
-            href={contactHref.email}
-            className="block text-foreground/80 transition-opacity hover:opacity-60"
-          >
-            {contact.email}
-          </a>
-          <p className="text-foreground/80">{contact.hours}</p>
-        </div>
+        </FooterGroup>
+        <FooterGroup title="Informacija" className="lg:col-span-3 lg:col-start-10">
+          {[...otherLinks, ...contactLinks].map((l) => (
+            <Link key={l.to} href={l.to} className={footerLinkClass}>
+              {l.label}
+            </Link>
+          ))}
+        </FooterGroup>
       </div>
-      <div className="page-container mt-16 pt-6 text-sm uppercase tracking-[0.14em] text-foreground/75">
-        © {new Date().getFullYear()} Vilsema
+      <div className="page-container mt-20 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+        <span>© {new Date().getFullYear()} Vilsema</span>
+        <span>{company.legalName}</span>
+        <span>Įmonės kodas: {company.code}</span>
       </div>
     </footer>
   );
@@ -543,7 +639,7 @@ export function PageHeader({ title, intro }: { title: string; intro?: string }) 
     <div className="bg-page-hero pb-56 [&+*]:-mt-56 [&+*:has([data-empty])]:bg-page-hero [&+*:has([data-empty])]:[box-shadow:0_0_0_100vmax_var(--page-hero-color)] [&+*:has([data-empty])]:[clip-path:inset(0_-100vmax)]">
       <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
         <ScrollReveal>
-          <h1 className="max-w-3xl text-page-hero-text text-3xl font-light uppercase leading-tight tracking-tight sm:text-5xl">
+          <h1 className="max-w-3xl text-page-hero-text text-3xl font-light leading-tight tracking-tight sm:text-5xl">
             {title}
           </h1>
           {intro && (
@@ -568,7 +664,7 @@ export function PanelPage({
     <div className="bg-page-hero">
       <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
         <ScrollReveal>
-          <h1 className="max-w-3xl text-3xl font-light uppercase leading-tight tracking-tight text-page-hero-text sm:text-5xl">
+          <h1 className="max-w-3xl text-3xl font-light leading-tight tracking-tight text-page-hero-text sm:text-5xl">
             {title}
           </h1>
           {intro && <p className="mt-8 max-w-xl text-lg leading-7 text-page-hero-text">{intro}</p>}

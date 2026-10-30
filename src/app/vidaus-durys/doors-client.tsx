@@ -57,7 +57,7 @@ export function Doors({ kategorija }: { kategorija: string | undefined }) {
                   />
                 )}
               </div>
-              <p className="mt-4 text-lg font-normal leading-7 text-foreground">
+              <p className="mt-4 text-xl font-normal leading-relaxed text-foreground">
                 {door.name}
               </p>
             </Link>

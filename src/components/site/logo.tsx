@@ -8,7 +8,7 @@ const squaresMark = (
   </>
 );
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, markClassName }: { className?: string; markClassName?: string }) {
   return (
     <svg
       viewBox="0 0 2518 349"
@@ -18,7 +18,7 @@ export function Logo({ className }: { className?: string }) {
       focusable="false"
       className={cn("block h-8.25 w-auto shrink-0", className)}
     >
-      {squaresMark}
+      <g className={markClassName}>{squaresMark}</g>
       <path d="M587.484,339.924l-134.99,-330.303l62.201,0l120.433,298.688l-35.733,0l121.756,-298.688l57.349,0l-134.549,330.303l-56.467,-0Z" />
       <rect x="809.33" y="9.621" width="58.888" height="330.303" />
       <path d="M951.595,339.924l-0,-330.303l57.349,0l-0,278.398l161.459,0l-0,51.905l-218.808,-0Z" />

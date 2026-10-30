@@ -35,7 +35,8 @@ const fieldBase =
 const fieldIdle = "border-foreground/50 focus:border-foreground";
 const fieldBad = "border-destructive/70 focus:border-destructive";
 
-const labelBase = "block uppercase mb-3";
+// Bold black label above the field, the same pattern as the contact details and footer.
+const labelBase = "block mb-1 font-semibold text-foreground";
 
 const buttonBase =
   "inline-flex min-h-[52px] items-center justify-center gap-3 bg-button px-8 font-medium uppercase text-button-text transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
@@ -61,8 +62,8 @@ export function EnquiryForm({
   const phoneRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
-  const field = `${fieldBase} ${compact ? "text-base font-light" : "text-2xl font-normal"}`;
-  const label = `${labelBase} ${compact ? "text-xs tracking-[0.2em] text-foreground/65" : "text-sm tracking-[0.14em] text-foreground/75"}`;
+  const field = `${fieldBase} ${compact ? "text-base font-normal" : "text-xl font-normal"}`;
+  const label = `${labelBase} ${compact ? "text-sm" : "text-xl"}`;
   const errorText = `mt-2 text-destructive ${compact ? "text-[13px]" : "text-base"}`;
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -222,7 +223,7 @@ export function EnquiryForm({
       {notice && (
         <div
           role="status"
-          className={`bg-muted px-6 py-5 text-foreground/70 sm:col-span-2 ${compact ? "text-sm font-light leading-6" : "text-lg leading-7"}`}
+          className={`bg-muted px-6 py-5 text-foreground/70 sm:col-span-2 ${compact ? "text-sm font-normal leading-6" : "text-xl leading-relaxed"}`}
         >
           Šiuo metu forma žinutės dar nepasiunčia. Kol kas skambinkite{" "}
           <a href={contactHref.phone} className="underline underline-offset-2">
@@ -259,7 +260,7 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
       <Dialog open={state.open} onOpenChange={(o) => setState((s) => ({ ...s, open: o }))}>
         <DialogContent className="max-h-[88vh] overflow-y-auto border-0 bg-background p-5 sm:max-w-2xl sm:p-10">
           <DialogHeader>
-            <DialogTitle className="text-xl font-light uppercase tracking-tight">
+            <DialogTitle className="text-xl font-light tracking-tight">
               Gauti pasiūlymą
             </DialogTitle>
             <DialogDescription className="mt-2 text-[13px] font-light leading-5 text-foreground/60 sm:mt-3 sm:text-sm sm:leading-6">
