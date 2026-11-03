@@ -92,7 +92,7 @@ function PanelHeading({
   size?: string;
 }) {
   return (
-    <p className={`mb-3 ${size} font-normal leading-snug text-mega-menu-text/60`}>
+    <p className={`mb-6 ${size} font-normal leading-snug text-mega-menu-text/60`}>
       {children}
     </p>
   );
