@@ -29,7 +29,7 @@ export const catalogues: Catalogue[] = [interiorCatalogue, exteriorCatalogue];
 
 export function CatalogueCard({ catalogue: c }: { catalogue: Catalogue }) {
   const body = (
-    <div className="grid min-h-[300px] bg-[#565656] text-hero-foreground md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <div className="grid min-h-[300px] bg-ink-2 text-hero-foreground md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
       <div className="flex flex-col justify-center px-6 py-14 sm:px-12 sm:py-20 lg:px-16">
         <h2 className="text-2xl font-normal">{c.title}</h2>
         <p className="mt-4 max-w-md text-xl font-normal leading-relaxed text-hero-foreground/75">
@@ -43,7 +43,7 @@ export function CatalogueCard({ catalogue: c }: { catalogue: Catalogue }) {
           className="h-full w-full object-cover"
         />
       ) : (
-        <div aria-hidden="true" className="min-h-[180px] bg-white" />
+        <div aria-hidden="true" className="min-h-[180px] bg-card" />
       )}
     </div>
   );

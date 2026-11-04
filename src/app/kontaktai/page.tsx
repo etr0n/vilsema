@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 const [addressStreet, ...addressRest] = contact.address.split(", ");
 
-const linkClass = "transition-opacity hover:opacity-60";
+const linkClass = "transition-colors hover:text-link-hover";
 
 function ContactItem({ label, children }: { label: string; children: React.ReactNode }) {
   return (

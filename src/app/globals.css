@@ -46,53 +46,70 @@
   --color-strip-arrow: var(--strip-arrow-color);
   --color-strip-arrow-text: var(--strip-arrow-text);
   --color-strip-line: var(--strip-line-color);
+  --color-link-hover: var(--link-hover);
+  --color-button-hover: var(--button-hover);
+  --color-card: var(--card);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
 }
 
 :root {
+  /* Palette: light grey pages, white cards, three text greys, one brand color (change --brand to recolor the site) */
+  --card: #ffffff;
+  --surface: #fafafa;
+  --surface-2: #eeeef0;
+  --ink: #28282d;
+  --ink-2: #64646a;
+  --ink-3: #737379;
+  --brand: #14332d;
+  --on-brand: oklch(0.985 0.005 80);
+
   --radius: 0.125rem;
-  --background: oklch(0.976 0.007 88.6);
-  --foreground: oklch(0.235 0.009 75);
+  --background: #ffffff;
+  --foreground: var(--ink);
   --primary: oklch(98.233% 0.00275 84.299);
   --primary-foreground: oklch(0.992 0.004 85);
-  --muted: oklch(0.957 0.007 82);
-  --muted-foreground: oklch(0.51 0.012 70);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--ink-2);
   --accent: oklch(0.925 0.018 82);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.885 0.012 80);
+  --border: #e6e6e8;
   --input: oklch(0.82 0.012 80);
   --ring: oklch(0.45 0.02 70);
   --hero: oklch(0.18 0.01 70);
-  --hero-foreground: oklch(0.985 0.005 80);
-  --menu: #e35336;
-  --sand: #e8e7e2;
+  --hero-foreground: var(--on-brand);
+  --menu: var(--brand);
+  --sand: var(--surface);
 
   /* Per-area colors: top menu bar, dropdown menu, landing page hero + product band, other pages' top section */
-  --header-color: #e35336;
-  --header-text: oklch(0.985 0.005 80);
-  --header-logo: oklch(0.985 0.005 80);
+  --header-color: var(--brand);
+  --header-text: var(--on-brand);
+  --header-logo: var(--on-brand);
 
   /* Open menu: the bar takes the mega menu colors while a dropdown or the mobile menu is open */
-  --mega-menu-color: #ffffff;
+  --mega-menu-color: var(--card);
   --mega-menu-text: var(--foreground);
-  --mega-menu-logo: #e35336;
+  --mega-menu-logo: var(--brand);
 
-  --home-hero-color: #e35336;
-  --home-hero-text: oklch(0.985 0.005 80);
-  --page-hero-color: #e8e7e2;
+  --home-hero-color: var(--brand);
+  --home-hero-text: var(--on-brand);
+  --page-hero-color: var(--surface);
   --page-hero-text: var(--foreground);
 
   /* Landing page hero button ("Peržiūrėti produktus") */
-  --hero-cta-color: oklch(0.985 0.005 80);
-  --hero-cta-text: #e35336;
-
-  /*#e8e7e2*/
+  --hero-cta-color: var(--on-brand);
+  --hero-cta-text: var(--brand);
 
   /* Orange buttons; Atlikti darbai strip arrows (white, minimal) and progress line */
-  --button-color: #e35336;
-  --button-text: oklch(0.985 0.005 80);
+  --button-color: var(--brand);
+  --button-text: var(--on-brand);
+  --button-hover: #24504a;
   --strip-arrow-color: #ffffff;
   --strip-arrow-text: var(--foreground);
-  --strip-line-color: #e35336;
+  --strip-line-color: var(--brand);
+
+  /* Text links on light backgrounds */
+  --link-hover: var(--brand);
 }
 
 @layer base {
@@ -242,11 +259,11 @@
 }
 
 .hero-zoom {
-  animation: hero-zoom 3s ease both;
+  animation: hero-zoom 2s ease both;
 }
 
 .hero-text {
-  animation: hero-text 3s ease 1s both;
+  animation: hero-text 1.8s ease 0.5s both;
 }
 
 @media (prefers-reduced-motion: reduce) {

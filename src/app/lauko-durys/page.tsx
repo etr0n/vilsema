@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { PageHeader, Section } from "@/components/site/layout";
-import { CatalogueCard, exteriorCatalogue } from "@/components/site/catalogue-card";
-import { photos } from "@/lib/site-data";
-import { asset } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Lauko durys",
@@ -20,13 +17,16 @@ export default function ExteriorDoors() {
       <PageHeader
         title="Lauko durys"
         intro="Padedame išsirinkti lauko duris, atvykstame išmatuoti ir sumontuojame Kaune."
+        overlap={false}
       />
-      <Section>
-        <div className="aspect-[4/3] overflow-hidden bg-muted sm:aspect-[16/9]">
-          <img src={asset(photos.interior)} alt="Lauko durys" className="h-full w-full object-cover" />
-        </div>
-        <div className="mt-20">
-          <CatalogueCard catalogue={exteriorCatalogue} />
+      <Section className="pt-16 sm:pt-20">
+        <div id="katalogas" className="scroll-mt-28">
+          {/* Placeholder for the PDF catalogue preview, shaped like an A4 page */}
+          <div aria-hidden className="aspect-[1/1.414] w-full max-w-xs bg-muted" />
+          <h2 className="mt-8 text-2xl font-normal">Lauko durų katalogas</h2>
+          <p className="mt-3 max-w-md text-lg leading-7 text-ink-2">
+            Peržiūrėkite arba atsisiųskite lauko durų katalogą PDF formatu.
+          </p>
         </div>
       </Section>
     </>
