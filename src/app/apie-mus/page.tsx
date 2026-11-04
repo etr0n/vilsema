@@ -39,8 +39,8 @@ export default function About() {
                 loading="lazy"
               />
               <div className="md:col-span-5 md:col-start-7 md:text-page-hero-text">
-                <h2 className="text-3xl font-light tracking-tight sm:text-4xl">{p.name}</h2>
-                <p className="mt-4 max-w-xl text-xl leading-relaxed text-foreground/75 md:text-page-hero-text">{p.text}</p>
+                <h2 className="text-3xl font-normal tracking-tight sm:text-4xl">{p.name}</h2>
+                <p className="mt-4 max-w-xl text-xl leading-relaxed text-ink-2">{p.text}</p>
               </div>
             </div>
           ))}

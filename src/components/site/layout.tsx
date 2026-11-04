@@ -12,14 +12,14 @@ import {
   company,
   contact,
   contactHref,
-  interiorCategories,
+  doorFamilies,
   photos,
   projectCategories,
   social,
 } from "@/lib/site-data";
 import { asset } from "@/lib/utils";
 
-const doorsCategoryHref = (c: string) => `/vidaus-durys?kategorija=${encodeURIComponent(c)}`;
+const doorFamilyHref = (slug: string) => `/vidaus-durys/${slug}`;
 const worksCategoryHref = (c: string) => `/atlikti-darbai?kategorija=${encodeURIComponent(c)}`;
 
 
@@ -76,7 +76,7 @@ function PanelLink({ href, children }: { href: string; children: React.ReactNode
   return (
     <Link
       href={href}
-      className="w-fit text-2xl font-normal leading-snug text-mega-menu-text transition-opacity duration-300 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mega-menu-text"
+      className="w-fit text-2xl font-normal leading-snug text-mega-menu-text transition-colors duration-300 hover:text-link-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mega-menu-text"
     >
       {children}
     </Link>
@@ -179,6 +179,17 @@ export function Header() {
   };
   const [mobileGroup, setMobileGroup] = useState<Panel | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
+  // On the home page the bar is see-through over the hero photo until you scroll.
+  const isHome = pathname === "/";
+  const [atTop, setAtTop] = useState(true);
+
+  useEffect(() => {
+    if (!isHome) return;
+    const onScroll = () => setAtTop(window.scrollY < 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
 
   useEffect(() => {
     setMenu(false);
@@ -263,13 +274,14 @@ export function Header() {
   );
 
   const open = panel !== null || menu;
+  const overHero = isHome && atTop && !open;
 
   return (
     <header
       ref={headerRef}
       // The mobile menu paints the header itself white; layering a white bar over the orange
       // background left a sub-pixel orange seam at the bar's bottom edge on phones.
-      className={`fixed inset-x-0 top-0 z-40 ${menu ? "bg-mega-menu" : "bg-header"} ${open ? "[--header-text:var(--mega-menu-text)] [--header-logo:var(--mega-menu-logo)]" : ""} ${closeInstantly && !open ? "[&_*]:transition-none!" : ""}`}
+      className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${menu ? "bg-mega-menu" : overHero ? "bg-transparent" : "bg-header"} ${open ? "[--header-text:var(--mega-menu-text)] [--header-logo:var(--mega-menu-logo)]" : ""} ${closeInstantly && !open ? "[&_*]:transition-none!" : ""}`}
     >
       {/* Fades in alongside the panel reveal, so bar and panel read as one surface */}
       <div
@@ -341,9 +353,9 @@ export function Header() {
           <div className="col-span-3">
             <PanelHeading>Vidaus durų stiliai</PanelHeading>
             <div className="flex flex-col gap-3">
-              {interiorCategories.map((c) => (
-                <PanelLink key={c} href={doorsCategoryHref(c)}>
-                  {c}
+              {doorFamilies.map((f) => (
+                <PanelLink key={f.slug} href={doorFamilyHref(f.slug)}>
+                  {f.name}
                 </PanelLink>
               ))}
             </div>
@@ -418,7 +430,7 @@ export function Header() {
                 {mobileSection("Durys", productLinks)}
                 {mobileSection(
                   "Vidaus durų stiliai",
-                  interiorCategories.map((c) => ({ label: c, to: doorsCategoryHref(c) })),
+                  doorFamilies.map((f) => ({ label: f.name, to: doorFamilyHref(f.slug) })),
                 )}
                 {mobileSection("Katalogai", catalogueLinks)}
               </div>
@@ -445,7 +457,7 @@ export function Header() {
   );
 }
 
-const footerLinkClass = "w-fit transition-opacity hover:opacity-60";
+const footerLinkClass = "w-fit transition-colors hover:text-link-hover";
 
 // Kastrup-style: a black title a step larger than the 20px links, with airy 30px lines.
 function FooterGroup({
@@ -517,9 +529,6 @@ export function Footer() {
           <Link href="/" aria-label="Vilsema — pradžia" className="inline-block">
             <Logo className="h-8.25" markClassName="fill-menu" />
           </Link>
-          <p className="mt-6 max-w-xs text-lg leading-snug">
-            Vidaus ir lauko durys. Konsultacija, matavimas ir montavimas Kaune.
-          </p>
           <div className="mt-8 flex gap-5">
             <a
               href={social.facebook}
@@ -527,7 +536,7 @@ export function Footer() {
               rel="noopener noreferrer"
               aria-label="Vilsema Facebook"
               // The "f" sits ~6px inside its 24px box; pull it onto the logo's left edge.
-              className="-ml-1.5 transition-opacity hover:opacity-60"
+              className="-ml-1.5 transition-colors hover:text-link-hover"
             >
               <FacebookIcon />
             </a>
@@ -536,7 +545,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Vilsema Instagram"
-              className="transition-opacity hover:opacity-60"
+              className="transition-colors hover:text-link-hover"
             >
               <InstagramIcon />
             </a>
@@ -568,7 +577,12 @@ export function Footer() {
           </FooterContactBlock>
         </FooterGroup>
         <FooterGroup title="Produktai" className="lg:col-span-3 lg:col-start-7">
-          {[...productLinks, katalogaiLink].map((l) => (
+          {[
+            productLinks[0],
+            ...doorFamilies.map((f) => ({ label: f.name, to: doorFamilyHref(f.slug) })),
+            ...productLinks.slice(1),
+            katalogaiLink,
+          ].map((l) => (
             <Link key={l.to} href={l.to} className={footerLinkClass}>
               {l.label}
             </Link>
@@ -608,7 +622,7 @@ export function Cta({
       onClick={onClick}
       className={`inline-flex min-h-[52px] items-center justify-center gap-2 uppercase border transition-colors duration-300 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 ${inverted
         ? "border-hero-foreground bg-transparent px-6 text-sm tracking-[0.14em] text-hero-foreground hover:bg-hero-foreground hover:text-menu focus-visible:outline-hero-foreground"
-        : "border-[#E35336] bg-[#E35336] px-9 text-[11px] tracking-[0.18em] text-primary-foreground hover:border-[#64563A] hover:bg-[#64563A] hover:text-white focus-visible:outline-foreground"
+        : "border-button bg-button px-9 text-[11px] tracking-[0.18em] text-primary-foreground hover:border-button-hover hover:bg-button-hover hover:text-white focus-visible:outline-foreground"
         } ${className}`}
     >
       {children}
@@ -634,16 +648,31 @@ export function EnquireButton({
   );
 }
 
-export function PageHeader({ title, intro }: { title: string; intro?: string }) {
+export function PageHeader({
+  title,
+  intro,
+  overlap = true,
+}: {
+  title: string;
+  intro?: string;
+  // By default the next section is pulled up into the band; turn off to start it below on white.
+  overlap?: boolean;
+}) {
   return (
-    <div className="bg-page-hero pb-56 [&+*]:-mt-56 [&+*:has([data-empty])]:bg-page-hero [&+*:has([data-empty])]:[box-shadow:0_0_0_100vmax_var(--page-hero-color)] [&+*:has([data-empty])]:[clip-path:inset(0_-100vmax)]">
+    <div
+      className={
+        overlap
+          ? "bg-page-hero pb-56 [&+*]:-mt-56 [&+*:has([data-empty])]:bg-page-hero [&+*:has([data-empty])]:[box-shadow:0_0_0_100vmax_var(--page-hero-color)] [&+*:has([data-empty])]:[clip-path:inset(0_-100vmax)]"
+          : "bg-page-hero"
+      }
+    >
       <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
         <ScrollReveal>
-          <h1 className="max-w-3xl text-page-hero-text text-3xl font-light leading-tight tracking-tight sm:text-5xl">
+          <h1 className="max-w-3xl text-page-hero-text text-3xl font-normal leading-tight tracking-tight sm:text-5xl">
             {title}
           </h1>
           {intro && (
-            <p className="mt-8 max-w-xl text-lg leading-7 text-page-hero-text">{intro}</p>
+            <p className="mt-8 max-w-xl text-lg leading-7 text-ink-2">{intro}</p>
           )}
         </ScrollReveal>
       </header>
@@ -664,16 +693,16 @@ export function PanelPage({
     <div className="bg-page-hero">
       <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
         <ScrollReveal>
-          <h1 className="max-w-3xl text-3xl font-light leading-tight tracking-tight text-page-hero-text sm:text-5xl">
+          <h1 className="max-w-3xl text-3xl font-normal leading-tight tracking-tight text-page-hero-text sm:text-5xl">
             {title}
           </h1>
-          {intro && <p className="mt-8 max-w-xl text-lg leading-7 text-page-hero-text">{intro}</p>}
+          {intro && <p className="mt-8 max-w-xl text-lg leading-7 text-ink-2">{intro}</p>}
         </ScrollReveal>
       </header>
       <div className="relative">
         <div
           aria-hidden
-          className="absolute inset-0 bg-background lg:left-[max(0px,calc((100%-var(--container-page))/2-6.5rem))]"
+          className="absolute inset-0 bg-card lg:left-[max(0px,calc((100%-var(--container-page))/2-6.5rem))]"
         />
         <div className="page-container relative pb-28 pt-16 sm:pb-40 sm:pt-24">{children}</div>
       </div>

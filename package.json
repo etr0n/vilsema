@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "photos": "node scripts/prepare-project-photos.mjs && node scripts/prepare-door-photos.mjs"
+    "photos": "node scripts/prepare-project-photos.mjs && node scripts/prepare-door-photos.mjs && node scripts/prepare-construction-photos.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

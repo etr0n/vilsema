@@ -31,7 +31,7 @@ const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const phoneRe = /^\+?[0-9\s()\-]{6,20}$/;
 
 const fieldBase =
-  "w-full bg-transparent border-b py-3 text-foreground placeholder:text-foreground/55 focus:outline-none transition-colors";
+  "w-full bg-transparent border-b py-3 text-foreground placeholder:text-ink-3 focus:outline-none transition-colors";
 const fieldIdle = "border-foreground/50 focus:border-foreground";
 const fieldBad = "border-destructive/70 focus:border-destructive";
 
@@ -223,7 +223,7 @@ export function EnquiryForm({
       {notice && (
         <div
           role="status"
-          className={`bg-muted px-6 py-5 text-foreground/70 sm:col-span-2 ${compact ? "text-sm font-normal leading-6" : "text-xl leading-relaxed"}`}
+          className={`bg-muted px-6 py-5 text-ink-2 sm:col-span-2 ${compact ? "text-sm font-normal leading-6" : "text-xl leading-relaxed"}`}
         >
           Šiuo metu forma žinutės dar nepasiunčia. Kol kas skambinkite{" "}
           <a href={contactHref.phone} className="underline underline-offset-2">
@@ -263,7 +263,7 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
             <DialogTitle className="text-xl font-light tracking-tight">
               Gauti pasiūlymą
             </DialogTitle>
-            <DialogDescription className="mt-2 text-[13px] font-light leading-5 text-foreground/60 sm:mt-3 sm:text-sm sm:leading-6">
+            <DialogDescription className="mt-2 text-[13px] font-light leading-5 text-ink-3 sm:mt-3 sm:text-sm sm:leading-6">
               Parašykite, kokių durų ieškote — susisieksime ir pakonsultuosime.
             </DialogDescription>
           </DialogHeader>
