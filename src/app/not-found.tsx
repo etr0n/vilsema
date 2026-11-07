@@ -4,8 +4,8 @@ export default function NotFound() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Puslapis nerastas</h2>
+        <h1 className="text-7xl font-normal text-foreground">404</h1>
+        <h2 className="mt-4 text-xl font-normal text-foreground">Puslapis nerastas</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           Puslapis, kurio ieškote, neegzistuoja arba buvo perkeltas.
         </p>

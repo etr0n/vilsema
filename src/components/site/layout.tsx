@@ -40,7 +40,7 @@ const katalogaiLink = { label: "Katalogai", to: "/katalogai" } as const;
 // Catalogue ids match the product page slugs, so the short product label can be reused.
 const catalogueLinks = catalogues.map((c) => ({
   label: productLinks.find((p) => p.to === `/${c.id}`)?.label ?? c.title,
-  to: `/katalogai#${c.id}`,
+  to: katalogaiLink.to,
 }));
 
 const contactLinks = [
@@ -92,7 +92,7 @@ function PanelHeading({
   size?: string;
 }) {
   return (
-    <p className={`mb-6 ${size} font-normal leading-snug text-mega-menu-text/60`}>
+    <p className={`mb-6 font-display ${size} font-normal leading-snug text-mega-menu-text/60`}>
       {children}
     </p>
   );
@@ -180,16 +180,16 @@ export function Header() {
   const [mobileGroup, setMobileGroup] = useState<Panel | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   // On the home page the bar is see-through over the hero photo until you scroll.
-  const isHome = pathname === "/";
+  const hasHeroPhoto = pathname === "/";
   const [atTop, setAtTop] = useState(true);
 
   useEffect(() => {
-    if (!isHome) return;
+    if (!hasHeroPhoto) return;
     const onScroll = () => setAtTop(window.scrollY < 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [isHome]);
+  }, [hasHeroPhoto]);
 
   useEffect(() => {
     setMenu(false);
@@ -262,11 +262,11 @@ export function Header() {
 
   const mobileSection = (heading: string, links: readonly { label: string; to: string }[]) => (
     <div className="pt-5 first:pt-2">
-      <p className="py-1.5 text-lg font-normal text-mega-menu-text/60">
+      <p className="py-1.5 font-display text-lg font-normal text-mega-menu-text/60">
         {heading}
       </p>
       {links.map((l) => (
-        <Link key={l.to} href={l.to} className="block py-1.5 text-lg font-normal">
+        <Link key={l.label} href={l.to} className="block py-1.5 text-lg font-normal">
           {l.label}
         </Link>
       ))}
@@ -274,7 +274,7 @@ export function Header() {
   );
 
   const open = panel !== null || menu;
-  const overHero = isHome && atTop && !open;
+  const overHero = hasHeroPhoto && atTop && !open;
 
   return (
     <header
@@ -364,7 +364,7 @@ export function Header() {
             <PanelHeading>Katalogai</PanelHeading>
             <div className="flex flex-col gap-3">
               {catalogueLinks.map((l) => (
-                <PanelLink key={l.to} href={l.to}>
+                <PanelLink key={l.label} href={l.to}>
                   {l.label}
                 </PanelLink>
               ))}
@@ -473,7 +473,7 @@ function FooterGroup({
 }) {
   return (
     <div className={className}>
-      <p className="mb-5 text-2xl font-normal leading-snug">{title}</p>
+      <p className="mb-5 font-display text-2xl font-normal leading-snug">{title}</p>
       <div className={`flex flex-col ${gap} text-xl font-normal leading-normal`}>{children}</div>
     </div>
   );
@@ -482,7 +482,7 @@ function FooterGroup({
 function FooterContactBlock({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col">
-      <p className="font-semibold">{label}</p>
+      <p className="font-bold">{label}</p>
       {children}
     </div>
   );
@@ -652,27 +652,37 @@ export function PageHeader({
   title,
   intro,
   overlap = true,
+  plain = false,
+  brand = false,
 }: {
   title: string;
   intro?: string;
   // By default the next section is pulled up into the band; turn off to start it below on white.
   overlap?: boolean;
+  // No band at all: header sits on the white page background.
+  plain?: boolean;
+  // Band in the menu bar colour, continuing it down behind the title.
+  brand?: boolean;
 }) {
   return (
     <div
       className={
-        overlap
+        plain
+          ? ""
+          : brand
+          ? `bg-header ${overlap ? "pb-56 [&+*]:-mt-56" : ""}`
+          : overlap
           ? "bg-page-hero pb-56 [&+*]:-mt-56 [&+*:has([data-empty])]:bg-page-hero [&+*:has([data-empty])]:[box-shadow:0_0_0_100vmax_var(--page-hero-color)] [&+*:has([data-empty])]:[clip-path:inset(0_-100vmax)]"
           : "bg-page-hero"
       }
     >
       <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
         <ScrollReveal>
-          <h1 className="max-w-3xl text-page-hero-text text-3xl font-normal leading-tight tracking-tight sm:text-5xl">
+          <h1 className={`max-w-3xl text-3xl font-normal leading-tight tracking-tight sm:text-5xl ${brand ? "text-header-text" : "text-page-hero-text"}`}>
             {title}
           </h1>
           {intro && (
-            <p className="mt-8 max-w-xl text-lg leading-7 text-ink-2">{intro}</p>
+            <p className={`mt-8 max-w-xl text-lg leading-7 ${brand ? "text-header-text/75" : "text-ink-2"}`}>{intro}</p>
           )}
         </ScrollReveal>
       </header>

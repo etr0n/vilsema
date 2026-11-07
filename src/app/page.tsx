@@ -80,7 +80,7 @@ export default function Index() {
                   <Link
                     href={c.href}
                     aria-label={`Peržiūrėti: ${c.title}`}
-                    className="mt-6 inline-block text-xl font-medium transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-home-hero-text"
+                    className="mt-6 inline-block text-xl font-normal transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-home-hero-text"
                   >
                     <span className="underline decoration-1 underline-offset-[6px]">Peržiūrėti</span>
                   </Link>

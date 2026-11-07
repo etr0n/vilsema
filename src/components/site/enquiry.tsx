@@ -36,7 +36,7 @@ const fieldIdle = "border-foreground/50 focus:border-foreground";
 const fieldBad = "border-destructive/70 focus:border-destructive";
 
 // Bold black label above the field, the same pattern as the contact details and footer.
-const labelBase = "block mb-1 font-semibold text-foreground";
+const labelBase = "block mb-1 font-bold text-foreground";
 
 const buttonBase =
   "inline-flex min-h-[52px] items-center justify-center gap-3 bg-button px-8 font-medium uppercase text-button-text transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
@@ -260,10 +260,10 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
       <Dialog open={state.open} onOpenChange={(o) => setState((s) => ({ ...s, open: o }))}>
         <DialogContent className="max-h-[88vh] overflow-y-auto border-0 bg-background p-5 sm:max-w-2xl sm:p-10">
           <DialogHeader>
-            <DialogTitle className="text-xl font-light tracking-tight">
+            <DialogTitle className="text-xl font-normal tracking-tight">
               Gauti pasiūlymą
             </DialogTitle>
-            <DialogDescription className="mt-2 text-[13px] font-light leading-5 text-ink-3 sm:mt-3 sm:text-sm sm:leading-6">
+            <DialogDescription className="mt-2 text-[13px] font-normal leading-5 text-ink-3 sm:mt-3 sm:text-sm sm:leading-6">
               Parašykite, kokių durų ieškote — susisieksime ir pakonsultuosime.
             </DialogDescription>
           </DialogHeader>

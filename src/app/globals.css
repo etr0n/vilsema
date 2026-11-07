@@ -6,8 +6,8 @@
 /* Colors: @theme maps each variable to Tailwind classes (--color-x -> bg-x, text-x); :root holds the values. */
 
 @theme inline {
-  --font-sans: var(--font-dm-sans), sans-serif;
-  --font-display: var(--font-dm-sans), sans-serif;
+  --font-sans: var(--font-raleway), sans-serif;
+  --font-display: var(--font-mulish), sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -49,6 +49,8 @@
   --color-link-hover: var(--link-hover);
   --color-button-hover: var(--button-hover);
   --color-card: var(--card);
+  --color-stage: var(--stage);
+  --color-stone: var(--stone);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
 }
@@ -58,6 +60,10 @@
   --card: #ffffff;
   --surface: #fafafa;
   --surface-2: #eeeef0;
+  /* Backdrop for white-background door renders (rendered with mix-blend-multiply) */
+  --stage: #f3f3f4;
+  /* Warm band behind project sections, as Kastrup's "Find inspiration" */
+  --stone: #e8e7e2;
   --ink: #28282d;
   --ink-2: #64646a;
   --ink-3: #737379;
@@ -122,6 +128,8 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     letter-spacing: 0;
+    /* Raleway defaults to old-style figures; keep phone numbers and counts on one baseline */
+    font-variant-numeric: lining-nums;
   }
 
   html {

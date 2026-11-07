@@ -21,7 +21,7 @@ function ContactItem({ label, children }: { label: string; children: React.React
   return (
     <div>
       {/* Bold black label above the value, the same pattern as the footer's contact blocks */}
-      <dt className="mb-1 text-xl font-semibold">{label}</dt>
+      <dt className="mb-1 text-xl font-bold">{label}</dt>
       <dd className="text-xl font-normal leading-relaxed">{children}</dd>
     </div>
   );
