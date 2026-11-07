@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { doorFamilies } from "@/lib/site-data";
 import { DoorDetails, patternHref } from "../../door-details";
-import { ShowcaseRow } from "../../showcase-row";
-import { PatternCard } from "../../style-section";
 import { ProductView } from "./product-view";
 
 // One static page per door pattern is generated at build time.
@@ -41,7 +39,6 @@ export default async function DoorPatternPage(props: PageProps<"/vidaus-durys/[s
 
   const count = family.patterns.length;
   const neighbour = (step: number) => family.patterns[(index + step + count) % count] ?? pattern;
-  const others = family.patterns.filter((p) => p.number !== pattern.number);
 
   return (
     <article className="pb-28 pt-32 sm:pb-40 sm:pt-40">
@@ -49,28 +46,15 @@ export default async function DoorPatternPage(props: PageProps<"/vidaus-durys/[s
         <ProductView
           title={family.title}
           intro={family.intro}
+          slug={family.slug}
           pattern={pattern}
+          patterns={family.patterns}
           prevHref={patternHref(family.slug, neighbour(-1).number)}
           nextHref={patternHref(family.slug, neighbour(1).number)}
         >
           <DoorDetails family={family} />
         </ProductView>
       </div>
-
-      {others.length > 0 && (
-        <section className="page-container mt-28 sm:mt-40">
-          <ShowcaseRow
-            title="Kiti raštai"
-            listLabel={`${family.title}: kiti raštai`}
-            prevLabel="Ankstesni raštai"
-            nextLabel="Tolesni raštai"
-          >
-            {others.map((p) => (
-              <PatternCard key={p.number} family={family} pattern={p} />
-            ))}
-          </ShowcaseRow>
-        </section>
-      )}
     </article>
   );
 }

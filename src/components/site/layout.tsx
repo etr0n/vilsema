@@ -19,7 +19,7 @@ import {
 } from "@/lib/site-data";
 import { asset } from "@/lib/utils";
 
-const doorFamilyHref = (slug: string) => `/vidaus-durys/${slug}`;
+const doorFamilyHref = (slug: string) => `/vidaus-durys#${slug}`;
 const worksCategoryHref = (c: string) => `/atlikti-darbai?kategorija=${encodeURIComponent(c)}`;
 
 
