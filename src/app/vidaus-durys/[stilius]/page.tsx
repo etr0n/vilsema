@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { ArrowLeft } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { doorFamilies, type DoorFamily } from "@/lib/site-data";
-import { DoorFamilyFromUrl, DoorFamilyView } from "./door-family-view";
+import { EnquireButton } from "@/components/site/layout";
+import { ProjectStrip } from "@/components/site/project-strip";
+import { doorFamilies, patternCount, projects } from "@/lib/site-data";
+import { DoorDetails } from "../door-details";
+import { DoorFamilyView } from "./door-family-view";
 
 // One static page per door style is generated at build time.
 export function generateStaticParams() {
@@ -30,46 +26,13 @@ export async function generateMetadata(props: PageProps<"/vidaus-durys/[stilius]
   };
 }
 
-function Details({ family }: { family: DoorFamily }) {
-  return (
-    <Accordion type="multiple" className="mt-12 border-t border-foreground/20">
-      {[
-        ["Apie produktą", <p key="a">{family.description}</p>],
-        [
-          "Tech. specifikacijos",
-          <div key="t" className="grid gap-3">
-            <p>
-              <span className="text-foreground">Spalvos.</span> Galima rinktis iš RAL paletės spalvų ir lengvai
-              priderinti duris prie interjero.
-            </p>
-            <p>
-              <span className="text-foreground">Apdaila.</span> Atrinktos medžio tekstūros ir spalvos leidžia
-              sukurti natūralų, išbaigtą durų charakterį.
-            </p>
-          </div>,
-        ],
-        ["Matmenys", <p key="m">Gaminama pagal individualius matmenis, kad durys tiksliai atitiktų jūsų erdvę.</p>],
-        [
-          "Kaina",
-          <p key="k">
-            Kaina priklauso nuo matmenų, apdailos ir komplektacijos. Gavę jūsų užklausą, parengsime individualų
-            pasiūlymą.
-          </p>,
-        ],
-      ].map(([title, body], i) => (
-        <AccordionItem key={i} value={`s${i}`} className="border-foreground/20">
-          <AccordionTrigger className="gap-6 py-7 text-left text-2xl font-normal hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground [&>svg]:size-5 [&>svg]:text-foreground">{title}</AccordionTrigger>
-          <AccordionContent className="pb-7 text-2xl font-normal leading-snug text-foreground">{body}</AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
-  );
-}
-
 export default async function DoorFamilyPage(props: PageProps<"/vidaus-durys/[stilius]">) {
   const { stilius } = await props.params;
   const family = doorFamilies.find((f) => f.slug === stilius);
   if (!family) notFound();
+
+  const hasVeneer = family.patterns.some((p) => p.veneerImage);
+  const styleProjects = projects.filter((p) => p.style === family.slug);
 
   return (
     <article className="page-container pb-28 pt-32 sm:pb-40 sm:pt-40">
@@ -77,18 +40,36 @@ export default async function DoorFamilyPage(props: PageProps<"/vidaus-durys/[st
         <ArrowLeft className="size-4" aria-hidden />
         Vidaus durys
       </Link>
-      {/* The fallback (first pattern) is what the static HTML contains; ?rastas= applies on load. */}
-      <Suspense
-        fallback={
-          <DoorFamilyView family={family}>
-            <Details family={family} />
-          </DoorFamilyView>
-        }
-      >
-        <DoorFamilyFromUrl family={family}>
-          <Details family={family} />
-        </DoorFamilyFromUrl>
-      </Suspense>
+
+      <header className="mb-16 mt-10 grid gap-6 sm:mb-20 lg:grid-cols-12 lg:items-end lg:gap-x-6">
+        <h1 className="text-[clamp(2.441rem,2.441rem+1.5vw,3.75rem)] font-normal leading-[1.05] lg:col-span-5">
+          {family.title}
+        </h1>
+        <div className="lg:col-span-6 lg:col-start-7">
+          <p className="max-w-xl text-lg leading-7 text-ink-2 text-pretty">{family.intro}</p>
+          <p className="mt-2 text-lg text-ink-2">
+            {patternCount(family.patterns.length)} · {hasVeneer ? "dažyta arba faneruota" : "dažyta"}
+          </p>
+        </div>
+      </header>
+
+      <DoorFamilyView family={family} />
+
+      {styleProjects.length > 0 && (
+        <section className="mt-28 sm:mt-40">
+          <ProjectStrip title="Atlikti darbai" projects={styleProjects} />
+        </section>
+      )}
+
+      <section className="mt-28 sm:mt-40 lg:grid lg:grid-cols-12 lg:gap-x-6">
+        <h2 className="mb-8 text-3xl font-normal tracking-tight sm:text-4xl lg:col-span-5 lg:mb-0">Informacija</h2>
+        <div className="lg:col-span-6 lg:col-start-7">
+          <DoorDetails family={family} />
+          <EnquireButton model={family.title} className="mt-12">
+            Gauti pasiūlymą
+          </EnquireButton>
+        </div>
+      </section>
     </article>
   );
 }

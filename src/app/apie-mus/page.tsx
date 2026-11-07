@@ -27,6 +27,7 @@ export default function About() {
       <PageHeader
         title="Apie mus"
         intro="Vilsema — nedidelė durų įmonė Kaune. Padedame išsirinkti vidaus ir lauko duris, atvykstame išmatuoti ir sumontuojame."
+        brand
       />
       <Section>
         <div className="grid gap-16">
@@ -38,9 +39,10 @@ export default function About() {
                 className="aspect-[4/5] w-full bg-muted object-cover md:col-span-5"
                 loading="lazy"
               />
-              <div className="md:col-span-5 md:col-start-7 md:text-page-hero-text">
+              {/* On desktop this text sits on the green band beside the photo */}
+              <div className="md:col-span-5 md:col-start-7 md:text-header-text">
                 <h2 className="text-3xl font-normal tracking-tight sm:text-4xl">{p.name}</h2>
-                <p className="mt-4 max-w-xl text-xl leading-relaxed text-ink-2">{p.text}</p>
+                <p className="mt-4 max-w-xl text-xl leading-relaxed text-ink-2 md:text-header-text/75">{p.text}</p>
               </div>
             </div>
           ))}
