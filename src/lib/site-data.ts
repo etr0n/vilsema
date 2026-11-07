@@ -119,12 +119,6 @@ export const paintColors: PaintColor[] = [
   { code: "RAL 9005", name: "Juoda", hex: "#0E0E10" },
 ];
 
-export const patternCount =(n: number) => {
-  const word =
-    n % 10 === 0 || (n % 100 >= 11 && n % 100 <= 19) ? "raštų" : n % 10 === 1 ? "raštas" : "raštai";
-  return `${n} ${word}`;
-};
-
 export type Project = {
   id: string;
   caption: string;

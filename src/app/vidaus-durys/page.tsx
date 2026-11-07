@@ -36,9 +36,11 @@ export default function InteriorDoors() {
 
       <div className="page-container flex flex-col gap-28 py-28 sm:gap-40 sm:py-40">
         {doorFamilies.map((f) => (
-          <ScrollReveal key={f.slug}>
-            <StyleSection family={f} />
-          </ScrollReveal>
+          <section key={f.slug} id={f.slug} className="scroll-mt-24">
+            <ScrollReveal>
+              <StyleSection family={f} />
+            </ScrollReveal>
+          </section>
         ))}
       </div>
 

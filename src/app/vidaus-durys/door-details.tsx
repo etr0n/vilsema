@@ -39,7 +39,7 @@ export function DoorDetails({ family }: { family: DoorFamily }) {
           <AccordionTrigger className="gap-6 py-7 text-left text-2xl font-normal hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground [&>svg]:size-5 [&>svg]:text-foreground">
             {title}
           </AccordionTrigger>
-          <AccordionContent className="pb-7 text-2xl font-normal leading-snug text-foreground">{body}</AccordionContent>
+          <AccordionContent className="pb-7 text-xl font-normal leading-[30px] text-foreground">{body}</AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>

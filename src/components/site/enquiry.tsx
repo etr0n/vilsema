@@ -38,7 +38,7 @@ const fieldBad = "border-destructive/70 focus:border-destructive";
 // Bold black label above the field, the same pattern as the contact details and footer.
 const labelBase = "block mb-1 font-bold text-foreground";
 
-const buttonBase =
+export const buttonBase =
   "inline-flex min-h-[52px] items-center justify-center gap-3 bg-button px-8 font-medium uppercase text-button-text transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
 
 type Errors = {
