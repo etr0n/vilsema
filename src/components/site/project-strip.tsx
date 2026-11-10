@@ -10,13 +10,10 @@ export function ProjectStrip({
   title,
   projects,
   cta,
-  editorial = false,
 }: {
   title: string;
   projects: Project[];
   cta?: ReactNode;
-  // Kastrup "Find inspiration" look: name plus a short line under each photo, no progress line.
-  editorial?: boolean;
 }) {
   const { ref: scrollerRef, status, nudge } = useStripScroll<HTMLDivElement>("figure");
   const [active, setActive] = useState<number | null>(null);
@@ -67,22 +64,15 @@ export function ProjectStrip({
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                 />
               </button>
-              {editorial ? (
-                <figcaption className="mt-6">
-                  <span className="block font-display text-2xl leading-9 text-foreground">{p.caption}</span>
-                  <span className="block truncate text-xl leading-[30px] text-foreground">{p.summary}</span>
-                </figcaption>
-              ) : (
-                <figcaption className="mt-4">
-                  <span className="block text-xl font-normal leading-relaxed text-foreground">{p.caption}</span>
-                </figcaption>
-              )}
+              <figcaption className="mt-4">
+                <span className="block text-xl font-normal leading-[30px] text-foreground">{p.caption}</span>
+              </figcaption>
             </figure>
           ))}
         </div>
       </div>
 
-      {status.scrollable && !editorial && (
+      {status.scrollable && (
         <div aria-hidden className="relative mt-10 h-[2px] overflow-hidden bg-foreground/10">
           <span
             className="absolute inset-y-0 bg-strip-line"

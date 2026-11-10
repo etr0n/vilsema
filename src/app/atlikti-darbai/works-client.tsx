@@ -65,7 +65,7 @@ export function Works({ kategorija }: { kategorija: string | undefined }) {
           ))}
         </div>
       ) : (
-        <p data-empty className="max-w-md text-sm font-normal leading-6 text-ink-3">
+        <p data-empty className="max-w-xl text-lg font-normal leading-7 text-ink-2 text-pretty">
           Šios kategorijos darbų nuotraukos dar ruošiamos.
         </p>
       )}

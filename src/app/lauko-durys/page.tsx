@@ -18,9 +18,10 @@ export default function ExteriorDoors() {
       <PageHeader
         title="Lauko durys"
         intro="Padedame išsirinkti lauko duris, atvykstame išmatuoti ir sumontuojame Kaune."
-        plain
+        brand
+        overlap={false}
       />
-      <Section>
+      <Section className="pt-28 sm:pt-40">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
           <CatalogueCard catalogue={exteriorCatalogue} />
         </div>

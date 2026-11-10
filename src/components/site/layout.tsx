@@ -682,7 +682,7 @@ export function PageHeader({
             {title}
           </h1>
           {intro && (
-            <p className={`mt-8 max-w-xl text-lg leading-7 ${brand ? "text-header-text/75" : "text-ink-2"}`}>{intro}</p>
+            <p className={`mt-8 max-w-2xl text-xl leading-[30px] text-pretty ${brand ? "text-header-text" : "text-foreground"}`}>{intro}</p>
           )}
         </ScrollReveal>
       </header>
@@ -700,13 +700,13 @@ export function PanelPage({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-page-hero">
+    <div className="bg-home-hero">
       <header className="page-container pb-16 pt-36 sm:pb-20 sm:pt-48">
         <ScrollReveal>
-          <h1 className="max-w-3xl text-3xl font-normal leading-tight tracking-tight text-page-hero-text sm:text-5xl">
+          <h1 className="max-w-3xl text-3xl font-normal leading-tight tracking-tight text-home-hero-text sm:text-5xl">
             {title}
           </h1>
-          {intro && <p className="mt-8 max-w-xl text-lg leading-7 text-ink-2">{intro}</p>}
+          {intro && <p className="mt-8 max-w-2xl text-xl leading-[30px] text-home-hero-text text-pretty">{intro}</p>}
         </ScrollReveal>
       </header>
       <div className="relative">

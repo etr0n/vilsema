@@ -76,7 +76,7 @@ export default function Index() {
               {productCategories.map((c) => (
                 <div key={c.href} className="md:max-w-sm">
                   <h2 className="text-2xl font-normal">{c.title}</h2>
-                  <p className="mt-4 text-xl font-normal leading-relaxed">{c.text}</p>
+                  <p className="mt-4 text-xl font-normal leading-[30px]">{c.text}</p>
                   <Link
                     href={c.href}
                     aria-label={`Peržiūrėti: ${c.title}`}
@@ -137,7 +137,7 @@ export default function Index() {
                   <AccordionTrigger className="gap-6 py-7 text-left text-2xl font-normal hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-home-hero-text [&>svg]:size-5 [&>svg]:text-home-hero-text">
                     {q}
                   </AccordionTrigger>
-                  <AccordionContent className="pb-7 text-xl font-normal leading-relaxed text-home-hero-text [&_a]:text-home-hero-text">
+                  <AccordionContent className="pb-7 text-xl font-normal leading-[30px] text-home-hero-text [&_a]:text-home-hero-text">
                     {a}
                   </AccordionContent>
                 </AccordionItem>

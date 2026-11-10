@@ -39,7 +39,7 @@ export function CatalogueCard({ catalogue: c }: { catalogue: Catalogue }) {
       ) : (
         <div aria-hidden="true" className="aspect-square w-full bg-muted" />
       )}
-      <h2 className="mt-4 text-lg font-normal text-ink-2">{c.title}</h2>
+      <h2 className="mt-6 text-2xl font-normal">{c.title}</h2>
     </>
   );
 

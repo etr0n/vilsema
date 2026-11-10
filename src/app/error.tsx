@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { buttonBase } from "@/components/site/button-styles";
+import { PageHeader, Section } from "@/components/site/layout";
 
 export default function Error({
   error,
@@ -15,27 +17,23 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-normal tracking-tight text-foreground">Puslapis neužsikrovė</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Kažkas nepavyko. Pabandykite dar kartą arba grįžkite į pradžią.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => retry()}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
+    <>
+      <PageHeader
+        title="Puslapis neužsikrovė"
+        intro="Įvyko klaida kraunant puslapį. Pabandykite dar kartą arba grįžkite į pradžią."
+        brand
+        overlap={false}
+      />
+      <Section className="pt-20 sm:pt-28">
+        <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
+          <button type="button" onClick={() => retry()} className={`${buttonBase} text-sm tracking-[0.14em]`}>
             Bandyti dar kartą
           </button>
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
+          <Link href="/" className={`${buttonBase} text-sm tracking-[0.14em]`}>
             Į pradžią
           </Link>
         </div>
-      </div>
-    </div>
+      </Section>
+    </>
   );
 }

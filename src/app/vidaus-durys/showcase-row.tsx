@@ -19,7 +19,7 @@ export function ShowcaseRow({
   children,
 }: {
   title: string;
-  intro?: string;
+  intro?: ReactNode;
   // Link shown next to the arrows, as Kastrup's "Se alle".
   cta?: ReactNode;
   listLabel: string;
@@ -39,7 +39,7 @@ export function ShowcaseRow({
             <StripArrows status={status} nudge={nudge} prevLabel={prevLabel} nextLabel={nextLabel} />
           </div>
         </div>
-        {intro && <p className="mt-4 max-w-2xl text-lg leading-7 text-ink-2 text-pretty">{intro}</p>}
+        {intro && <p className="mt-4 max-w-2xl text-xl leading-[30px] text-foreground text-pretty">{intro}</p>}
       </div>
 
       <ul

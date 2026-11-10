@@ -10,16 +10,13 @@ import { StyleSection } from "./style-section";
 
 export const metadata: Metadata = {
   title: "Vidaus durys",
-  description: "Vidaus durų pasirinkimas: klasikinės, modernios ir elegantiškos.",
+  description: "Vidaus durų pasirinkimas: elegantiškos, klasikinės ir modernios.",
   openGraph: {
     title: "Vidaus durys — Vilsema",
     description: "Vidaus durys, gaminamos pagal individualius matmenis.",
     type: "website",
   },
 };
-
-// Official RAL Classic chart, so visitors can browse every colour.
-const ralChartUrl = "https://www.ral-farben.de/en/all-ral-colours";
 
 const linkClass =
   "inline-block text-xl font-normal transition-colors hover:text-link-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground";
@@ -29,7 +26,7 @@ export default function InteriorDoors() {
     <>
       <PageHeader
         title="Vidaus durys"
-        intro="Klasikinės, modernios ir elegantiškos durys pagal jūsų matmenis."
+        intro="Elegantiškos, klasikinės ir modernios durys pagal jūsų matmenis."
         brand
         overlap={false}
       />
@@ -71,13 +68,8 @@ export default function InteriorDoors() {
       <section id="spalvos" className="page-container scroll-mt-24 pb-28 sm:pb-40">
         <ScrollReveal>
           <ShowcaseRow
-            title="Spalvos"
-            intro="Galima rinktis bet kurią RAL paletės spalvą."
-            cta={
-              <a href={ralChartUrl} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                <span className="underline decoration-1 underline-offset-[6px]">Visos spalvos</span>
-              </a>
-            }
+            title="Populiariausios spalvos"
+            intro="Galima rinktis bet kurią RAL ar NCS spalvą."
             listLabel="Spalvos"
             prevLabel="Ankstesnės spalvos"
             nextLabel="Tolesnės spalvos"
@@ -105,7 +97,6 @@ export default function InteriorDoors() {
           <ProjectStrip
             title="Atlikti darbai"
             projects={projects.filter((p) => p.category === "Vidaus durys")}
-            editorial
             cta={
               <Link href="/atlikti-darbai" className={linkClass}>
                 <span className="underline decoration-1 underline-offset-[6px]">Visi darbai</span>

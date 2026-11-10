@@ -68,7 +68,7 @@ export function ProjectLightbox({
                   alt={current.alt}
                   className="min-h-0 max-w-full flex-1 object-contain"
                 />
-                <figcaption className="max-w-2xl text-center text-base font-normal text-ink-2">
+                <figcaption className="max-w-2xl text-center text-xl font-normal leading-[30px] text-foreground">
                   {current.description}
                 </figcaption>
               </figure>

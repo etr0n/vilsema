@@ -62,10 +62,10 @@
   --surface-2: #eeeef0;
   /* Backdrop for white-background door renders (rendered with mix-blend-multiply) */
   --stage: #f3f3f4;
-  /* Warm band behind project sections, as Kastrup's "Find inspiration" */
-  --stone: #e8e7e2;
-  --ink: #28282d;
-  --ink-2: #64646a;
+  /* Light sage band behind the project carousel, tinted toward the brand green */
+  --stone: #e7eae4;
+  --ink: #000000;
+  --ink-2: #4d4d4d;
   --ink-3: #737379;
   --brand: #14332d;
   --on-brand: oklch(0.985 0.005 80);
@@ -143,9 +143,13 @@
 
   h1,
   h2,
-  h3 {
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
-    letter-spacing: 0;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
   }
 
   ::selection {
