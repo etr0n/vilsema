@@ -29,6 +29,12 @@ const placeholderDoorDescription =
   "Išraiškingai paprastas dizainas, kuris lengvai įsilieja į šiuolaikinį interjerą. Lakoniškos linijos ir subtili apdaila kuria tvarkingą, vientisą ir ilgaamžį estetinį vaizdą.";
 
 const doorStyles = {
+  elegance: {
+    slug: "elegantiskos",
+    name: "Elegantiškos",
+    intro:
+      "Išraiškingi raštai ir lenktos linijos, paverčiančios duris interjero akcentu. Elegantiškos durys skirtos tiems, kurie nori, kad durys būtų pastebėtos.",
+  },
   classic: {
     slug: "klasikines",
     name: "Klasikinės",
@@ -40,12 +46,6 @@ const doorStyles = {
     name: "Modernios",
     intro:
       "Tiesios linijos, subtilūs grioveliai ir švarus paviršius. Modernios durys išlieka ramios ir lakoniškos, todėl natūraliai įsilieja į minimalistinį interjerą.",
-  },
-  elegance: {
-    slug: "elegantiskos",
-    name: "Elegantiškos",
-    intro:
-      "Išraiškingi raštai ir lenktos linijos, paverčiančios duris interjero akcentu. Elegantiškos durys skirtos tiems, kurie nori, kad durys būtų pastebėtos.",
   },
 } as const;
 
@@ -142,16 +142,6 @@ export const projects: Project[] = [
     summary: "Ąžuolo faneruotė, be staktų",
     photo: "vidaus-durys-pasleptos-01",
     alt: "Dvejos paslėptos ąžuolo durys su juodomis rankenomis medinėje koridoriaus sienoje",
-  },
-  {
-    id: "p2",
-    style: "modernios",
-    caption: "Ąžuolo lukštas",
-    category: "Vidaus durys",
-    description: "Lygios ąžuolo faneruotos durys su tos pačios apdailos stakta ir apvadais.",
-    summary: "Lygios ąžuolo faneruotos durys",
-    photo: "vidaus-durys-02",
-    alt: "Ąžuolo faneruotos vidaus durys šalia betoninės kolonos",
   },
   {
     id: "p3",

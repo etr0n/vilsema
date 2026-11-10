@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { buttonBase, useEnquiry } from "@/components/site/enquiry";
+import { buttonBase } from "@/components/site/button-styles";
+import { useEnquiry } from "@/components/site/enquiry";
 import type { DoorPattern } from "@/lib/site-data";
 import { asset } from "@/lib/utils";
 import { patternHref } from "../../door-details";
@@ -93,12 +94,12 @@ export function ProductView({
 
       <div className="lg:col-span-5 lg:col-start-8 lg:pt-6">
         <h1 className="text-3xl font-normal leading-tight sm:text-4xl">{title}</h1>
-        <p className="mt-2 text-xl text-ink-2">Raštas {pattern.number}</p>
+        <p className="mt-2 text-xl text-foreground">Raštas {pattern.number}</p>
 
-        <p className="mt-8 text-xl leading-[30px] text-ink-2 text-pretty">{intro}</p>
+        <p className="mt-8 text-xl leading-[30px] text-foreground text-pretty">{intro}</p>
 
         {pattern.veneerImage && (
-          <div className="mt-8 flex gap-6 text-lg" role="group" aria-label="Apdaila">
+          <div className="mt-8 flex gap-6 text-xl" role="group" aria-label="Apdaila">
             {(
               [
                 ["Dažyta", false],
